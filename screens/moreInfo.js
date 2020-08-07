@@ -8,6 +8,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
+/* Color ref */
+var blueDark = '#033C47';
+var mint = '#2DB08C';
+
 
 function MoreInfoScreen() {
     return (
@@ -15,17 +19,17 @@ function MoreInfoScreen() {
 
           {/* ALINE ET MOI */}
           <ListItem
-            titleStyle={{color:'#2DB08C', fontWeight:'bold'}}
-            title='Aline et moi'
-            bottomDivider
+                titleStyle={{color: mint, fontWeight:'bold'}}
+                title='Aline et moi'
+                bottomDivider
           />
           <ListItem
             rightIcon={
-              <FontAwesome
-                name='user'
-                size={20}
-                color='#2DB08C'
-              />
+                <FontAwesome
+                  name='user'
+                  size={20}
+                  color= {blueDark}
+                />
             }
             titleStyle={{color:'#033C47'}}
             title='Mon compte'
@@ -33,11 +37,11 @@ function MoreInfoScreen() {
           />
           <ListItem
             rightIcon={
-              <AntDesign
-                name='logout'
-                size={20}
-                color='#2DB08C'
-              />
+                <AntDesign
+                  name='logout'
+                  size={20}
+                  color= {blueDark}
+                />
             }
             titleStyle={{color:'#033C47'}}
             title='Logout'
@@ -45,11 +49,11 @@ function MoreInfoScreen() {
           />
           <ListItem
             rightIcon={
-              <FontAwesome5
-                name='coins'
-                size={20}
-                color='#2DB08C'
-              />
+                <FontAwesome5
+                  name='coins'
+                  size={20}
+                  color= {blueDark}
+                />
             }
             titleStyle={{color:'#033C47'}}            
             title='Soutenir Aline'
@@ -57,11 +61,11 @@ function MoreInfoScreen() {
           />
           <ListItem
           rightIcon={
-            <MaterialCommunityIcons
-              name='map-marker-plus'
-              size={20}
-              color='#2DB08C'
-            />
+              <MaterialCommunityIcons
+                name='map-marker-plus'
+                size={20}
+                color= {blueDark}
+              />
           }  
           titleStyle={{color:'#033C47'}}
           title='Nourir Aline'
@@ -71,17 +75,17 @@ function MoreInfoScreen() {
           {/* RESTONS EN CONTACT */}
           <ListItem
             containerStyle={{paddingTop:30}}
-            titleStyle={{color:'#2DB08C', fontWeight:'bold'}}
+            titleStyle={{color: mint, fontWeight:'bold'}}
             title='Restons en contact'
             bottomDivider
           />
           <ListItem
           rightIcon={
-            <FontAwesome
-              name='facebook-f'
-              size={20}
-              color='#2DB08C'
-            />
+              <FontAwesome
+                name='facebook-f'
+                size={20}
+                color= {blueDark}
+              />
           }  
           titleStyle={{color:'#033C47'}}
           title='Facebook'
@@ -89,11 +93,11 @@ function MoreInfoScreen() {
           />
           <ListItem
           rightIcon={
-            <AntDesign
-              name='instagram'
-              size={20}
-              color='#2DB08C'
-            />
+              <AntDesign
+                name='instagram'
+                size={20}
+                color= {blueDark}
+              />
           } 
           titleStyle={{color:'#033C47'}} 
           title='Instagram'
@@ -101,11 +105,11 @@ function MoreInfoScreen() {
           />
           <ListItem
           rightIcon={
-            <AntDesign
-              name='twitter'
-              size={20}
-              color='#2DB08C'
-            />
+              <AntDesign
+                name='twitter'
+                size={20}
+                color= {blueDark}
+              />
           }
           titleStyle={{color:'#033C47'}}
           title='Twitter'
@@ -113,11 +117,11 @@ function MoreInfoScreen() {
           />
           <ListItem
           rightIcon={
-            <FontAwesome5
-              name='desktop'
-              size={20}
-              color='#2DB08C'
-            />
+              <FontAwesome5
+                name='desktop'
+                size={20}
+                color= {blueDark}
+              />
           } 
           titleStyle={{color:'#033C47'}} 
           title='Site internet'
@@ -125,11 +129,11 @@ function MoreInfoScreen() {
           />
           <ListItem
           rightIcon={
-            <FontAwesome
-              name='share-alt'
-              size={20}
-              color='#2DB08C'
-            />
+              <FontAwesome
+                name='share-alt'
+                size={20}
+                color= {blueDark}
+              />
           } 
           titleStyle={{color:'#033C47'}} 
           title='Partager cet application'
@@ -139,17 +143,17 @@ function MoreInfoScreen() {
           {/* INFORMATIONS */}
           <ListItem
             containerStyle={{paddingTop:30}}
-            titleStyle={{color:'#2DB08C', fontWeight:'bold'}}
+            titleStyle={{color: mint, fontWeight:'bold'}}
             title='Informations'
             bottomDivider
           />
           <ListItem
-            titleStyle={{color:'#033C47'}}
+            titleStyle={{color: blueDark}}
             title='Mentions légales'
             bottomDivider
           />
           <ListItem 
-            titleStyle={{color:'#033C47'}}
+            titleStyle={{color: blueDark}}
             title='CGU'
             bottomDivider
           />
