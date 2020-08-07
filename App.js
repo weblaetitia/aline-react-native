@@ -14,6 +14,19 @@ import SearchScreen from './screens/search'
 import FavScreen from './screens/fav'
 import MoreInfoScreen from './screens/moreInfo'
 
+// icons
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+
+
+// colors vars
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+
+
+
 function LogoTitle() {
   return (
     <Image
@@ -34,11 +47,44 @@ function FeedAline() {
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Explore" component={ExploreScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Fav" component={FavScreen} />
-      <Tab.Screen name="MoreInfo" component={MoreInfoScreen} />
+    <Tab.Navigator tabBarOptions={{
+      activeTintColor: '#033C47',
+      inactiveTintColor: 'rgba(3, 60, 71, 0.7)',
+      activeBackgroundColor: mintLight,
+      inactiveBackgroundColor: mintLight,
+      safeAreaInset: { bottom: 'never', top: 'never' } ,
+      style: {
+        backgroundColor: mintLight
+      }
+    }}>
+      <Tab.Screen name="Explorer" component={ExploreScreen}
+                                options={{
+                                  tabBarLabel: 'Explorer',
+                                  tabBarIcon: ({ color, size }) => (
+                                    <FontAwesome5 name="search-location" size={24} color={color} />
+                                  ),
+                                }} />
+      <Tab.Screen name="Deposit" component={SearchScreen} 
+                                options={{
+                                  tabBarLabel: 'Scanner',
+                                  tabBarIcon: ({ color, size }) => (
+                                    <MaterialCommunityIcons name="barcode-scan" size={24} color={color} />
+                                  ),
+                                }} />
+      <Tab.Screen name="Fav" component={FavScreen} 
+                              options={{
+                                tabBarLabel: 'Favoris',
+                                tabBarIcon: ({ color, size }) => (
+                                  <FontAwesome name="heart" size={24} color={color} />
+                                ),
+                              }} />
+      <Tab.Screen name="MoreInfo" component={MoreInfoScreen} 
+                              options={{
+                                tabBarLabel: 'Infos',
+                                tabBarIcon: ({ color, size }) => (
+                                  <Entypo name="info-with-circle" size={24} color={color} />
+                                ),
+                              }} />
     </Tab.Navigator>
   )
 }
@@ -55,9 +101,9 @@ function App() {
                                         headerTitle: props => <LogoTitle {...props}/>,
                                         headerLeft: props => <FeedAline {...props}/>,
                                         headerStyle: {
-                                        backgroundColor: '#D5EFE8',
+                                        backgroundColor: mintLight,
                                         },
-                                        headerTintColor: '#033C47',
+                                        headerTintColor: blueDark,
                                         }} />
       </Stack.Navigator>
     </NavigationContainer>
