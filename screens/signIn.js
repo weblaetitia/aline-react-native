@@ -1,22 +1,38 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
+// custom fonts
+import { AppLoading } from 'expo';
+import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
+
+
+// colors vars
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+
 function signInScreen(props) {
-    return (
-      <View style={styles.container}>
-          <Image
-            style={{ width: 75, height: 26 }}
-            source={require('../assets/logoaline.svg')}
-            />
-        <Text>Hi this is sign-in screen</Text>
-        <Button
-        title="Go to sign-up"
-        onPress={() => props.navigation.navigate('SignUp')}
-        />
-        <StatusBar style="auto" />
-      </View>
-    );
+    let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
+      if (!fontsLoaded) {
+        return <AppLoading />;
+      } else {
+        return (
+            <View style={styles.container}>
+                <Image
+                      source={ require('../assets/images/patatemintlight.png') }
+                      style={{ width: 184, height: 156 }}
+                      />
+                  <Text style={styles.h1patate}>Connexion</Text>
+                  <Text style={styles.current20center}>Votre email</Text>
+
+              <Button
+              title="Go to sign-up"
+              onPress={() => props.navigation.navigate('SignUp')}
+              />
+              <StatusBar style="auto" />
+            </View>
+          )
+      }
   }
   
   const styles = StyleSheet.create({
@@ -26,7 +42,23 @@ function signInScreen(props) {
       alignItems: 'center',
       justifyContent: 'center',
     },
-  });
+    h1: {
+        color: blueDark,
+        fontSize: 30,
+        fontFamily: 'Capriola_400Regular',
+    },
+    h1patate: {
+        color: blueDark,
+        fontSize: 30,
+        fontFamily: 'Capriola_400Regular',
+        marginTop: -92,
+        marginBottom: 92
+    },
+    current20center: {
+        fontSize: 20,
+        color: blueDark
+    }
+  })
 
 
 // keep this line at the end
