@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-function ExploreScreen() {
+function ExploreScreen(props) {
     return (
       <View style={styles.container}>
         <Image
@@ -10,6 +10,14 @@ function ExploreScreen() {
             source={require('../assets/logo.png')}
             />
         <Text>Hi this is HOME!</Text>
+        <Button
+              title="Go to sign-up"
+              onPress={() => props.navigation.navigate('SignUp')}
+              />
+              <Button
+              title="Go to sign-in"
+              onPress={() => props.navigation.navigate('SignIn')}
+              />
         <StatusBar style="auto" />
       </View>
     );
