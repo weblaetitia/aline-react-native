@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Button, Image, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 // custom fonts
@@ -46,6 +46,7 @@ function signInScreen(props) {
                 </View>
               </TouchableWithoutFeedback>
             </SafeAreaView>
+            <StatusBar style="dark" />
           </ScrollView>
           )
       }
