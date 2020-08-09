@@ -26,7 +26,7 @@ function signInScreen(props) {
             <SafeAreaView style={styles.container}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.inner}>
-                    <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 184, height: 156, marginBottom: 60, marginTop: 30 }} >
+                    <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
                     <Text style={styles.h1}>Connexion</Text>
                   </ImageBackground>
                   <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
@@ -72,7 +72,7 @@ function signInScreen(props) {
         textAlign: 'center',
         fontSize: 30,
         fontFamily: 'Capriola_400Regular',
-        marginTop: 60,
+        marginTop: 50,
     },
     h2: {
       fontSize: 16,
