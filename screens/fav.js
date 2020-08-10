@@ -86,6 +86,8 @@ function FavScreen() {
               {fav.services}
             </Text>
 
+            <StatusBar style = "auto" />
+
         </Card>
 
     )
