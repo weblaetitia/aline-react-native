@@ -38,7 +38,8 @@ function signInScreen(props) {
           // check if it exists in db
           var rawResponse = await fetch(`${baseurl}/users/mobile/check-token?token=value`)
           var response = await rawResponse.json()
-          if (response) {
+          console.log(response)
+          if (response.succes == true) {
             setTokenExist(true)
           } else {
             setTokenExist(false)
