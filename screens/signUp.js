@@ -31,8 +31,6 @@ function signUpScreen(props) {
 
   let [alert, setAlert] = useState(false)
 
-  let [token, setToken] = useState('')
-
   const addUserOnClick = async () => {
     // check if all inputs are field
     if (firstNameInput == '' || lastNameInput == '' || emailInput == '' || passwordInput == '' || passwordConfirmInput == '') {
