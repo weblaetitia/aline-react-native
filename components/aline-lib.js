@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View, TextInput } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
 
 // custom fonts
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
+
+import { FontAwesome } from '@expo/vector-icons'; 
+
 
 
 // colors vars
@@ -36,8 +39,21 @@ const BaseInputCenter = ({children, label}) => (
 )
 
 const AlineInputCenter = ({ children, value, onChange, placeholder, ...props }) => (
+    <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
+      <TextInput value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} />
+    </BaseInputCenter>
+  )
+
+const AlineInputCenterArrow = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter {...props} >
-      <TextInput value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} style={styles.alineInput}/>
+
+        <View style = {{ flexDirection: 'row', alignItems: 'center', justifyContent:'center' }}>
+
+                <TextInput value={value} onChangeText={onChange} placeholder={placeholder} style={styles.alineInputArrow} />
+
+            <FontAwesome name="filter" size={28} color= {mint} />
+        </View>
+
     </BaseInputCenter>
   )
 
@@ -93,6 +109,25 @@ alineInput: {
     marginVertical: 14,
     marginHorizontal: 36
 },
+alineInputArrow: {
+  backgroundColor: graySuperLight,
+  borderTopWidth:1,
+  borderLeftWidth: 1,
+  borderRightWidth:1,
+  borderBottomWidth:1,
+  borderTopColor: grayMedium,
+  borderLeftColor: grayMedium,
+  borderRightColor: grayMedium,
+  borderBottomColor: grayMedium,
+  borderTopLeftRadius:32,
+  borderTopRightRadius:32,
+  borderBottomRightRadius:32,
+  borderBottomLeftRadius:32,
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  marginHorizontal: 5,
+  width: '70%'
+},
 alineInputText: {
     fontSize: 28,
     color: grayMedium,
@@ -111,4 +146,4 @@ line: {
   },
 })
 
-export {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline}
+export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline}
