@@ -11,7 +11,6 @@ import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from '../components/aline-lib';
 
 
-
 // colors vars
 var blueDark = '#033C47'
 var mint = '#2DB08C'
