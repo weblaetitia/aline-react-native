@@ -13,6 +13,8 @@ import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from 
 // colors vars
 var blueDark = '#033C47'
 var mint = '#2DB08C'
+var tomato = '#EC333B'
+
 
 
 
@@ -91,7 +93,7 @@ function signInScreen(props) {
   
   if (alert) {
     console.log('je passe dans le displayAlert')
-    alertMessage = <Text>Mauvais email ou mot de passe</Text>
+    alertMessage = <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
   }
   if (alert == false) {
     alertMessage
@@ -169,6 +171,9 @@ function signInScreen(props) {
       fontSize: 16,
       color: blueDark,
       textAlign: 'center'
+    },
+    alert: { 
+      textAlign: 'center', color: tomato
     }
   })
 

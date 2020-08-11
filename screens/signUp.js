@@ -15,6 +15,7 @@ import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from 
 // colors vars
 var blueDark = '#033C47'
 var mint = '#2DB08C'
+var tomato = '#EC333B'
 
 
 function signUpScreen(props) {
@@ -29,18 +30,19 @@ function signUpScreen(props) {
   let [passwordInput, setPasswordInput] = useState('')
   let [passwordConfirmInput, setPasswordConfirmInput] = useState('')
 
-  let [alert, setAlert] = useState(false)
+  let [alert, setAlert] = useState('')
 
+  // add user to DB
   const addUserOnClick = async () => {
     // check if all inputs are field
     if (firstNameInput == '' || lastNameInput == '' || emailInput == '' || passwordInput == '' || passwordConfirmInput == '') {
       console.log('tous les inputs ne sont pas remplis')
-      // setAlert('requireAll')
+      setAlert('requireAll')
     } else {
       // check if passwords match
       if (passwordInput !== passwordConfirmInput) {
         console.log('les mots de passes ne sont pas identiques')
-        // setAlert('passwordsNotMatch')
+        setAlert('passwordsNotMatch')
       } else {
         // add to db
         var rawResponse = await fetch(`${baseurl}/users/mobile/sign-up`, {
@@ -71,6 +73,24 @@ function signUpScreen(props) {
     }
   }
 
+  // alert message 
+  var alertMessage
+  switch (alert) {
+    case '':
+      alertMessage = <Text></Text>
+      break
+    case 'requireAll':
+      alertMessage = <Text style={styles.alert}>Tous les champs sont obligatoires</Text>
+      break
+    case 'passwordsNotMatch':
+      alertMessage = <Text style={styles.alert}>Les mots de passe ne correspondent pas</Text>
+      break;
+    default:
+      alertMessage = <Text></Text>
+  }
+
+  
+  // returns
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -94,6 +114,8 @@ function signUpScreen(props) {
                   <AlineInputCenter label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
 
                   <AlineInputCenter label="Confirmez votre mot de passe" onChange={(e) => setPasswordConfirmInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+
+                  {alertMessage}
 
                   </View>
                 </TouchableWithoutFeedback>
@@ -139,6 +161,9 @@ function signUpScreen(props) {
       fontSize: 16,
       color: blueDark,
       textAlign: 'center'
+    },
+    alert: { 
+      textAlign: 'center', color: tomato
     }
   })
 
