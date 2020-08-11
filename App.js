@@ -20,6 +20,12 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
+// redux
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import token from './reducers/token'
+const store = createStore(combineReducers({ token }));
+
 
 // colors vars
 var blueDark = '#033C47'
@@ -92,21 +98,23 @@ function MyTabs() {
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Explore" component={MyTabs} 
-                                      options={{ 
-                                        headerTitle: props => <LogoTitle {...props}/>,
-                                        headerLeft: props => <FeedAline {...props}/>,
-                                        headerStyle: {
-                                        backgroundColor: mintLight,
-                                        },
-                                        headerTintColor: blueDark,
-                                        }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="Explore" component={MyTabs} 
+                                        options={{ 
+                                          headerTitle: props => <LogoTitle {...props}/>,
+                                          headerLeft: props => <FeedAline {...props}/>,
+                                          headerStyle: {
+                                          backgroundColor: mintLight,
+                                          },
+                                          headerTintColor: blueDark,
+                                          }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 

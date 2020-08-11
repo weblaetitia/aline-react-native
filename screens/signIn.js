@@ -1,6 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground, AsyncStorage } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import {connect} from 'react-redux';
 
 // custom fonts
 import { AppLoading } from 'expo';
@@ -9,17 +10,102 @@ import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 // custom button
 import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from '../components/aline-lib';
 
-
-
 // colors vars
 var blueDark = '#033C47'
 var mint = '#2DB08C'
+var tomato = '#EC333B'
+
+
 
 
 function signInScreen(props) {
-    let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
-      if (!fontsLoaded) {
-        return <AppLoading />;
+
+  // replace you baseurl here 
+  var baseurl = 'http://10.2.3.55:3000'
+
+  const [tokenExist, setTokenExist] = useState(false)
+  const [emailInput, setEmailInput] = useState('')
+  const [passwordInput, setPasswordInput] = useState('')
+  const [alert, setAlert] = useState(false)
+
+  let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
+
+  // check if token is in local storage
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@token')
+        if(value !== null) {
+          console.log('ok token exist in localstorage: ', value)
+          // check if it exists in db
+          var rawResponse = await fetch(`${baseurl}/users/mobile/check-token?token=value`)
+          var response = await rawResponse.json()
+          console.log(response)
+          if (response.succes == true) {
+            setTokenExist(true)
+          } else {
+            setTokenExist(false)
+          }
+        } else {
+          console.log('no token in ls')
+          setTokenExist(false)
+        }
+      } catch(e) {
+        // error reading value
+        console.log(e)
+      }
+    }
+    getData()
+  }, [])
+
+  
+  // check user at connection btn pressed
+  const getUserInfo = async () => {
+    var rawResponse = await fetch(`${baseurl}/users/mobile/sign-in`, {
+      method: 'POST',
+      headers: {'Content-type': 'application/x-www-form-urlencoded'},
+      body: `email=${emailInput}&password=${passwordInput}`
+    })
+    var response = await rawResponse.json()
+    console.log(response)
+    if (response.succes == true) {
+      // 1 -> store token in redux-store
+      props.storeData(response.token)
+      // 2 -> then to localstorage
+      try {
+        await AsyncStorage.setItem('@token', response.token)
+        console.log('ok pseudo store in localstorage')
+      } catch (e) {
+        // saving error
+        console.log(e)
+      }
+      // 3 -> redirige vers 'Explorer
+      props.navigation.navigate('Explore')
+    } else {
+      console.log('unsucces')
+      setAlert(true)
+    }
+  }
+
+
+  // add alert message 
+  var alertMessage
+  
+  if (alert) {
+    console.log('je passe dans le displayAlert')
+    alertMessage = <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
+  }
+  if (alert == false) {
+    alertMessage
+  }
+
+    if (!fontsLoaded) {
+      return <AppLoading />
+    } else {
+      // if @token exist -> redirect to Explore
+      if (tokenExist) {
+        props.navigation.navigate('Explore')
+        return <AppLoading />
       } else {
         return (
           <ScrollView style={styles.scrollview}>
@@ -32,11 +118,17 @@ function signInScreen(props) {
                   <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                       <View>
-                      <AlineInputCenter label="Votre nom" placeholder='ex: John Doe'style={{ flex: 1 }}/>
-                      <AlineInputCenter label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+
+                      <AlineInputCenter onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+
+                      <AlineInputCenter onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
+
+                      {alertMessage}
+
                       </View>
+
                     </TouchableWithoutFeedback>
-                    <AlineButton title="Connexion" />
+                    <AlineButton title="Connexion" onPress={() => getUserInfo()} />
                   </KeyboardAvoidingView>
                     <AlineSeparator text='ou' />
                     <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
@@ -49,7 +141,8 @@ function signInScreen(props) {
             <StatusBar style="dark" />
           </ScrollView>
           )
-      }
+      }      
+    }
   }
   
   const styles = StyleSheet.create({
@@ -78,9 +171,32 @@ function signInScreen(props) {
       fontSize: 16,
       color: blueDark,
       textAlign: 'center'
+    },
+    alert: { 
+      textAlign: 'center', color: tomato
     }
   })
 
+/* REDUX */
+
+// push token to store
+function mapDispatchToProps(dispatch) {
+  return{
+    storeData: function(token) {
+      dispatch( {type: 'saveToken', token})
+    }
+  }
+}
+
+// get data from store
+// function mapStateToProps(state) {
+//   return { token: state.token }
+// }
+
+/* REDUX */
 
 // keep this line at the end
-export default signInScreen  
+export default connect(
+  null, 
+  mapDispatchToProps
+)(signInScreen)
