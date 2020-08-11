@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { connect } from 'react-redux'
 
 // custom fonts
 import { AppLoading } from 'expo';
@@ -52,8 +53,8 @@ function signUpScreen(props) {
         var response = await rawResponse.json()
         console.log(response)
         if (response.succes == true) {
-          // get token
-          setToken(response.token)
+          // store token in redux
+          props.storeData(response.token)
           // redirige vers 'Explorer
           props.navigation.navigate('Explore')
         } else {
@@ -136,5 +137,26 @@ function signUpScreen(props) {
   })
 
 
+/* REDUX */
+
+// push token to store
+function mapDispatchToProps(dispatch) {
+  return{
+    storeData: function(token) {
+      dispatch( {type: 'saveToken', token})
+    }
+  }
+}
+
+// get data from store
+// function mapStateToProps(state) {
+//   return { token: state.token }
+// }
+
+/* REDUX */
+
 // keep this line at the end
-export default signUpScreen  
+export default connect(
+  null, 
+  mapDispatchToProps
+)(signUpScreen)
