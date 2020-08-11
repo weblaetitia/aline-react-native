@@ -55,6 +55,7 @@ function signInScreen(props) {
     getData()
   }, [])
 
+  
   // check user at connection btn pressed
   const getUserInfo = async () => {
     var rawResponse = await fetch(`${baseurl}/users/mobile/sign-in`, {
@@ -68,9 +69,21 @@ function signInScreen(props) {
       // redirige vers 'Explorer
       props.navigation.navigate('Explore')
     } else {
-      console.log('je passe dans le unsucces')
+      console.log('unsucces')
       setAlert(true)
     }
+  }
+
+
+  // add alert message 
+  var alertMessage
+  
+  if (alert) {
+    console.log('je passe dans le displayAlert')
+    alertMessage = <Text>Mauvais email ou mot de passe</Text>
+  }
+  if (alert == false) {
+    alertMessage
   }
 
     if (!fontsLoaded) {
@@ -96,6 +109,8 @@ function signInScreen(props) {
                       <AlineInputCenter onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
 
                       <AlineInputCenter onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
+
+                      {alertMessage}
 
                       </View>
 
