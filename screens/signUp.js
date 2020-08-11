@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
@@ -17,42 +17,93 @@ var mint = '#2DB08C'
 
 
 function signUpScreen(props) {
-    let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
-      if (!fontsLoaded) {
-        return <AppLoading />;
+
+  // replace you baseurl here 
+  var baseurl = 'http://10.2.3.55:3000'
+
+  let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
+  let [firstNameInput, setFirstNameInput] = useState('')
+  let [lastNameInput, setLastNameInput] = useState('')
+  let [emailInput, setEmailInput] = useState('')
+  let [passwordInput, setPasswordInput] = useState('')
+  let [passwordConfirmInput, setPasswordConfirmInput] = useState('')
+
+  let [alert, setAlert] = useState(false)
+
+  let [token, setToken] = useState('')
+
+  const addUserOnClick = async () => {
+    // check if all inputs are field
+    if (firstNameInput == '' || lastNameInput == '' || emailInput == '' || passwordInput == '' || passwordConfirmInput == '') {
+      console.log('tous les inputs ne sont pas remplis')
+      // setAlert('requireAll')
+    } else {
+      // check if passwords match
+      if (passwordInput !== passwordConfirmInput) {
+        console.log('les mots de passes ne sont pas identiques')
+        // setAlert('passwordsNotMatch')
       } else {
-        return (
-          <ScrollView style={styles.scrollview}>
-            <SafeAreaView style={styles.container}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.inner}>
-                    <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
-                    <Text style={styles.h1}>S'enregistrer</Text>
-                  </ImageBackground>
-                  <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                      <View>
-                      <AlineInputCenter label="Votre prénom" placeholder='ex: John'style={{ flex: 1 }}/>
-                      <AlineInputCenter label="Votre nom" placeholder='ex: Doe'style={{ flex: 1 }}/>
-                      <AlineInputCenter label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
-                      <AlineInputCenter label="Choisissez un mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
-                      <AlineInputCenter label="Confirmez votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
-                      </View>
-                    </TouchableWithoutFeedback>
-                    <AlineButton title="S'enregistrer" />
-                  </KeyboardAvoidingView>
-                    <AlineSeparator text='ou' />
-                    <Text style={styles.h2}>Déjà inscrit sur Aline ?</Text>
-                    <AlineButtonOutline title="Se connecter" onPress={() => props.navigation.navigate('SignIn')}/>
-                    <AlineSeparator text='ou' />
-                    <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
-                </View>
-              </TouchableWithoutFeedback>
-            </SafeAreaView>
-            <StatusBar style="dark" />
-          </ScrollView>
-          )
+        // add to db
+        var rawResponse = await fetch(`${baseurl}/users/mobile/sign-up`, {
+          method: 'POST',
+          headers: {'Content-type': 'application/x-www-form-urlencoded'},
+          body: `firstname=${firstNameInput}&lastname=${lastNameInput}&email=${emailInput}&password=${passwordInput}`
+        })
+        var response = await rawResponse.json()
+        console.log(response)
+        if (response.succes == true) {
+          // get token
+          setToken(response.token)
+          // redirige vers 'Explorer
+          props.navigation.navigate('Explore')
+        } else {
+          console.log('unsucces')
+          setAlert(true)
+        }
       }
+    }
+  }
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+        <SafeAreaView style={styles.container}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inner}>
+                <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
+                <Text style={styles.h1}>S'enregistrer</Text>
+              </ImageBackground>
+              <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                  <View>
+
+                  <AlineInputCenter label="Votre prénom" onChange={(e) => setFirstNameInput(e)} placeholder='ex: John'style={{ flex: 1 }}/>
+
+                  <AlineInputCenter label="Votre nom" onChange={(e) => setLastNameInput(e)} placeholder='ex: Doe'style={{ flex: 1 }}/>
+
+                  <AlineInputCenter label="Votre email" onChange={(e) => setEmailInput(e)} placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+
+                  <AlineInputCenter label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+
+                  <AlineInputCenter label="Confirmez votre mot de passe" onChange={(e) => setPasswordConfirmInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+
+                  </View>
+                </TouchableWithoutFeedback>
+                <AlineButton title="S'enregistrer" onPress={() => addUserOnClick()} />
+                
+              </KeyboardAvoidingView>
+                <AlineSeparator text='ou' />
+                <Text style={styles.h2}>Déjà inscrit sur Aline ?</Text>
+                <AlineButtonOutline title="Se connecter" onPress={() => props.navigation.navigate('SignIn')}/>
+                <AlineSeparator text='ou' />
+                <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
+            </View>
+          </TouchableWithoutFeedback>
+          <StatusBar style="dark" />
+        </SafeAreaView>
+      )
+    }
   }
   
   const styles = StyleSheet.create({
