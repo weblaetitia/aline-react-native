@@ -66,9 +66,17 @@ function signInScreen(props) {
     var response = await rawResponse.json()
     console.log(response)
     if (response.succes == true) {
-      // store token in redux-store
+      // 1 -> store token in redux-store
       props.storeData(response.token)
-      // redirige vers 'Explorer
+      // 2 -> then to localstorage
+      try {
+        await AsyncStorage.setItem('@token', response.token)
+        console.log('ok pseudo store in localstorage')
+      } catch (e) {
+        // saving error
+        console.log(e)
+      }
+      // 3 -> redirige vers 'Explorer
       props.navigation.navigate('Explore')
     } else {
       console.log('unsucces')

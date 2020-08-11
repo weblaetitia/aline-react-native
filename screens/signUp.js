@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground, AsyncStorage } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { connect } from 'react-redux'
 
@@ -55,6 +55,14 @@ function signUpScreen(props) {
         if (response.succes == true) {
           // store token in redux
           props.storeData(response.token)
+          // then to localstorage
+          try {
+            await AsyncStorage.setItem('@token', response.token)
+            console.log('ok pseudo store in localstorage')
+          } catch (e) {
+            // saving error
+            console.log(e)
+          }
           // redirige vers 'Explorer
           props.navigation.navigate('Explore')
         } else {
