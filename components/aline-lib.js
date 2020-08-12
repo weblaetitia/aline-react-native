@@ -49,7 +49,7 @@ const AlineInputCenterArrow = ({ children, value, onChange, placeholder, ...prop
 
         <View style = {{ flexDirection: 'row', alignItems: 'center', justifyContent:'center' }}>
 
-                <TextInput value={value} onChangeText={onChange} placeholder={placeholder} style={styles.alineInputArrow} />
+                <TextInput onPress={()=> console.log('press')} value={value} onChangeText={onChange} placeholder={placeholder} style={styles.alineInputArrow} />
 
             <FontAwesome name="filter" size={28} color= {mint} />
         </View>
@@ -123,10 +123,10 @@ alineInputArrow: {
   borderTopRightRadius:32,
   borderBottomRightRadius:32,
   borderBottomLeftRadius:32,
-  paddingVertical: 8,
+  paddingVertical: 5,
   paddingHorizontal: 14,
   marginHorizontal: 5,
-  width: '70%'
+  width: '80%'
 },
 alineInputText: {
     fontSize: 28,

@@ -1,3 +1,5 @@
+console.disableYellowBox = true;
+
 import React from 'react';
 import { Image, Button } from 'react-native'
 

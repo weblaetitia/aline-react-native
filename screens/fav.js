@@ -38,7 +38,6 @@ function FavScreen() {
   ]
 
   var favListGroup = favList.map((fav,i)=> {
-
     
     return(
 
