@@ -1,11 +1,11 @@
 console.disableYellowBox = true;
 
 import React from 'react';
-import { Image, Button } from 'react-native'
+import { Image, TouchableOpacity } from 'react-native'
 
 // Navigation
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -15,6 +15,7 @@ import ExploreScreen from './screens/explore'
 import SearchScreen from './screens/search'
 import FavScreen from './screens/fav'
 import MoreInfoScreen from './screens/moreInfo'
+import TestScreen from './screens/test'
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -45,11 +46,19 @@ function LogoTitle() {
 }
 
 function FeedAline() {
+  // tip : à l'intérieur d'un header, il faut utiliser useNavigation
+  
+  const navigation = useNavigation()
   return (
-    <Image
-      style={{ width: 34, height: 26 , marginLeft: 22}}
-      source={require('./assets/icons/feedAline.png')}
-    />
+    <TouchableOpacity
+        // style={}
+        onPress={() => {navigation.navigate('Test')}}
+      >
+        <Image
+        style={{ width: 34, height: 26 , marginLeft: 22}}
+        source={require('./assets/icons/feedAline.png')}
+      />
+      </TouchableOpacity>
   )
 }
 
@@ -105,6 +114,7 @@ function App() {
         <Stack.Navigator>
           <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}}/>
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="Test" component={TestScreen} options={{headerShown: false}}/>
           <Stack.Screen name="Explore" component={MyTabs} 
                                         options={{ 
                                           headerTitle: props => <LogoTitle {...props}/>,
