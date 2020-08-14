@@ -26,7 +26,8 @@ import { Entypo } from '@expo/vector-icons';
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from './reducers/token'
-const store = createStore(combineReducers({ token }));
+import filter from './reducers/filter'
+const store = createStore(combineReducers({ token, filter }));
 
 
 // colors vars

@@ -16,6 +16,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+    "config": {
+    "googleMaps": {
+      "apiKey": "AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE"
+    }
+    }
+    },
     "ios": {
       "supportsTablet": true
     },

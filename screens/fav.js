@@ -24,7 +24,7 @@ function FavScreen() {
       city: 'Paris',
       description: "Magasin d'alimentation bio",
       services: 'Bouteilles consignées',
-      type: 'boutique'
+      type: 'shop'
     },
     {
       title: "Bien le réstaurant",
@@ -50,7 +50,7 @@ function FavScreen() {
                       style = {{width: '13%'}}
                       resizeMode ='contain'
                       source = {
-                        fav.type == 'boutique' ? require('../assets/icons/boutique.png') :
+                        fav.type == 'shop' ? require('../assets/icons/boutique.png') :
                         fav.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
                         require('../assets/icons/heart.png')
                       } 
