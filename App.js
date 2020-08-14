@@ -44,18 +44,13 @@ function LogoTitle() {
 }
 
 function FeedAline() {
-  // tip : à l'intérieur d'un header, il faut utiliser useNavigation
-  const navigation = useNavigation()
+  // tip : à l'intérieur d'un header, il faut utiliser useNavigation au lieu de navigate() pour faire un lien
+  // const navigation = useNavigation()
   return (
-    <TouchableOpacity
-        // style={}
-        onPress={() => {navigation.navigate('MyModal')}}
-      >
-        <Image
-        style={{ width: 34, height: 26 , marginLeft: 22}}
-        source={require('./assets/icons/feedAline.png')}
-      />
-      </TouchableOpacity>
+    <Image
+    style={{ width: 34, height: 26 , marginLeft: 22}}
+    source={require('./assets/icons/feedAline.png')}
+  />
   )
 }
 
