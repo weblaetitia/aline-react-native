@@ -11,7 +11,7 @@ function ModalScreen({ route, navigation }) {
   console.log(route.params)
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flexStart', backgroundColor:'#fff'}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor:'#fff'}}>
         <View style={styles.head}>
           <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
             <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
@@ -22,6 +22,9 @@ function ModalScreen({ route, navigation }) {
       </View>
     );
   }
+
+// NE PAS UTILISER flexStart dans justifyContent  
+
 
 // colors vars
 var blueDark = '#033C47'
