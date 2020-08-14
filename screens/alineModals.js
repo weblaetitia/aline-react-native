@@ -2,14 +2,12 @@ import React from 'react';
 import { SafeAreaView, View, Text, Button, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
 // fonts
 import { Ionicons } from '@expo/vector-icons';
 
 
-function ModalScreen({ route, navigation }) {
+function PlaceModalScreen({ route, navigation }) {
   console.log(route.params)
-
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor:'#fff'}}>
         <View style={styles.head}>
@@ -22,6 +20,32 @@ function ModalScreen({ route, navigation }) {
       </View>
     );
   }
+
+  function ProductModalScreen({navigation }) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor:'#fff'}}>
+          <View style={styles.head}>
+            <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
+              <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
+            </TouchableOpacity>
+          </View>
+          <Text style={{ fontSize: 30 }}>This is a product modal</Text>
+        </View>
+      );
+    }
+  
+  function AccountModalScreen({navigation }) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', backgroundColor:'#fff'}}>
+          <View style={styles.head}>
+            <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
+              <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
+            </TouchableOpacity>
+          </View>
+          <Text style={{ fontSize: 30 }}>This is My Account modal</Text>
+        </View>
+      );
+    }
 
 // NE PAS UTILISER flexStart dans justifyContent  
 
@@ -52,4 +76,4 @@ const styles = StyleSheet.create({
 
 
 // keep this line at the end
-export default ModalScreen
+export {PlaceModalScreen, ProductModalScreen, AccountModalScreen}

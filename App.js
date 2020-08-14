@@ -13,7 +13,7 @@ import ExploreScreen from './screens/explore'
 import SearchScreen from './screens/search'
 import FavScreen from './screens/fav'
 import MoreInfoScreen from './screens/moreInfo'
-import ModalScreen from './screens/alineModal'
+import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals'
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -130,27 +130,12 @@ function MainStackScreen() {
 function App() {
   return (
     <Provider store={store}>
-      {/* <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="Test" component={TestScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="Explore" component={MyTabs} 
-                                        options={{ 
-                                          headerTitle: props => <LogoTitle {...props}/>,
-                                          headerLeft: props => <FeedAline {...props}/>,
-                                          headerStyle: {
-                                          backgroundColor: mintLight,
-                                          },
-                                          headerTintColor: blueDark,
-                                          }} />
-        </Stack.Navigator>
-      </NavigationContainer> */}
-    
       <NavigationContainer>
       <RootStack.Navigator mode="modal" headerMode="none"> 
         <RootStack.Screen name="Main" component={MainStackScreen} />
-        <RootStack.Screen name="MyModal" component={ModalScreen} />
+        <RootStack.Screen name="Place" component={PlaceModalScreen} />
+        <RootStack.Screen name="Product" component={ProductModalScreen} />
+        <RootStack.Screen name="Account" component={AccountModalScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
     </Provider>

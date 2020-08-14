@@ -40,7 +40,7 @@ function FavScreen(props) {
   var favListGroup = favList.map((fav,i)=> {
     
     return(
-      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('MyModal', {title: fav.title, description: fav.description})} >
+      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {title: fav.title, description: fav.description})} >
         <Card
           
           containerStyle = {styles.card} >
