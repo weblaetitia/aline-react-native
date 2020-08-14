@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -17,7 +17,7 @@ var blueDark = '#033C47';
 var mint = '#2DB08C';
 
 
-function MoreInfoScreen() {
+function MoreInfoScreen(props) {
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
   if (!fontsLoaded) {
@@ -33,6 +33,8 @@ function MoreInfoScreen() {
                   title='Aline et moi'
                   bottomDivider
             />
+            {/* mon compte */}
+            <TouchableOpacity onPress={() => props.navigation.navigate('Account')} >
             <ListItem
               rightIcon={
                   <FontAwesome
@@ -45,6 +47,8 @@ function MoreInfoScreen() {
               title='Mon compte'
               bottomDivider
             />
+            </TouchableOpacity>
+
             <ListItem
               rightIcon={
                   <AntDesign

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
 
 import { AppLoading } from 'expo';
@@ -14,7 +14,7 @@ var blueDark = '#033C47';
 var mint = '#2DB08C';
 
 
-function FavScreen() {
+function FavScreen(props) {
 
   const favList = [
     {
@@ -27,7 +27,7 @@ function FavScreen() {
       type: 'boutique'
     },
     {
-      title: "Bien le réstaurant",
+      title: "Bien le restaurant",
       adress: '321 rue Réaumur -',
       zipCode: '75002',
       city: 'Paris',
@@ -40,9 +40,9 @@ function FavScreen() {
   var favListGroup = favList.map((fav,i)=> {
     
     return(
-
+      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {title: fav.title, description: fav.description})} >
         <Card
-          key= {i}
+          
           containerStyle = {styles.card} >
             <View style = {styles.cardHead} >
                 <View style = {styles.cardTitle} >
@@ -84,11 +84,8 @@ function FavScreen() {
             <Text style = {{color: blueDark, marginBottom: 10}} >
               {fav.services}
             </Text>
-
-            <StatusBar style = "auto" />
-
         </Card>
-
+      </TouchableOpacity>
     )
   })
 
@@ -100,9 +97,8 @@ function FavScreen() {
 
     return (
       <ScrollView>
-
         {favListGroup}
-
+        <StatusBar style = "auto" />
       </ScrollView>
     );
 

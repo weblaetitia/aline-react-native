@@ -65,6 +65,13 @@ const AlineSeparator = ({text}) => (
     </View>
 )
 
+/* ^^^^^^^^^^^^^^^^^^^ POPIN ^^^^^^^^^^^^^^^^^^^^^^^^^ */
+const AlinePopin = ({text}) => (
+  <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 30}}>
+      
+      <Text>{text}</Text>
+  </View>
+)
 
 
 
@@ -146,4 +153,4 @@ line: {
   },
 })
 
-export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline}
+export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline, AlinePopin}

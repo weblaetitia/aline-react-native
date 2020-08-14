@@ -1,20 +1,19 @@
 console.disableYellowBox = true;
 
 import React from 'react';
-import { Image, Button } from 'react-native'
+import { Image, TouchableOpacity, View, Text, Button } from 'react-native'
 
 // Navigation
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 import SignInScreen from './screens/signIn'
 import SignUpScreen from './screens/signUp'
 import ExploreScreen from './screens/explore'
 import SearchScreen from './screens/search'
 import FavScreen from './screens/fav'
 import MoreInfoScreen from './screens/moreInfo'
+import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals'
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -45,13 +44,25 @@ function LogoTitle() {
 }
 
 function FeedAline() {
+  // tip : à l'intérieur d'un header, il faut utiliser useNavigation au lieu de navigate() pour faire un lien
+  // const navigation = useNavigation()
   return (
     <Image
-      style={{ width: 34, height: 26 , marginLeft: 22}}
-      source={require('./assets/icons/feedAline.png')}
-    />
+    style={{ width: 34, height: 26 , marginLeft: 22}}
+    source={require('./assets/icons/feedAline.png')}
+  />
   )
 }
+
+
+/* #################### Creating a modal stack #################### */
+/* use MainStackScreen component as a screen inside RootStackScreen */
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const MainStack = createStackNavigator();
+const RootStack = createStackNavigator();
 
 function MyTabs() {
   return (
@@ -97,15 +108,12 @@ function MyTabs() {
   )
 }
 
-
-function App() {
+function MainStackScreen() {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}}/>
-          <Stack.Screen name="Explore" component={MyTabs} 
+    <MainStack.Navigator>
+      <MainStack.Screen name="SignIn" component={SignInScreen} options={{headerShown: false}} />
+      <MainStack.Screen name="SignUp" component={SignUpScreen} options={{headerShown: false}} />
+      <MainStack.Screen name="Explore" component={MyTabs} 
                                         options={{ 
                                           headerTitle: props => <LogoTitle {...props}/>,
                                           headerLeft: props => <FeedAline {...props}/>,
@@ -114,8 +122,22 @@ function App() {
                                           },
                                           headerTintColor: blueDark,
                                           }} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    </MainStack.Navigator>
+  );
+}
+
+
+function App() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+      <RootStack.Navigator mode="modal" headerMode="none"> 
+        <RootStack.Screen name="Main" component={MainStackScreen} />
+        <RootStack.Screen name="Place" component={PlaceModalScreen} />
+        <RootStack.Screen name="Product" component={ProductModalScreen} />
+        <RootStack.Screen name="Account" component={AccountModalScreen} />
+      </RootStack.Navigator>
+    </NavigationContainer>
     </Provider>
   )
 }
