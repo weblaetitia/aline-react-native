@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
 
 import { AppLoading } from 'expo';
@@ -14,7 +14,7 @@ var blueDark = '#033C47';
 var mint = '#2DB08C';
 
 
-function FavScreen() {
+function FavScreen(props) {
 
   const favList = [
     {
@@ -27,7 +27,7 @@ function FavScreen() {
       type: 'shop'
     },
     {
-      title: "Bien le réstaurant",
+      title: "Bien le restaurant",
       adress: '321 rue Réaumur -',
       zipCode: '75002',
       city: 'Paris',
@@ -37,12 +37,38 @@ function FavScreen() {
     },
   ]
 
+  var product = {
+    _id: '5f350f902b9fcc56501471e9',
+    network: 'looper',
+    name:"White IPA",
+    brand:"La Manivelle",
+    type:"Bière bio",
+    refoundPrice:2,
+    imageUrl:"https://res.cloudinary.com/alineconsigne/image/upload/v1597312872/69-blanche_ne296h.png",
+  }
+
+  var place = {
+    name:"Bioburger",
+    adress:"29 Rue de Vaugirard Paris",
+    city:"Paris",
+    phone:"01 42 22 12 22",
+    webSite:"http://lepetitlux.eatbu.com/",
+    google_place_id:"ChIJJe3qQtBx5kcREcjG33vJTZI",
+    network:"Reconcil",
+    networkImg: "https://res.cloudinary.com/alineconsigne/image/upload/v1597414611/acteurs/paris_-_repas_-_reconcil_dfp2uf.png",
+    type:"restaurant",
+    services: ["Boîtes repas consignées", "Couverts consignées"],
+    priceRange: [2, 8],
+    latitude:48.8481756,
+    longitude:2.3312189,
+  }
+
   var favListGroup = favList.map((fav,i)=> {
     
     return(
-
+      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place})} >
         <Card
-          key= {i}
+          
           containerStyle = {styles.card} >
             <View style = {styles.cardHead} >
                 <View style = {styles.cardTitle} >
@@ -84,11 +110,8 @@ function FavScreen() {
             <Text style = {{color: blueDark, marginBottom: 10}} >
               {fav.services}
             </Text>
-
-            <StatusBar style = "auto" />
-
         </Card>
-
+      </TouchableOpacity>
     )
   })
 
@@ -100,9 +123,8 @@ function FavScreen() {
 
     return (
       <ScrollView>
-
         {favListGroup}
-
+        <StatusBar style = "auto" />
       </ScrollView>
     );
 

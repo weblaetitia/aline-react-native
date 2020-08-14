@@ -66,6 +66,37 @@ const AlineSeparator = ({text}) => (
 )
 
 
+/* ^^^^^^^^^^^^^^^^^^^ TITLES & P ^^^^^^^^^^^^^^^^^^^^^^ */
+
+const AlineH1 =({text}) => (
+  <Text style={{fontFamily: 'Capriola_400Regular', 
+        fontSize: 30,
+        color: blueDark,
+        textAlign: 'left',
+        letterSpacing: -0.7}}>
+    {text}
+    </Text>
+)
+
+
+
+
+
+
+/* ^^^^^^^^^^^^^^^^^^^ DIVIDER ^^^^^^^^^^^^^^^^^^^^^^^^^ */
+const Divider = () => (
+  <View style={styles.line} />
+)
+
+
+/* ^^^^^^^^^^^^^^^^^^^ POPIN ^^^^^^^^^^^^^^^^^^^^^^^^^ */
+const AlinePopin = ({text}) => (
+  <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 30}}>
+      
+      <Text>{text}</Text>
+  </View>
+)
+
 
 
 const styles = StyleSheet.create({
@@ -146,4 +177,4 @@ line: {
   },
 })
 
-export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline}
+export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline, AlinePopin, AlineH1, Divider}
