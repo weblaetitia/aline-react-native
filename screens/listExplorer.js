@@ -23,7 +23,7 @@ function ListScreen(props) {
           city: 'Paris',
           description: "Magasin d'alimentation bio",
           services: 'Bouteilles consignées',
-          type: 'boutique'
+          type: 'shop'
         },
         {
           title: "Bien le réstaurant",
@@ -49,7 +49,7 @@ function ListScreen(props) {
                                 style = {{width: '13%'}}
                                 resizeMode ='contain'
                                 source = {
-                                fav.type == 'boutique' ? require('../assets/icons/boutique.png') :
+                                fav.type == 'shop' ? require('../assets/icons/boutique.png') :
                                 fav.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
                                 require('../assets/icons/heart.png')
                                 } 
@@ -83,8 +83,6 @@ function ListScreen(props) {
                     <Text style = {{color: blueDark, marginBottom: 10}} >
                         {fav.services}
                     </Text>
-
-                    <StatusBar style = "auto" />
 
                 </Card>
             

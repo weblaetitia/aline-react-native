@@ -4,11 +4,13 @@ import { StyleSheet, View, Dimensions, SafeAreaView, TouchableWithoutFeedback, K
 import { Overlay, Slider } from 'react-native-elements';
 import SwitchButton from 'switch-button-react-native';
 
-import { AlineInputCenter } from '../components/aline-lib'
+import { AlineInputCenter, AlineButton } from '../components/aline-lib'
 
 import { FontAwesome } from '@expo/vector-icons'; 
 
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
+
+import {connect} from 'react-redux';
 
 import Map from '../screens/mapExplorer';
 import List from '../screens/listExplorer';
@@ -28,13 +30,26 @@ function ExploreScreen(props) {
 
   const [activeSwitch, setActiveSwitch] = useState(1);
   const [overlayVisibility, setOverlayVisibility] = useState(false);
+  const [searchedName, setSearchedName] = useState('');
+  const [searchedNetwork, setSearchedNetwork] = useState('');
   const [sliderValue, setSliderValue] = useState(10);
+  const [searchedType, setSearchedType] = useState('');
   const [activeSwitchDistance, setActiveSwitchDistance] = useState(1);
   const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
 
+  console.log(searchedName)
+
 
   const toggleOverlay = () => {
+    setSearchedName('');
+    setSearchedNetwork('');
     setOverlayVisibility(!overlayVisibility);
+  };
+
+  const switchType = () => {
+    activeSwitchPlace == 1 ? setSearchedType('shop') :
+    activeSwitchPlace == 2 ? setSearchedType('restaurant') :
+    setSearchedType('')
   };
 
 
@@ -109,16 +124,16 @@ function ExploreScreen(props) {
                 
                 </View>  
 
-                <AlineInputCenter onChange={ ()=> console.log('Ok') } label="Chercher par nom" placeholder='ex: café de Paris' style={{ flex: 1 }}/>
-                <AlineInputCenter onChange={ ()=> console.log('Ok') } label="Chercher par lieu" placeholder='ex: Lyon' style={{ flex: 1 }}/>
+                <AlineInputCenter onChange={ (e)=> setSearchedName(e) } label="Chercher par nom" placeholder='ex: café de Paris' style={{ flex: 1 }}/>
+                <AlineInputCenter onChange={ (e)=> setSearchedNetwork(e) } label="Chercher par Réseaux" placeholder='ex: JeanBouteille' style={{ flex: 1 }}/>
 
                 <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Rayon de recherche</Text>
                 <Slider
                   style={styles.slider}
                   value={sliderValue}
                   onValueChange={setSliderValue}
-                  maximumValue={50}
-                  minimumValue={5}
+                  maximumValue={20}
+                  minimumValue={1}
                   step={1}
                   trackStyle={{ height: 5, backgroundColor: 'red' }}
                   thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
@@ -135,7 +150,7 @@ function ExploreScreen(props) {
                 />
                 <Text style={styles.overlayText}>{sliderValue} km</Text>
 
-                <Text style={{ marginTop:40, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Classer par :</Text>
+                <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Classer par :</Text>
                 <View style={{ marginTop:10 }}>
 
                     <SwitchButton
@@ -157,12 +172,12 @@ function ExploreScreen(props) {
 
                 </View>
 
-                <Text style={{ marginTop:40, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
+                <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
                 <View style={{ marginTop: 10}}>
                 
                 <SwitchButton
                         style={{ marginTop:40 }}
-                        onValueChange={(val) => setActiveSwitchPlace(val)}      // this is necessary for this component
+                        onValueChange={(val) => {setActiveSwitchPlace(val), switchType()}}      // this is necessary for this component
                         text1 = 'Point de collecte'                        // optional: first text in switch button --- default ON
                         text2 = 'Réstaurant'                       // optional: second text in switch button --- default OFF
                         switchWidth = {300}                 // optional: switch width --- default 44
@@ -178,6 +193,10 @@ function ExploreScreen(props) {
                         activeFontColor = '#fff'            // optional: active font color --- default #fff
                     />
                 
+                </View>
+
+                <View style={{marginTop:30}}>
+                    <AlineButton title="Filtrer" onPress={()=> {props.storeData({name:searchedName, network:searchedNetwork, type:searchedType, distance:sliderValue*1000}), toggleOverlay()}} />
                 </View>                
 
             </View>         
@@ -237,5 +256,16 @@ function ExploreScreen(props) {
   });
 
 
+  function mapDispatchToProps(dispatch) {
+    return{
+      storeData: function(data) {
+        dispatch( {type: 'saveData', data})
+      },
+    }
+  }
+
 // keep this line at the end
-export default ExploreScreen  
+export default connect(
+  null, 
+  mapDispatchToProps
+)(ExploreScreen)

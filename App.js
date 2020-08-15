@@ -25,7 +25,8 @@ import { Entypo } from '@expo/vector-icons';
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from './reducers/token'
-const store = createStore(combineReducers({ token }));
+import filter from './reducers/filter'
+const store = createStore(combineReducers({ token, filter }));
 
 
 // colors vars
@@ -43,16 +44,16 @@ function LogoTitle() {
   )
 }
 
-function FeedAline() {
-  // tip : à l'intérieur d'un header, il faut utiliser useNavigation au lieu de navigate() pour faire un lien
-  // const navigation = useNavigation()
-  return (
-    <Image
-    style={{ width: 34, height: 26 , marginLeft: 22}}
-    source={require('./assets/icons/feedAline.png')}
-  />
-  )
-}
+// function FeedAline() {
+//   // tip : à l'intérieur d'un header, il faut utiliser useNavigation au lieu de navigate() pour faire un lien
+//   // const navigation = useNavigation()
+//   return (
+//     <Image
+//     style={{ width: 34, height: 26 , marginLeft: 22}}
+//     source={require('./assets/icons/feedAline.png')}
+//   />
+//   )
+// }
 
 
 /* #################### Creating a modal stack #################### */
@@ -116,7 +117,8 @@ function MainStackScreen() {
       <MainStack.Screen name="Explore" component={MyTabs} 
                                         options={{ 
                                           headerTitle: props => <LogoTitle {...props}/>,
-                                          headerLeft: props => <FeedAline {...props}/>,
+                                          // headerLeft: props => <FeedAline {...props}/>,
+                                          headerLeft: null,
                                           headerStyle: {
                                           backgroundColor: mintLight,
                                           },
