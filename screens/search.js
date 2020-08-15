@@ -13,11 +13,11 @@ var mint = '#2DB08C';
 
 
 function SearchScreen() {
-  /* Fetch find products  */
+  /* Fetch to find products  */
   const [keyProducts, setKeyProducts] = useState('')
     async function findProducts () {
 
-            var response = await fetch('http://10.2.3.1:3000/search/search-product', {
+            var response = await fetch('http://192.168.1.28:3000/search/search', {
               method: 'POST',
               headers: {'Content-Type':'application/x-www-form-urlencoded'},
               body: `dataProducts=${keyProducts}`
