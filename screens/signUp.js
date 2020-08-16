@@ -16,11 +16,11 @@ var blueDark = '#033C47'
 var mint = '#2DB08C'
 var tomato = '#EC333B'
 
+// import BASE URL
+import {BASE_URL} from '../components/environment'
+
 
 function signUpScreen(props) {
-
-  // replace you baseurl here 
-  var baseurl = 'http://10.2.3.55:3000'
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
   let [firstNameInput, setFirstNameInput] = useState('')
@@ -44,7 +44,7 @@ function signUpScreen(props) {
         setAlert('passwordsNotMatch')
       } else {
         // add to db
-        var rawResponse = await fetch(`${baseurl}/users/mobile/sign-up`, {
+        var rawResponse = await fetch(`${BASE_URL}/users/mobile/sign-up`, {
           method: 'POST',
           headers: {'Content-type': 'application/x-www-form-urlencoded'},
           body: `firstname=${firstNameInput}&lastname=${lastNameInput}&email=${emailInput}&password=${passwordInput}`

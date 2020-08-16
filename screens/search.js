@@ -5,7 +5,8 @@ import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/ali
 
 import { StatusBar } from 'expo-status-bar';
 
-
+// import BASE URL
+import {BASE_URL} from '../components/environment'
 
 /* Color ref */
 var blueDark = '#033C47';
@@ -17,7 +18,7 @@ function SearchScreen() {
   const [keyProducts, setKeyProducts] = useState('')
     async function findProducts () {
 
-            var response = await fetch('http://192.168.1.28:3000/search/search', {
+            var response = await fetch(`${BASE_URL}/search/search`, {
               method: 'POST',
               headers: {'Content-Type':'application/x-www-form-urlencoded'},
               body: `dataProducts=${keyProducts}`

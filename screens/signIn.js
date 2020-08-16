@@ -15,13 +15,11 @@ var blueDark = '#033C47'
 var mint = '#2DB08C'
 var tomato = '#EC333B'
 
-
+// import BASE URL
+import {BASE_URL} from '../components/environment'
 
 
 function signInScreen(props) {
-
-  // replace you baseurl here 
-  var baseurl = 'http://10.2.3.55:3000'
 
   const [tokenExist, setTokenExist] = useState(false)
   const [emailInput, setEmailInput] = useState('')
@@ -38,7 +36,7 @@ function signInScreen(props) {
         if(value !== null) {
           console.log('ok token exist in localstorage: ', value)
           // check if it exists in db
-          var rawResponse = await fetch(`${baseurl}/users/mobile/check-token?token=value`)
+          var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
           console.log(response)
           if (response.succes == true) {
@@ -61,7 +59,7 @@ function signInScreen(props) {
   
   // check user at connection btn pressed
   const getUserInfo = async () => {
-    var rawResponse = await fetch(`${baseurl}/users/mobile/sign-in`, {
+    var rawResponse = await fetch(`${BASE_URL}/users/mobile/sign-in`, {
       method: 'POST',
       headers: {'Content-type': 'application/x-www-form-urlencoded'},
       body: `email=${emailInput}&password=${passwordInput}`

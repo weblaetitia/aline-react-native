@@ -10,6 +10,8 @@ import * as geolib from 'geolib';
 
 import {connect} from 'react-redux';
 
+// import BASE URL
+import {BASE_URL} from '../components/environment'
 
 function MapScreen(props) {
 
@@ -23,7 +25,7 @@ function MapScreen(props) {
 
       async function getPlaces (data) {
 
-          var response = await fetch('http://10.2.3.30:3000/map/getPlaces', {
+          var response = await fetch(`${BASE_URL}/map/getPlaces`, {
             method: 'POST',
             headers: {'Content-type': 'application/x-www-form-urlencoded'},
             body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
