@@ -120,18 +120,87 @@ function PlaceModalScreen({ route, navigation }) {
   )
 }
 
-  function ProductModalScreen({navigation }) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.head}>
-            <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
-              <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
-            </TouchableOpacity>
+function ProductModalScreen({ route, navigation }) {
+  var response = route.params
+  console.log(response.product)
+  
+  return (    
+    <View style={{...styles.container}}>
+
+    {/* header */}
+    <View style={{...styles.head}}>
+      <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss">
+        <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
+      </TouchableOpacity>
+    </View>
+    {/* header */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* body */}
+        <View style={{width:'100%'}}>
+
+          {/* place header */}
+          <View style={{...styles.row, marginBottom: -30, paddingTop: 30}}>
+            <Image source={{ uri: response.product.imageUrl }} style={{width: 150, height: 150}} />
           </View>
-          <Text style={{ fontSize: 30 }}>This is a product modal</Text>
+          <View style={styles.placeheader}>
+            <View style={styles.row}>
+              <View style={{flex:1}}>
+              <AlineH1 text={response.product.brand}/>
+              <AlineH1 text={response.product.name}/>
+              <AlineH1 text={response.product.refoundPrice}/>
+              </View>
+              <View>
+              <FontAwesome name="heart" size={24} color="tomato" />
+              </View>
+            </View>
+          </View>
+          {/* place header */}
+
+          {/* place body */}
+          <View style={{marginHorizontal:25, marginVertical:30}}>
+
+            <View style={styles.line} />
+
+
+            <View style={styles.line} />
+
+            <Text style={{...styles.h3mint, textAlign: 'center'}}>
+              {response.product.name} fait parti du réseau {response.product.network}
+            </Text>
+
+            <ImageBackground source={{uri: response.product.networkImg}} style={{
+              marginTop: 30,
+              width: '100%',
+              height: 100,
+              resizeMode: "cover",
+              justifyContent: "center"
+              }
+              }></ImageBackground>
+            
+              <Text style={{...styles.h3mint, textAlign: 'center', marginTop:30}}>
+                Retrouvez tous les lieux de colecte sur la carte de ce réseau
+              </Text>
+            
+
+          </View>
+          {/* place body */}
+
+            <ImageBackground source={{uri: "https://res.cloudinary.com/alineconsigne/image/upload/v1597221942/exemple_map_doqipr.png"}} style={{
+                marginTop: 0,
+                width: '100%',
+                height: 400,
+                resizeMode: "cover",
+                justifyContent: "center"
+              }
+              }></ImageBackground>
+
         </View>
-      );
-    }
+        {/* body */} 
+      </ScrollView> 
+    </View>
+  )
+}
+
   
   function AccountModalScreen({navigation }) {
       return (
