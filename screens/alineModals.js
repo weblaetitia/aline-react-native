@@ -139,36 +139,50 @@ function ProductModalScreen({ route, navigation }) {
         <View style={{width:'100%'}}>
 
           {/* place header */}
-          <View style={{...styles.row, marginBottom: -30, paddingTop: 30}}>
-            <Image source={{ uri: response.product.imageUrl }} style={{width: 150, height: 150}} />
-          </View>
-          <View style={styles.placeheader}>
-            <View style={styles.row}>
-              <View style={{flex:1}}>
-              <AlineH1 text={response.product.brand}/>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', marginTop: 50}}>
+              <Image source={{ uri: response.product.imageUrl }} style={{width: 250, height: 250, marginHorizontal: 'auto', marginBottom:20}} />
               <AlineH1 text={response.product.name}/>
-              <AlineH1 text={response.product.refoundPrice}/>
-              </View>
-              <View>
-              <FontAwesome name="heart" size={24} color="tomato" />
-              </View>
+              <AlineH1 text={response.product.brand} style={{marginBottom: 30}}/>
             </View>
-          </View>
           {/* place header */}
 
           {/* place body */}
           <View style={{marginHorizontal:25, marginVertical:30}}>
 
-            <View style={styles.line} />
+            <Text style={{...styles.h2mint, textAlign: 'center', marginBottom: 10}}>
+              Rapportez ce produit en magasin et récupérez
+            </Text>
 
+            <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
+            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{
+                marginTop: 0,
+                width: 120,
+                height: 100,
+                resizeMode: "cover",
+                justifyContent: "center"
+              }
+              }></ImageBackground>
+            </View>
+            
+            <Text style={{...styles.bigprice, textAlign: 'center', marginTop: -75, marginBottom: 75}}>
+              {response.product.refoundPrice} €
+            </Text>
+            
+            <Text style={{...styles.bigco2, textAlign: 'center'}}>
+              -0,05 g de CO2
+            </Text>
+            <Text style={{...styles.h2mint, textAlign: 'center'}}>
+              c'est votre réduction sur votre impact environemental
+            </Text>
 
             <View style={styles.line} />
 
             <Text style={{...styles.h3mint, textAlign: 'center'}}>
-              {response.product.name} fait parti du réseau {response.product.network}
+              {response.product.name} {response.product.brand} fait parti du réseau {response.product.network}
             </Text>
 
-            <ImageBackground source={{uri: response.product.networkImg}} style={{
+            {/* récupérer l'url du réseau */}
+            <ImageBackground source={{uri: response.product.networkImgUrl}} style={{
               marginTop: 30,
               width: '100%',
               height: 100,
@@ -291,6 +305,24 @@ const styles = StyleSheet.create({
   h3mint: {
     fontFamily: 'Capriola_400Regular', 
     fontSize: 18,
+    color: mint,
+    letterSpacing: -0.7
+  },
+  bigprice: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 40,
+    color: blueDark,
+    letterSpacing: -0.7
+  },
+  bigco2: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 32,
+    color: blueDark,
+    letterSpacing: -0.7
+  },
+  h2mint: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 22,
     color: mint,
     letterSpacing: -0.7
   }

@@ -15,7 +15,7 @@ var blueDark = '#033C47';
 var mint = '#2DB08C';
 
 
-function SearchScreen() {
+function SearchScreen(props) {
   // isFocused
   const isFocused = useIsFocused()
   console.log('focus? ', isFocused)
@@ -43,10 +43,6 @@ function SearchScreen() {
         body: `dataProducts=${keyProducts}`
       });
     
-      var rawResponse = await response.json();  
-            var rawResponse = await response.json();  
-      var rawResponse = await response.json();  
-            var rawResponse = await response.json();  
       var rawResponse = await response.json();  
       console.log(rawResponse)
     }
@@ -106,6 +102,11 @@ function SearchScreen() {
         var product = await rawScannedProduct.json()
         console.log(product)
         // ici renvoyer vers la page produit avec l'objet 'scannedProduct' en second arg
+        if (product) {
+          props.navigation.navigate('Product', {product})
+        } else {
+          // do something
+        }
       };
 
       if (hasPermission === null) {
