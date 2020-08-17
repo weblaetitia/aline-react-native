@@ -27,10 +27,13 @@ function SearchScreen(props) {
   const [scanned, setScanned] = useState(false)
   const [loader, setLoader] = useState(false)
 
+  console.log('scanned: ', scanned)
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
+      setScanned(false)
     })()
   }, [])
 
@@ -53,7 +56,7 @@ function SearchScreen(props) {
             <AlineInputCenter onChange={(e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
             <AlineButton onPress={() => {findProducts()} } title = "Recherche" />
             <AlineSeparator text = 'ou scanner votre produit.' />
-            <TouchableOpacity onPress={() => setScanMode(true)}>
+            <TouchableOpacity onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}>
               <Image
                 style = {{width: 150, padding: 0}}
                 resizeMode = 'contain'
@@ -65,7 +68,6 @@ function SearchScreen(props) {
 
     )
     } else if (scanMode == true && isFocused) {
-
       if (loader) {
         var layerView = <View style={styles.loadingView}><Text style={{color: 'white', fontWeight: 'bold'}}>   Loading...</Text></View>
       }
@@ -101,6 +103,7 @@ function SearchScreen(props) {
           })
         var product = await rawScannedProduct.json()
         console.log(product)
+        setScanMode(false)
         // ici renvoyer vers la page produit avec l'objet 'scannedProduct' en second arg
         if (product) {
           props.navigation.navigate('Product', {product})
@@ -117,20 +120,12 @@ function SearchScreen(props) {
       }
 
       return (
-        <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-      }}>
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', }}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      
-
-      
-    {layerView}{/* <----- afficher un loader while on cherche dans la BDD */}
+      {layerView}{/* <----- afficher un loader while on cherche dans la BDD */}
     
     {/* {scanned && <Button title={'Tap to Scan Again'} onPress={() => {setScanned(false); setLoader(false)} } />} */}
 
