@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { StyleSheet, View, Dimensions, Text, Image, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
@@ -6,7 +6,10 @@ import { Card } from 'react-native-elements';
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
-import { StatusBar } from 'expo-status-bar';
+import {connect} from 'react-redux';
+
+// import BASE URL
+import {BASE_URL} from '../components/environment'
 
 /* Color ref */
 var blueDark = '#033C47';
@@ -15,28 +18,27 @@ var mint = '#2DB08C';
 
 function ListScreen(props) {
 
-    const favList = [
-        {
-          title: "Bien l'épicerie",
-          adress: '123 rue Réaumur -',
-          zipCode: '75002',
-          city: 'Paris',
-          description: "Magasin d'alimentation bio",
-          services: 'Bouteilles consignées',
-          type: 'shop'
-        },
-        {
-          title: "Bien le réstaurant",
-          adress: '321 rue Réaumur -',
-          zipCode: '75002',
-          city: 'Paris',
-          description: "Restaurant veg freindly",
-          services: 'Boites consignées',
-          type: 'restaurant'
-        },
-      ]
+    const [placesList, setPlacesList] = useState([])
 
-    var favListGroup = favList.map((fav,i)=> {
+
+    useEffect(() => {   
+      
+        async function getPlaces (data) {
+
+            var response = await fetch(`${BASE_URL}/map/getPlaces`, {
+              method: 'POST',
+              headers: {'Content-type': 'application/x-www-form-urlencoded'},
+              body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
+            })
+            var rawResponse = await response.json();  
+            setPlacesList(rawResponse)
+
+        }
+        getPlaces()
+
+    }, [props.filter]);
+
+    var placeListGroup = placesList.map((place,i)=> {
 
             return (
                 
@@ -49,13 +51,13 @@ function ListScreen(props) {
                                 style = {{width: '13%'}}
                                 resizeMode ='contain'
                                 source = {
-                                fav.type == 'shop' ? require('../assets/icons/boutique.png') :
-                                fav.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
+                                place.type == 'shop' ? require('../assets/icons/boutique.png') :
+                                place.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
                                 require('../assets/icons/heart.png')
                                 } 
                                 />
                             <Text style = {styles.h1Card}>
-                                {fav.title}
+                                {place.name}
                             </Text>
                         </View>
 
@@ -67,21 +69,21 @@ function ListScreen(props) {
 
                     <View style = {styles.cardAdress} >
                         <Text style = {{color: blueDark, marginBottom: 10}} >
-                            {fav.adress}
+                            {place.adress}
                         </Text>
-                        <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
+                        {/* <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
                             {fav.zipCode}
-                        </Text>
+                        </Text> */}
                         <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
-                            {fav.city}
+                            {place.city}
                         </Text>
                     </View>
                 
-                    <Text style = {{color: blueDark, marginBottom: 5}} >
+                    {/* <Text style = {{color: blueDark, marginBottom: 5}} >
                         {fav.description}
-                    </Text>
+                    </Text> */}
                     <Text style = {{color: blueDark, marginBottom: 10}} >
-                        {fav.services}
+                        {place.webSite}
                     </Text>
 
                 </Card>
@@ -98,8 +100,13 @@ function ListScreen(props) {
     
         return (
           <View style={{ marginTop: '21%' }}>
-    
-            {favListGroup}
+
+              <ScrollView>
+
+                  {placeListGroup}
+
+              </ScrollView>
+
     
           </View>
         );
@@ -144,5 +151,13 @@ function ListScreen(props) {
   });
 
 
+
+  function mapStateToProps(state) {
+    return{ filter: state.filter }
+    }
+
 // keep this line at the end
-export default ListScreen  
+export default connect(
+  mapStateToProps,
+  null, 
+)(ListScreen)
