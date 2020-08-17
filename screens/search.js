@@ -26,8 +26,8 @@ function SearchScreen(props) {
   const [hasPermission, setHasPermission] = useState(null)
   const [scanned, setScanned] = useState(false)
   const [loader, setLoader] = useState(false)
-
-  console.log('scanned: ', scanned)
+  const [noResultFound, setNoResultFound] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => {
     (async () => {
@@ -37,7 +37,7 @@ function SearchScreen(props) {
     })()
   }, [])
 
-  if (scanMode == false) {
+  if ((scanMode == false) && (noResultFound == false)) {
     async function findProducts () {
 
       var response = await fetch(`${BASE_URL}/search/search`, {
@@ -51,22 +51,34 @@ function SearchScreen(props) {
     }
       return (
       <View style = {styles.container}>
-  
-            <Text style = {{color:blueDark}} >Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau ;</Text>
-            <AlineInputCenter onChange={(e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
-            <AlineButton onPress={() => {findProducts()} } title = "Recherche" />
-            <AlineSeparator text = 'ou scanner votre produit.' />
-            <TouchableOpacity onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}>
-              <Image
-                style = {{width: 150, padding: 0}}
-                resizeMode = 'contain'
-                source = {require('../assets/icons/barcode_Big.png')} />
-            </TouchableOpacity>
-            
-            <StatusBar style = "auto" />
+        <Text style = {styles.current20}>Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau</Text>
+        <AlineInputCenter onChange={(e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
+        <AlineButton onPress={() => {findProducts()} } title = "Recherche" />
+        <View style={{width: '100%', marginVertical: 30}}>
+          <AlineSeparator text = 'ou'/>
+        </View>
+        <Text style = {styles.current20}>Scanner votre produit</Text>
+        <TouchableOpacity onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}>
+          <Image
+            style = {{width: 150, padding: 0}}
+            resizeMode = 'contain'
+            source = {require('../assets/icons/barcode_Big.png')} />
+        </TouchableOpacity>
+        <StatusBar style = "auto" />
       </View>
-
     )
+    } else if (noResultFound) {
+      return (
+        <View style={styles.container}>
+          <Text style={{...styles.current20, textAlign: 'center'}}>
+            {errMsg}
+          </Text>
+          
+          <AlineButton onPress={() => {setNoResultFound(false)} } title = "Refaire une recherche" />
+          
+          <StatusBar style = "auto" />
+      </View>
+      )
     } else if (scanMode == true && isFocused) {
       if (loader) {
         var layerView = <View style={styles.loadingView}><Text style={{color: 'white', fontWeight: 'bold'}}>   Loading...</Text></View>
@@ -82,7 +94,7 @@ function SearchScreen(props) {
         }
       } >
         <View style={{flex:1, alignItems: 'flex-end', justifyContent: 'flex-start', padding:20}}>
-          <TouchableOpacity onPress={() => setScanMode(false)}>
+          <TouchableOpacity onPress={() => {setScanMode(false)}}>
             <View style={{width:40, height:40}}></View>
           </TouchableOpacity>
         </View>
@@ -104,7 +116,12 @@ function SearchScreen(props) {
         if (product) {
           props.navigation.navigate('Product', {product})
         } else {
-          // do something
+          console.log('je suis dans le false')
+          // afficher le message d'erreur
+          setScanned(true)
+          setScanMode(false)
+          setNoResultFound(true)
+          setErrMsg('Désolé, ce produit ne semble pas être consigné.')
         }
       };
 
@@ -141,7 +158,6 @@ function SearchScreen(props) {
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 25,
-      paddingVertical: 70,
       backgroundColor: '#FFFFFF'
     },
     loadingView : {
@@ -149,6 +165,10 @@ function SearchScreen(props) {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'transparent'
+    },
+    current20: {
+      color: blueDark,
+      fontSize: 20,
     }
   });
 

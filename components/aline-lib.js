@@ -58,7 +58,7 @@ const AlineInputCenterArrow = ({ children, value, onChange, placeholder, ...prop
   )
 
 const AlineSeparator = ({text}) => (
-    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 30}}>
+    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
         <View style={styles.line} />
         <Text style={styles.alineInputLabel}>{text}</Text>
         <View style={styles.line} />
