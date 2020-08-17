@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Dimensions, SafeAreaView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
 import SwitchButton from 'switch-button-react-native';
 
@@ -50,8 +50,8 @@ function ExploreScreen(props) {
   }
   
   const switchType = (val) => {
-    searchedType === 'shop' ? setSearchedType('restaurant') :
-    searchedType === 'restaurant' ? setSearchedType('shop') :
+    searchedType === 'shop' ? setSearchedType('shop') :
+    searchedType === 'restaurant' ? setSearchedType('restaurant') :
     setSearchedType('')
   };
 
@@ -60,13 +60,9 @@ function ExploreScreen(props) {
     
     
     <SafeAreaView style={styles.container}>
-        
-        <TouchableWithoutFeedback
-                      onPress={() => Keyboard.dismiss()} >
 
             <View>
-                
-                {activeSwitch === 1 ? <List/>  : <Map/>}
+                {activeSwitch === 1 ? <Map/> : <List/>}
 
                 <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
 
@@ -74,8 +70,8 @@ function ExploreScreen(props) {
 
                         <SwitchButton
                             onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
-                            text1 = 'Liste'                        // optional: first text in switch button --- default ON
-                            text2 = 'Map'                       // optional: second text in switch button --- default OFF
+                            text1 = 'Map'                        // optional: first text in switch button --- default ON
+                            text2 = 'Liste'                       // optional: second text in switch button --- default OFF
                             switchWidth = {100}                 // optional: switch width --- default 44
                             switchHeight = {28}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
@@ -109,8 +105,6 @@ function ExploreScreen(props) {
 
 
             </View>
-
-        </TouchableWithoutFeedback>
 
         <KeyboardAvoidingView>
 

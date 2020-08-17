@@ -1,7 +1,7 @@
 console.disableYellowBox = true;
 
 import React from 'react';
-import { Image, TouchableOpacity, View, Text, Button } from 'react-native'
+import { Image } from 'react-native'
 
 // Navigation
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,6 +27,7 @@ import { createStore, combineReducers } from "redux";
 import token from './reducers/token'
 import filter from './reducers/filter'
 const store = createStore(combineReducers({ token, filter }));
+
 
 
 // colors vars
