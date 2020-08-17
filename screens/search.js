@@ -96,11 +96,7 @@ function SearchScreen(props) {
         console.log('Bar code with type: ', type)
         console.log('data: ', data)
         // fetch in ddb if product exist
-          var rawScannedProduct = await fetch(`${BASE_URL}/search/search-barcode`, {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `data=${data}`
-          })
+        var rawScannedProduct = await fetch(`${BASE_URL}/search/search-barcode?data=${data}`)
         var product = await rawScannedProduct.json()
         console.log(product)
         setScanMode(false)
