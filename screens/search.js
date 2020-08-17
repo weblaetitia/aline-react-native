@@ -8,7 +8,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
 
 // import BASE URL
-import {BASE_URL} from '../components/.environment'
+import {BASE_URL} from '../environments/environment'
 
 /* Color ref */
 var blueDark = '#033C47';
