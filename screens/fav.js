@@ -70,7 +70,7 @@ function FavScreen(props) {
     return(
       <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place})} >
         <Card
-          
+          key={i}
           containerStyle = {styles.card} >
             <View style = {styles.cardHead} >
                 <View style = {styles.cardTitle} >

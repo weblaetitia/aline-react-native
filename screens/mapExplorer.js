@@ -21,8 +21,6 @@ function MapScreen(props) {
 
   useEffect(() => {   
     
-    var networkFromFront = 'Reconcil'
-
       async function getPlaces (data) {
 
           var response = await fetch(`${BASE_URL}/map/getPlaces`, {
@@ -36,7 +34,7 @@ function MapScreen(props) {
       }
       getPlaces()
 
-  }, []);
+  }, [props.filter]);
 
   useEffect(() => {
     async function askPermissions() {
@@ -67,6 +65,7 @@ function MapScreen(props) {
     if(userDistance < props.filter.distance){
 
       return(<Marker
+              key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
               title={place.name}
               description={place.type}

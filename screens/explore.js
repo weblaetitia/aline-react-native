@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Dimensions, SafeAreaView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
 import SwitchButton from 'switch-button-react-native';
 
@@ -33,22 +33,25 @@ function ExploreScreen(props) {
   const [searchedName, setSearchedName] = useState('');
   const [searchedNetwork, setSearchedNetwork] = useState('');
   const [sliderValue, setSliderValue] = useState(10);
-  const [searchedType, setSearchedType] = useState('');
+  const [searchedType, setSearchedType] = useState('shop');
   const [activeSwitchDistance, setActiveSwitchDistance] = useState(1);
   const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
 
-  console.log(searchedName)
 
-
-  const toggleOverlay = () => {
-    setSearchedName('');
+  const openOverlay = () => {
+    setSearchedName('')
     setSearchedNetwork('');
-    setOverlayVisibility(!overlayVisibility);
+    setSearchedType('shop');
+    setOverlayVisibility(true);
   };
 
-  const switchType = () => {
-    activeSwitchPlace == 1 ? setSearchedType('shop') :
-    activeSwitchPlace == 2 ? setSearchedType('restaurant') :
+  const closeOverlay = () => {
+    setOverlayVisibility(false)
+  }
+  
+  const switchType = (val) => {
+    searchedType === 'shop' ? setSearchedType('shop') :
+    searchedType === 'restaurant' ? setSearchedType('restaurant') :
     setSearchedType('')
   };
 
@@ -57,12 +60,9 @@ function ExploreScreen(props) {
     
     
     <SafeAreaView style={styles.container}>
-        <TouchableWithoutFeedback
-                      onPress={() => Keyboard.dismiss()} >
 
             <View>
-                
-                {activeSwitch === 1 ? <List/> : <Map/>}
+                {activeSwitch === 1 ? <Map/> : <List/>}
 
                 <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
 
@@ -70,8 +70,8 @@ function ExploreScreen(props) {
 
                         <SwitchButton
                             onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
-                            text1 = 'Liste'                        // optional: first text in switch button --- default ON
-                            text2 = 'Map'                       // optional: second text in switch button --- default OFF
+                            text1 = 'Map'                        // optional: first text in switch button --- default ON
+                            text2 = 'Liste'                       // optional: second text in switch button --- default OFF
                             switchWidth = {100}                 // optional: switch width --- default 44
                             switchHeight = {28}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
@@ -90,7 +90,7 @@ function ExploreScreen(props) {
 
                     <TouchableOpacity
                       style={{flex:1, alignItems:'center'}}
-                      onPress={()=>{toggleOverlay()}}>
+                      onPress={()=>{openOverlay()}}>
                         <View style={styles.inputBadge} >
                               <Image
                                 style={{width:'6%', marginRight:5}}
@@ -106,101 +106,104 @@ function ExploreScreen(props) {
 
             </View>
 
-        </TouchableWithoutFeedback>
+        <KeyboardAvoidingView>
 
-        <Overlay isVisible={overlayVisibility} onBackdropPress={toggleOverlay}>
-            <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, paddingTop:'10%', alignItems:'center'}}>
+            <Overlay isVisible={overlayVisibility} onBackdropPress={closeOverlay}>
+                <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, paddingTop:'10%', alignItems:'center'}}>
 
-                <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', width: Dimensions.get('window').width, marginBottom:20 }}>
+                    <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', width: Dimensions.get('window').width, marginBottom:20 }}>
 
-                    <Text style={styles.overlayTitle}>Filtrer</Text>
+                        <Text style={styles.overlayTitle}>Filtrer</Text>
+                        
+                        <FontAwesome 
+                          style={{alignSelf:'flex-end', margin:10}}
+                          onPress={ ()=> closeOverlay()} 
+                          name="close" 
+                          size={30} 
+                          color={grayMedium} />
                     
-                    <FontAwesome 
-                      style={{alignSelf:'flex-end', margin:10}}
-                      onPress={ ()=> toggleOverlay()} 
-                      name="close" 
-                      size={30} 
-                      color={grayMedium} />
-                
-                </View>  
+                    </View>  
 
-                <AlineInputCenter onChange={ (e)=> setSearchedName(e) } label="Chercher par nom" placeholder='ex: café de Paris' style={{ flex: 1 }}/>
-                <AlineInputCenter onChange={ (e)=> setSearchedNetwork(e) } label="Chercher par Réseaux" placeholder='ex: JeanBouteille' style={{ flex: 1 }}/>
+                    <AlineInputCenter onChange={ (e)=> setSearchedName(e) } label="Chercher par nom" placeholder='ex: café de Paris' style={{ flex: 1 }}/>
+                    <AlineInputCenter onChange={ (e)=> setSearchedNetwork(e) } label="Chercher par Réseaux" placeholder='ex: JeanBouteille' style={{ flex: 1 }}/>
 
-                <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Rayon de recherche</Text>
-                <Slider
-                  style={styles.slider}
-                  value={sliderValue}
-                  onValueChange={setSliderValue}
-                  maximumValue={20}
-                  minimumValue={1}
-                  step={1}
-                  trackStyle={{ height: 5, backgroundColor: 'red' }}
-                  thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
-                  thumbProps={{
-                    children: (
-                      <FontAwesome
-                        name="heartbeat"
-                        size={30}
-                        containerStyle={{ bottom: 20, right: 20 }}
-                        color="red"
-                      />
-                  ),
-                }}
-                />
-                <Text style={styles.overlayText}>{sliderValue} km</Text>
+                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Rayon de recherche</Text>
+                    <Slider
+                      style={styles.slider}
+                      value={sliderValue}
+                      onValueChange={setSliderValue}
+                      maximumValue={20}
+                      minimumValue={1}
+                      step={1}
+                      trackStyle={{ height: 5, backgroundColor: 'red' }}
+                      thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
+                      thumbProps={{
+                        children: (
+                          <FontAwesome
+                            name="heartbeat"
+                            size={30}
+                            containerStyle={{ bottom: 20, right: 20 }}
+                            color="red"
+                          />
+                      ),
+                    }}
+                    />
+                    <Text style={styles.overlayText}>{sliderValue} km</Text>
 
-                <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Classer par :</Text>
-                <View style={{ marginTop:10 }}>
+                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Classer par :</Text>
+                    <View style={{ marginTop:10 }}>
 
+                        <SwitchButton
+                            onValueChange={(val) => setActiveSwitchDistance(val)}      // this is necessary for this component
+                            text1 = 'Distance'                        // optional: first text in switch button --- default ON
+                            text2 = 'Ordre alphabétique'                       // optional: second text in switch button --- default OFF
+                            switchWidth = {300}                 // optional: switch width --- default 44
+                            switchHeight = {40}                 // optional: switch height --- default 100
+                            switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
+                            switchBorderRadius = {100}          // optional: switch border radius --- default oval
+                            switchSpeedChange = {200}           // optional: button change speed --- default 100
+                            switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
+                            switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
+                            btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
+                            btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
+                            fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
+                            activeFontColor = '#fff'            // optional: active font color --- default #fff
+                        />
+
+                    </View>
+
+                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
+                    <View style={{ marginTop: 10}}>
+                    
                     <SwitchButton
-                        onValueChange={(val) => setActiveSwitchDistance(val)}      // this is necessary for this component
-                        text1 = 'Distance'                        // optional: first text in switch button --- default ON
-                        text2 = 'Ordre alphabétique'                       // optional: second text in switch button --- default OFF
-                        switchWidth = {300}                 // optional: switch width --- default 44
-                        switchHeight = {40}                 // optional: switch height --- default 100
-                        switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                        switchBorderRadius = {100}          // optional: switch border radius --- default oval
-                        switchSpeedChange = {200}           // optional: button change speed --- default 100
-                        switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                        switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                        btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
-                        btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                        fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
-                        activeFontColor = '#fff'            // optional: active font color --- default #fff
-                    />
+                            style={{ marginTop:40 }}
+                            onValueChange={(val) => {setActiveSwitchPlace(val), switchType(val)}}      // this is necessary for this component
+                            text1 = 'Point de collecte'                        // optional: first text in switch button --- default ON
+                            text2 = 'Réstaurant'                       // optional: second text in switch button --- default OFF
+                            switchWidth = {300}                 // optional: switch width --- default 44
+                            switchHeight = {40}                 // optional: switch height --- default 100
+                            switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
+                            switchBorderRadius = {100}          // optional: switch border radius --- default oval
+                            switchSpeedChange = {200}           // optional: button change speed --- default 100
+                            switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
+                            switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
+                            btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
+                            btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
+                            fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
+                            activeFontColor = '#fff'            // optional: active font color --- default #fff
+                        />
+                    
+                    </View>
 
-                </View>
+                    <View style={{marginTop:30}}>
+                        <AlineButton title="Filtrer" onPress={()=> {props.storeData({name:searchedName, network:searchedNetwork, type:searchedType, distance:sliderValue*1000}), closeOverlay()}} />
+                    </View>                
 
-                <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
-                <View style={{ marginTop: 10}}>
-                
-                <SwitchButton
-                        style={{ marginTop:40 }}
-                        onValueChange={(val) => {setActiveSwitchPlace(val), switchType()}}      // this is necessary for this component
-                        text1 = 'Point de collecte'                        // optional: first text in switch button --- default ON
-                        text2 = 'Réstaurant'                       // optional: second text in switch button --- default OFF
-                        switchWidth = {300}                 // optional: switch width --- default 44
-                        switchHeight = {40}                 // optional: switch height --- default 100
-                        switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                        switchBorderRadius = {100}          // optional: switch border radius --- default oval
-                        switchSpeedChange = {200}           // optional: button change speed --- default 100
-                        switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                        switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                        btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
-                        btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                        fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
-                        activeFontColor = '#fff'            // optional: active font color --- default #fff
-                    />
-                
-                </View>
+                </View>         
+            </Overlay>
 
-                <View style={{marginTop:30}}>
-                    <AlineButton title="Filtrer" onPress={()=> {props.storeData({name:searchedName, network:searchedNetwork, type:searchedType, distance:sliderValue*1000}), toggleOverlay()}} />
-                </View>                
+        </KeyboardAvoidingView>
 
-            </View>         
-        </Overlay>
 
         <StatusBar style="auto" />
 

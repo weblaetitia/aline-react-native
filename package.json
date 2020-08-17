@@ -15,6 +15,7 @@
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
     "expo": "~38.0.8",
+    "expo-barcode-scanner": "~8.2.1",
     "expo-font": "~8.2.1",
     "expo-location": "~8.2.1",
     "expo-status-bar": "^1.0.2",
@@ -35,8 +36,7 @@
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
-    "switch-button-react-native": "^1.0.3",
-    "expo-barcode-scanner": "~8.2.1"
+    "switch-button-react-native": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
