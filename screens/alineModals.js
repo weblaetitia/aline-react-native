@@ -32,7 +32,7 @@ function PlaceModalScreen({ route, navigation }) {
 
           {/* place header */}
           <View style={{...styles.row, marginBottom: -30, paddingTop: 30}}>
-            <Image source={{ uri: 'https://res.cloudinary.com/alineconsigne/image/upload/v1597400477/bioburger-_-Marine-Brusson-43-835x600_zj83tv.jpg' }} style={{width: 150, height: 150}} />
+            <Image source={{ uri: response.place.placeImg || response.place.placeImg != '' ? response.place.placeImg : 'https://res.cloudinary.com/alineconsigne/image/upload/v1597671122/website/placeholder-image_eoeppy.png' }} style={{width: 150, height: 150}} />
             <Image resizeMode ='contain' source = {
               response.place.type == 'shop' ? require('../assets/icons/boutique.png') :
               require('../assets/icons/restaurant.png')

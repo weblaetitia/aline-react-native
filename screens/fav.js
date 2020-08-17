@@ -61,6 +61,8 @@ function FavScreen(props) {
     priceRange: [2, 8],
     latitude:48.8481756,
     longitude:2.3312189,
+    placeImg: "",
+    openingHours:"lundi: 08:30 – 19:50,mardi: 08:30 – 19:50,mercredi: 08:30 – 19:50,jeudi: 08:30 – 19:50,vendredi: 08:30 – 19:50,samedi: 08:30 – 19:50,dimanche: 09:00 – 18:50",
   }
 
   var favListGroup = favList.map((fav,i)=> {
