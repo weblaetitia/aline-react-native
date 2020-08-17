@@ -65,6 +65,7 @@ function MapScreen(props) {
     if(userDistance < props.filter.distance){
 
       return(<Marker
+              key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
               title={place.name}
               description={place.type}
