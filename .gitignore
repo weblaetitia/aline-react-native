@@ -13,6 +13,3 @@ web-build/
 # macOS
 .DS_Store
 
-# env
-components/environment.*
-components/environment.js
