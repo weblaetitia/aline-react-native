@@ -14,4 +14,4 @@ web-build/
 .DS_Store
 
 # env
-environments/
+*.components/environment.js
