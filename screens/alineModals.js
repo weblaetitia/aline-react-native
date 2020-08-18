@@ -11,22 +11,16 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 function PlaceModalScreen({ route, navigation }) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 591f91c0ee132ee48584a2985b74d73aa42210cf
   var response = route.params  
 
-  var openingHoursView
+  console.log(response)
 
   if (response.place.openingHours && response.place.openingHours != '') {
     var openingHours = response.place.openingHours.split(',')
-
-    // openingHoursView = <View style={styles.line} />
-    //                       <Text style={styles.currentBold}>Horaires</Text>
-    //                       {openingHours.map((service, i) =>{
-    //                     return(
-    //                       <Text key={i} style={styles.current}>
-    //                           - {service}
-    //                       </Text>
-    //                         )
-    //                       })} 
   }
   
 
@@ -81,37 +75,43 @@ function PlaceModalScreen({ route, navigation }) {
             <View style={styles.line} />
 
             <Text style={styles.currentBold}>Service de consigne proposées</Text>
-            {response.place.services.map((service, i) =>{
-              return(
-                <Text key={i} style={styles.current}>
-                    - {service}
-                </Text>
-              )
-            })} 
+            {response.place.services ? <Text style={styles.current}>
+                                          - {response.place.services}
+                                      </Text> :
+                                      <Text></Text>
+                                      } 
 
 
             {openingHours? <View>
               <View style={styles.line} />
               <Text style={styles.currentBold}>Horaires</Text>
-              {openingHours.map((service, i) =>{
+              {openingHours? openingHours.map((listItem, i) =>{
                 return(
                   <Text key={i} style={styles.current}>
-                      - {service}
+                      - {listItem}
                   </Text>
                 )
-              })} 
+              }) : <Text></Text>} 
             </View> : <View></View>}
 
             <View style={styles.line} />
 
-            {
+            { !response.place.priceRange ? 
+            <Text></Text> :
             response.place.priceRange.length == 1 ? 
+            <View>
             <Text style={{...styles.h3mint, textAlign: 'center'}}>Consignes à partir de {response.place.priceRange[0]}&nbsp;€</Text>
-            : 
-            <Text style={{...styles.h3mint, textAlign: 'center'}}>Consignes entre {response.place.priceRange[0]} et {response.place.priceRange[1]}&nbsp;€</Text>
-          }
-
             <View style={styles.line} />
+          </View>
+            : 
+            <View>
+            <Text style={{...styles.h3mint, textAlign: 'center'}}>Consignes entre {response.place.priceRange[0]} et {response.place.priceRange[1]}&nbsp;€</Text>
+            <View style={styles.line} />
+          </View>
+            }
+
+            
+            
 
             <Text style={{...styles.h3mint, textAlign: 'center'}}>
               {response.place.name} fait parti du réseau {response.place.network}
