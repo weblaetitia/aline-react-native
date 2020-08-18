@@ -1,6 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, ScrollView, Text, Button, StyleSheet, Image, ImageBackground } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView, View, ScrollView, Text, Button, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
 
 // my components
 import { AlineH1 } from '../components/aline-lib'; 
@@ -9,13 +8,33 @@ import { AlineH1 } from '../components/aline-lib';
 // fonts
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 
 function PlaceModalScreen({ route, navigation }) {
+<<<<<<< HEAD
   var response = route.params
   // console.log('RESPONSE',response)
+=======
+  var response = route.params  
+
+  var openingHoursView
+
+  if (response.place.openingHours && response.place.openingHours != '') {
+    var openingHours = response.place.openingHours.split(',')
+
+    // openingHoursView = <View style={styles.line} />
+    //                       <Text style={styles.currentBold}>Horaires</Text>
+    //                       {openingHours.map((service, i) =>{
+    //                     return(
+    //                       <Text key={i} style={styles.current}>
+    //                           - {service}
+    //                       </Text>
+    //                         )
+    //                       })} 
+  }
+>>>>>>> 4a85234707737a95bf2fd9219f1dd8a99e6451af
   
+
   return (    
     <View style={{...styles.container}}>
 
@@ -32,20 +51,23 @@ function PlaceModalScreen({ route, navigation }) {
 
           {/* place header */}
           <View style={{...styles.row, marginBottom: -30, paddingTop: 30}}>
-            <Image source={{ uri: 'https://res.cloudinary.com/alineconsigne/image/upload/v1597400477/bioburger-_-Marine-Brusson-43-835x600_zj83tv.jpg' }} style={{width: 150, height: 150}} />
+            <Image source={{ uri: response.place.placeImg || response.place.placeImg != '' ? response.place.placeImg : 'https://res.cloudinary.com/alineconsigne/image/upload/v1597671122/website/placeholder-image_eoeppy.png' }} style={{width: 150, height: 150}} />
             <Image resizeMode ='contain' source = {
               response.place.type == 'shop' ? require('../assets/icons/boutique.png') :
               require('../assets/icons/restaurant.png')
             } 
             />
           </View>
-          <View style={styles.placeheader}>
+          <View style={{...styles.placeheader, backgroundColor: response.place.type=='shop' ? goldLight : peachLight}}>
             <View style={styles.row}>
               <View style={{flex:1}}>
               <AlineH1 text={response.place.name}/>
               </View>
               <View>
-              <FontAwesome name="heart" size={24} color="tomato" />
+                <TouchableOpacity>
+                  <FontAwesome name="heart" size={24} color="tomato" />
+                </TouchableOpacity>
+              
               </View>
             </View>
           </View>
@@ -63,7 +85,7 @@ function PlaceModalScreen({ route, navigation }) {
 
             <View style={styles.line} />
 
-            <Text style={styles.currentBold}>Service proposées</Text>
+            <Text style={styles.currentBold}>Service de consigne proposées</Text>
             {response.place.services.map((service, i) =>{
               return(
                 <Text key={i} style={styles.current}>
@@ -72,13 +94,26 @@ function PlaceModalScreen({ route, navigation }) {
               )
             })} 
 
+
+            {openingHours? <View>
+              <View style={styles.line} />
+              <Text style={styles.currentBold}>Horaires</Text>
+              {openingHours.map((service, i) =>{
+                return(
+                  <Text key={i} style={styles.current}>
+                      - {service}
+                  </Text>
+                )
+              })} 
+            </View> : <View></View>}
+
             <View style={styles.line} />
 
             {
             response.place.priceRange.length == 1 ? 
-            <Text style={styles.h3mint}>Consignes à partir de {response.place.priceRange[0]}&nbsp;€</Text>
+            <Text style={{...styles.h3mint, textAlign: 'center'}}>Consignes à partir de {response.place.priceRange[0]}&nbsp;€</Text>
             : 
-            <Text style={styles.h3mint}>Consignes entre {response.place.priceRange[0]} et {response.place.priceRange[1]}&nbsp;€</Text>
+            <Text style={{...styles.h3mint, textAlign: 'center'}}>Consignes entre {response.place.priceRange[0]} et {response.place.priceRange[1]}&nbsp;€</Text>
           }
 
             <View style={styles.line} />
@@ -239,7 +274,9 @@ var graySuperLight = '#f4f4f4'
 var greyLight = '#d8d8d8'
 var gold = "#E8BA00"
 var goldLight = '#faf1cb'
-var tomato = '##ec333b'
+var tomato = '#ec333b'
+var peach = '#ef7e67'
+var peachLight = '#FED4CB'
     
     
 // STYLES
