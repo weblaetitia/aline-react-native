@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { StyleSheet, View, Dimensions, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Card } from 'react-native-elements';
 
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
+import { FontAwesome } from '@expo/vector-icons';
+
 
 import {connect} from 'react-redux';
 
@@ -57,60 +58,49 @@ function ListScreen(props) {
       priceRange: [2, 8],
       latitude:48.8481756,
       longitude:2.3312189,
+      placeImg: "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716",
+      openingHours:"lundi: 08:30 – 19:50,mardi: 08:30 – 19:50,mercredi: 08:30 – 19:50,jeudi: 08:30 – 19:50,vendredi: 08:30 – 19:50,samedi: 08:30 – 19:50,dimanche: 09:00 – 18:50",
     }
 
-    var placeListGroup = placesList.map((placeItem,i)=> {
-      
+
+    var placeListGroup = placesList.map((placeItem,i)=> {      
             return (
 
                 <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place})} >
-                
-                    <Card
-                      key= {i}
-                      containerStyle = {styles.card} >
-                        <View style = {styles.cardHead} >
-                            <View style = {styles.cardTitle} >
-                                <Image
-                                    style = {{width: 25}}
-                                    resizeMode ='contain'
-                                    source = {
-                                    placeItem.type == 'shop' ? require('../assets/icons/boutique.png') :
-                                    placeItem.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
-                                    require('../assets/icons/heart.png')
-                                    } 
-                                    />
-                                <Text style = {styles.h1Card}>
-                                    {placeItem.name}
-                                </Text>
-                            </View>
 
-                            <Image
-                                    style = {{width: '9%'}}
-                                    resizeMode = 'contain'
-                                    source = {require('../assets/icons/heart.png')} />
-                        </View>
+                  <View style={{width: '100%', marginHorizontal: 0, marginBottom: 30, paddingBottom: 30, borderBottomColor: greyLight, borderBottomWidth: 1, display: 'flex', alignItems: 'center'}}>
 
-                        <View style = {styles.cardAdress} >
-                            <Text style = {{color: blueDark, marginBottom: 10}} >
-                                {placeItem.adress}
-                            </Text>
-                            {/* <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
-                                {fav.zipCode}
-                            </Text> */}
-                            <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
-                                {placeItem.city}
-                            </Text>
+                    <View style={{...styles.myCard, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                      <Image source={{ uri: placeItem.placeImg && placeItem.placeImg != '' && placeItem.placeImg != undefined ? placeItem.placeImg : 'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716' }} style={{width: 90, height: 90}} />
+                      <View style={{...styles.myTitle, marginLeft: 10, marginRight: 10}}>
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                        <Image style={{width: 18, height: 18, marginTop: 3}} source = {
+                                placeItem.type == 'shop' ? require('../assets/icons/boutique.png') :
+                                require('../assets/icons/restaurant.png')
+                              } 
+                              />        
+                          <Text style={{...styles.h3blue, paddingBottom: 4, marginLeft: 8}}>{placeItem.name}</Text>
                         </View>
+                        {placeItem.type == "restaurant" ?<Text style={{...styles.current16}}>Restaurant</Text> : placeItem.type == "shop" ? <Text>Restaurant</Text> : <Text>–</Text>}
+                      </View>
+                      <View style={{width: 30, marginHorizontal: 5}}>
+                        <TouchableOpacity>
+                          <FontAwesome name="heart" size={24} color={tomato} />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                     
-                        {/* <Text style = {{color: blueDark, marginBottom: 5}} >
-                            {fav.description}
-                        </Text> */}
-                        <Text style = {{color: blueDark, marginBottom: 10}} >
-                            {placeItem.webSite}
-                        </Text>
-
-                    </Card>
-
+                    
+                    { placeItem.services && placeItem.services != ',' ?  
+                     <View>
+                       <Text>Service de consigne proposées</Text>
+                      <Text>{placeItem.services}</Text>
+                     </View> 
+                     : 
+                    <View></View> }
+                      
+                  </View>
+                
                 </TouchableOpacity>
 
                 );
@@ -137,38 +127,41 @@ function ListScreen(props) {
 
 }
   
+
+// colors vars
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+var mint = '#2DB08C'
+var grayMedium = '#879299'
+var graySuperLight = '#f4f4f4'
+var greyLight = '#d8d8d8'
+var gold = "#E8BA00"
+var goldLight = '#faf1cb'
+var tomato = '#ec333b'
+var peach = '#ef7e67'
+var peachLight = '#FED4CB'
+
+
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
-    mapStyle: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
+    myCard: {
+      width: Dimensions.get('window').width - 40,
     },
-    card: {
-      width: '100%',
-      paddingHorizontal: 25,
-      paddingVertical: 10,
-      margin: 0 
+    myTitle: {
+      width: Dimensions.get('window').width - 170,
     },
-    cardHead: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between'
+    current16: {
+      fontSize: 16,
+      color: blueDark
     },
-    cardTitle: {
-      flexDirection: 'row',
-      alignItems: 'center'
-    },
-    h1Card: {
-      color: mint,
+    h3blue: {
+      color: blueDark,
       fontFamily: 'Capriola_400Regular',
-      fontSize: 18,
-      marginLeft: 10
-    },
-    cardAdress: {
-      flexDirection: 'row',
-      marginBottom: 10
+      fontSize: 16,
+      letterSpacing: -0.7,
     }
   });
 
