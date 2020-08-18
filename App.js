@@ -24,9 +24,10 @@ import { Entypo } from '@expo/vector-icons';
 // redux
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import token from './reducers/token'
-import filter from './reducers/filter'
-const store = createStore(combineReducers({ token, filter }));
+import token from './reducers/token';
+import filter from './reducers/filter';
+import modal from './reducers/mapModal';
+const store = createStore(combineReducers({ token, filter, modal }));
 
 
 

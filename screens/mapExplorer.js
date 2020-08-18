@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+
+import MapModal from './mapModal'; 
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -11,30 +13,20 @@ import * as geolib from 'geolib';
 import {connect} from 'react-redux';
 
 // import BASE URL
-import {BASE_URL} from '../components/environment'
+import {BASE_URL} from '../components/environment';
+
+/* Color ref */
+var greyLight = '#d8d8d8';
+var graySuperLight = '#f4f4f4'
+
 
 function MapScreen(props) {
 
   const [placesMarkers, setPlacesMarkers] = useState([]);
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
+  const [modalVisibility, setModalVisibility] = useState(false);
 
-  useEffect(() => {   
-    
-      async function getPlaces (data) {
-
-          var response = await fetch(`${BASE_URL}/map/getPlaces`, {
-            method: 'POST',
-            headers: {'Content-type': 'application/x-www-form-urlencoded'},
-            body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
-          })
-          var rawResponse = await response.json();  
-          setPlacesMarkers(rawResponse)
-
-      }
-      getPlaces()
-
-  }, [props.filter]);
 
   useEffect(() => {
     async function askPermissions() {
@@ -52,7 +44,33 @@ function MapScreen(props) {
     askPermissions();
   }, []);
 
+  useEffect(() => {   
+    
+      async function getPlaces (data) {
 
+          var response = await fetch(`${BASE_URL}/map/getPlaces`, {
+            method: 'POST',
+            headers: {'Content-type': 'application/x-www-form-urlencoded'},
+            body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
+          })
+          var rawResponse = await response.json();  
+          setPlacesMarkers(rawResponse)
+
+      }
+      getPlaces()
+
+  }, [props.filter]);
+    
+
+
+  const displayModal = (datas) => {
+    props.storeData(datas)
+    setModalVisibility(true)
+  }
+
+  const hideModal = () => {
+    setModalVisibility(false)
+  }
 
   var placesMarkersList = placesMarkers.map((place,i)=> {
 
@@ -64,19 +82,24 @@ function MapScreen(props) {
 
     if(userDistance < props.filter.distance){
 
-      return(<Marker
+      return(
+            <Marker
               key={`marker${i}`}
+              style={{width:15}}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
               title={place.name}
               description={place.type}
+              onSelect={ ()=> { displayModal(place) } }
+              onDeselect={ () => { hideModal() } }
               image={
                 place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')
               }
-            />)
+            />
+      )
 
     }
 
-    })
+  })
 
   var currentLocation = <Marker 
                         coordinate={{latitude:currentLat, longitude:currentLong}}
@@ -87,14 +110,20 @@ function MapScreen(props) {
 
 
   return (
-      
-          <MapView style = {styles.mapStyle}>
-  
-              {placesMarkersList}
-  
-              {currentLocation}
-  
-          </MapView>
+         <View style={{flex:1}}>
+            <MapView style = {styles.mapStyle}
+            >
+    
+                {placesMarkersList}
+    
+                {currentLocation}
+
+             </MapView>
+             
+             {modalVisibility == true ? <MapModal /> : null}
+
+            
+        </View>
   
       );
 
@@ -106,9 +135,17 @@ function MapScreen(props) {
     },
     mapStyle: {
       width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
+      height: Dimensions.get('window').height
     },
   });
+
+  function mapDispatchToProps(dispatch) {
+    return{
+      storeData: function(data) {
+        dispatch( {type: 'saveModalData', data})
+      },
+    }
+  }
 
   function mapStateToProps(state) {
     return{ filter: state.filter }
@@ -117,5 +154,5 @@ function MapScreen(props) {
 // keep this line at the end
 export default connect(
   mapStateToProps,
-  null, 
+  mapDispatchToProps, 
 )(MapScreen)

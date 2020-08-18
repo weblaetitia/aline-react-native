@@ -14,7 +14,7 @@ import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 function PlaceModalScreen({ route, navigation }) {
   var response = route.params
-  console.log(response.place.services)
+  // console.log('RESPONSE',response)
   
   return (    
     <View style={{...styles.container}}>
