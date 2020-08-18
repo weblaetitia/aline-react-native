@@ -15,3 +15,5 @@ web-build/
 
 # env
 ./components/environment.js
+components/environment.js
+components/environment.*

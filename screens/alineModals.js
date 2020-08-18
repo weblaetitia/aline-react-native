@@ -12,7 +12,23 @@ import { FontAwesome } from '@expo/vector-icons';
 
 function PlaceModalScreen({ route, navigation }) {
   var response = route.params  
-  var openingHours = response.place.openingHours.split(',')
+
+  var openingHoursView
+
+  if (response.place.openingHours && response.place.openingHours != '') {
+    var openingHours = response.place.openingHours.split(',')
+
+    // openingHoursView = <View style={styles.line} />
+    //                       <Text style={styles.currentBold}>Horaires</Text>
+    //                       {openingHours.map((service, i) =>{
+    //                     return(
+    //                       <Text key={i} style={styles.current}>
+    //                           - {service}
+    //                       </Text>
+    //                         )
+    //                       })} 
+  }
+  
 
   return (    
     <View style={{...styles.container}}>
@@ -73,16 +89,18 @@ function PlaceModalScreen({ route, navigation }) {
               )
             })} 
 
-            <View style={styles.line} />
 
-            <Text style={styles.currentBold}>Horaires</Text>
-            {openingHours.map((service, i) =>{
-              return(
-                <Text key={i} style={styles.current}>
-                    - {service}
-                </Text>
-              )
-            })} 
+            {openingHours? <View>
+              <View style={styles.line} />
+              <Text style={styles.currentBold}>Horaires</Text>
+              {openingHours.map((service, i) =>{
+                return(
+                  <Text key={i} style={styles.current}>
+                      - {service}
+                  </Text>
+                )
+              })} 
+            </View> : <View></View>}
 
             <View style={styles.line} />
 
