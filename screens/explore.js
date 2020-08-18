@@ -41,7 +41,7 @@ function ExploreScreen(props) {
   const openOverlay = () => {
     setSearchedName('')
     setSearchedNetwork('');
-    setSearchedType('shop');
+    setSearchedType('shop')
     setOverlayVisibility(true);
   };
 
@@ -50,8 +50,9 @@ function ExploreScreen(props) {
   }
   
   const switchType = (val) => {
-    searchedType === 'shop' ? setSearchedType('shop') :
-    searchedType === 'restaurant' ? setSearchedType('restaurant') :
+    console.log(val)
+    val === 1 ? setSearchedType('shop') :
+    val === 2 ? setSearchedType('restaurant') :
     setSearchedType('')
   };
 
@@ -61,7 +62,7 @@ function ExploreScreen(props) {
     
     <SafeAreaView style={styles.container}>
 
-            <View>
+            <View style={{flex: 1}}>
                 {activeSwitch === 1 ? <Map/> : <List/>}
 
                 <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
@@ -132,7 +133,7 @@ function ExploreScreen(props) {
                       style={styles.slider}
                       value={sliderValue}
                       onValueChange={setSliderValue}
-                      maximumValue={20}
+                      maximumValue={80}
                       minimumValue={1}
                       step={1}
                       trackStyle={{ height: 5, backgroundColor: 'red' }}
@@ -179,7 +180,7 @@ function ExploreScreen(props) {
                             style={{ marginTop:40 }}
                             onValueChange={(val) => {setActiveSwitchPlace(val), switchType(val)}}      // this is necessary for this component
                             text1 = 'Point de collecte'                        // optional: first text in switch button --- default ON
-                            text2 = 'Réstaurant'                       // optional: second text in switch button --- default OFF
+                            text2 = 'Restaurant'                       // optional: second text in switch button --- default OFF
                             switchWidth = {300}                 // optional: switch width --- default 44
                             switchHeight = {40}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
