@@ -41,6 +41,7 @@ function signInScreen(props) {
           console.log(response)
           if (response.succes == true) {
             setTokenExist(true)
+            props.storeData(value)
           } else {
             setTokenExist(false)
           }

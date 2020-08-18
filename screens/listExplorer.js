@@ -23,8 +23,6 @@ function ListScreen(props) {
 
   const [placesList, setPlacesList] = useState([]);
   
-  console.log('token ?', props.token)
-
 
   useEffect(() => {   
     
@@ -36,8 +34,6 @@ function ListScreen(props) {
           body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
         })
         var rawResponse = await response.json();  
-
-        console.log(rawResponse)
         setPlacesList(rawResponse)
 
     }
@@ -52,7 +48,7 @@ var placeListGroup = placesList.map((placeItem,i)=> {
 
     <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
 
-        <ListCard placeImg={placeItem.placeImg} type={placeItem.type} name={placeItem.name} services={placeItem.services} id={placeItem._id} userToken={props.token} />
+        <ListCard placeImg={placeItem.placeImg} type={placeItem.type} name={placeItem.name} services={placeItem.services} id={placeItem._id} />
       
     </TouchableOpacity>
 

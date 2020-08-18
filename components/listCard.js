@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-
+import { Button, Overlay } from 'react-native-elements';
 import { StyleSheet, View, Dimensions, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 
-import { AppLoading } from 'expo';
-import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 import { FontAwesome } from '@expo/vector-icons';
-
-
 import {connect} from 'react-redux';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
-
 import { useNavigation } from '@react-navigation/native';
-
+import { AlineButton } from './aline-lib';
 
 
 
@@ -21,10 +16,26 @@ function ListCard(props) {
 
     const [color, setColor] = useState(false)
     const [liked, setLiked] = useState(false)
+    const [visible, setVisible] = useState(false);
 
-    const addFav = (id) => {
-        // fetch sur le user
-        // add l'id au tableau des fav
+    const toggleOverlay = () => {
+        setVisible(!visible);
+      };
+
+    // console.log('listcardtoken :', props.token) // ex: Tdy18I0SxNtsYWJUA0S6KG7RAUDG2qQX
+
+    const addFav = async (id) => {
+    // si token n'existe pas
+    if (!props.token || props.token == '' || props.token == undefined ) {
+       console.log('veuillez vous enregistrer')
+       toggleOverlay()
+    }
+
+    // fetch sur le user
+    // var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}?placeid=${id}`)
+    //   var response = await rawResponse.json()
+    //   console.log(response)
+    // add l'id au tableau des fav
     }
 
     return (
@@ -45,7 +56,7 @@ function ListCard(props) {
                                             <Text style={{...styles.current16, fontWeight: 'bold'}}>Magasin</Text> : <Text>–</Text>} */}
           </View>
           <View style={{width: 30, marginHorizontal: 5}}>
-            <TouchableOpacity onPress={() => setColor(!color)}>
+            <TouchableOpacity onPress={() => {setColor(!color); addFav(props.id)}}>
               <FontAwesome name="heart" size={24} color={color==false?greyLight:tomato} />
             </TouchableOpacity>
           </View>
@@ -59,6 +70,14 @@ function ListCard(props) {
           </View> 
           : 
         <View></View> }
+
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+            <View style={{width:'75%'}}>
+            <Text>Vous devez être loggé pour ajouter des lieux à vos favoris</Text>
+            <AlineButton title="Se connecter" />
+
+            </View>
+        </Overlay>
           
       </View>
     )
@@ -102,5 +121,12 @@ var peachLight = '#FED4CB'
   });
 
 
+  function mapStateToProps(state) {
+    return{ filter: state.filter, token: state.token }
+    }
 
-  export default ListCard
+// keep this line at the end
+export default connect(
+  mapStateToProps,
+  null, 
+)(ListCard)
