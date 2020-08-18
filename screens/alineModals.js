@@ -11,10 +11,6 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 function PlaceModalScreen({ route, navigation }) {
-<<<<<<< HEAD
-  var response = route.params
-  // console.log('RESPONSE',response)
-=======
   var response = route.params  
 
   var openingHoursView
@@ -32,7 +28,6 @@ function PlaceModalScreen({ route, navigation }) {
     //                         )
     //                       })} 
   }
->>>>>>> 4a85234707737a95bf2fd9219f1dd8a99e6451af
   
 
   return (    
