@@ -27,7 +27,7 @@ function MapScreen(props) {
   const [currentLong, setCurrentLong] = useState(2.3501831);
   const [modalVisibility, setModalVisibility] = useState(false);
   const [markerSelected, setMarkerSelected] = useState(null);
-  const [distanceFilter, setDistanceFilter] = useState(5000)
+  const [distanceFilter, setDistanceFilter] = useState();
 
 
   useEffect(() => {
@@ -54,6 +54,7 @@ function MapScreen(props) {
       })
       var rawResponse = await response.json();
       setPlacesMarkers(rawResponse)
+      setDistanceFilter(5000)
 
   }
   getPlaces()
