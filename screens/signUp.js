@@ -8,7 +8,7 @@ import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 // custom button
-import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from '../components/aline-lib';
+import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline, AlineInputEmail} from '../components/aline-lib';
 
 
 // colors vars
@@ -108,7 +108,7 @@ function signUpScreen(props) {
 
                   <AlineInputCenter label="Votre nom" onChange={(e) => setLastNameInput(e)} placeholder='ex: Doe'style={{ flex: 1 }}/>
 
-                  <AlineInputCenter label="Votre email" onChange={(e) => setEmailInput(e)} placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+                  <AlineInputEmail label="Votre email" onChange={(e) => setEmailInput(e)} placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
 
                   <AlineInputCenter label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
 

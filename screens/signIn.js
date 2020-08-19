@@ -8,7 +8,7 @@ import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 // custom button
-import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from '../components/aline-lib';
+import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline, AlineInputEmail} from '../components/aline-lib';
 
 // colors vars
 var blueDark = '#033C47'
@@ -119,7 +119,7 @@ function signInScreen(props) {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                       <View>
 
-                      <AlineInputCenter onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+                      <AlineInputEmail onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
 
                       <AlineInputCenter onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
 
