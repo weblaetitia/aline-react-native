@@ -37,7 +37,6 @@ function ListScreen(props) {
         })
         var rawResponse = await response.json();  
 
-        console.log(rawResponse)
         setPlacesList(rawResponse)
 
     }

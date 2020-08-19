@@ -26,6 +26,7 @@ function MapScreen(props) {
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [markerSize, setMarkerSize] = useState(15);
 
 
   useEffect(() => {
@@ -85,11 +86,11 @@ function MapScreen(props) {
       return(
             <Marker
               key={`marker${i}`}
-              style={{width:15}}
+              style={{width:markerSize}}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-              title={place.name}
-              description={place.type}
-              onSelect={ ()=> { displayModal(place) } }
+              // title={place.name}
+              // description={place.type}
+              onSelect={ ()=> { displayModal(place), setMarkerSize(20) } }
               onDeselect={ () => { hideModal() } }
               image={
                 place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')

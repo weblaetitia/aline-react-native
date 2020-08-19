@@ -11,10 +11,6 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 function PlaceModalScreen({ route, navigation }) {
-<<<<<<< HEAD
-=======
-
->>>>>>> 591f91c0ee132ee48584a2985b74d73aa42210cf
   var response = route.params  
 
   console.log(response)
