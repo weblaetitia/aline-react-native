@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, fitToSuppliedMarkers } from 'react-native-maps';
 
 import MapModal from './mapModal'; 
 
@@ -26,6 +26,8 @@ function MapScreen(props) {
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [markerSelected, setMarkerSelected] = useState(null);
+  const [distanceFilter, setDistanceFilter] = useState();
 
 
   useEffect(() => {
@@ -42,6 +44,21 @@ function MapScreen(props) {
       }
     }
     askPermissions();
+
+    async function getPlaces (data) {
+
+      var response = await fetch(`${BASE_URL}/map/getPlaces`, {
+        method: 'POST',
+        headers: {'Content-type': 'application/x-www-form-urlencoded'},
+        body: `name=&network=&type=shop`,
+      })
+      var rawResponse = await response.json();
+      setPlacesMarkers(rawResponse)
+      setDistanceFilter(5000)
+
+  }
+  getPlaces()
+
   }, []);
 
   useEffect(() => {   
@@ -55,6 +72,7 @@ function MapScreen(props) {
           })
           var rawResponse = await response.json();  
           setPlacesMarkers(rawResponse)
+          setDistanceFilter(props.filter.distance)
 
       }
       getPlaces()
@@ -72,29 +90,35 @@ function MapScreen(props) {
     setModalVisibility(false)
   }
 
+  
   var placesMarkersList = placesMarkers.map((place,i)=> {
 
+    
     var userDistance = geolib.getDistance(
-                        {latitude: place.latitude, longitude: place.longitude},
-                        {latitude: currentLat, longitude: currentLong}
-                      )
+      {latitude: place.latitude, longitude: place.longitude},
+      {latitude: currentLat, longitude: currentLong}
+      )
+      
+      console.log('USERDISTANCE', userDistance)
+      console.log('DISTANCEFILTER', distanceFilter)
 
+    if(userDistance < distanceFilter){
 
-    if(userDistance < props.filter.distance){
+      markerSelected === i ? markerSize = {width: 30} : markerSize = {width: 17}
 
       return(
             <Marker
               key={`marker${i}`}
-              style={{width:15}}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-              title={place.name}
-              description={place.type}
-              onSelect={ ()=> { displayModal(place) } }
+              onSelect={ ()=> { displayModal(place), setMarkerSelected(i) } }
               onDeselect={ () => { hideModal() } }
-              image={
-                place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')
-              }
-            />
+            >
+                <Image
+                  source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
+                  style={markerSize}
+                  resizeMode='contain'
+                />
+            </Marker>
       )
 
     }
@@ -109,9 +133,17 @@ function MapScreen(props) {
                         />  
 
 
+                          
   return (
          <View style={{flex:1}}>
             <MapView style = {styles.mapStyle}
+              rotateEnabled= {false}
+              initialRegion={{
+                latitude: currentLat,
+                longitude: currentLong,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
             >
     
                 {placesMarkersList}

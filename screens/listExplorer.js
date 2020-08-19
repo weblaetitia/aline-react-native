@@ -43,12 +43,20 @@ function ListScreen(props) {
 
 
 
-var placeListGroup = placesList.map((placeItem,i)=> {      
+var placeListGroup = placesList.map((placeItem,i)=> {   
+  var isFav = false
+  props.favs.forEach(fav => {
+    if(fav._id == placeItem._id) {
+      console.log('its a match')
+      isFav = true
+    }    
+  })
+  
   return (
 
     <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
 
-        <ListCard placeImg={placeItem.placeImg} type={placeItem.type} name={placeItem.name} services={placeItem.services} id={placeItem._id} />
+        <ListCard isFav={isFav} placeImg={placeItem.placeImg} type={placeItem.type} name={placeItem.name} services={placeItem.services} id={placeItem._id} />
       
     </TouchableOpacity>
 
@@ -82,7 +90,7 @@ if (!fontsLoaded) {
 
 
   function mapStateToProps(state) {
-    return{ filter: state.filter, token: state.token }
+    return{ filter: state.filter, token: state.token, favs: state.favs }
     }
 
 // keep this line at the end

@@ -14,7 +14,6 @@ import { FontAwesome } from '@expo/vector-icons';
 function PlaceModalScreen({ route, navigation }) {
   var response = route.params  
 
-  console.log(response)
 
   if (response.place.openingHours && response.place.openingHours != '') {
     var openingHours = response.place.openingHours.split(',')
