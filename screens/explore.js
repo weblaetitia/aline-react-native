@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
@@ -18,6 +18,9 @@ import List from '../screens/listExplorer';
 
 import { StatusBar } from 'expo-status-bar';
 
+// import BASE URL
+import {BASE_URL} from '../components/environment'
+
 /* Color ref */
 var mint = '#2DB08C';
 var graySuperLight = '#f4f4f4';
@@ -36,6 +39,27 @@ function ExploreScreen(props) {
   const [searchedType, setSearchedType] = useState('shop');
   const [activeSwitchDistance, setActiveSwitchDistance] = useState(1);
   const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
+
+  // check if user have fav and store them in redux
+  useEffect(() => {
+    const checkUserFav = async () => {
+      console.log('-----', props.token) 
+      if (props.token) {
+        var rawResponse = await fetch(`${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`)
+        var response = await rawResponse.json()
+        if (response) {
+          console.log(response)
+          props.storeFav(response)
+        } else {
+          console.log('pas de fav dans la liste')
+        }
+     } else {
+       console.log('no token in redux')
+     }
+    }
+    checkUserFav()
+  }, [])
+
 
 
   const openOverlay = () => {
@@ -265,11 +289,18 @@ function ExploreScreen(props) {
       storeData: function(data) {
         dispatch( {type: 'saveData', data})
       },
+      storeFav: function(favs) {
+        dispatch({type: 'saveFavs', favs})
+      }
     }
+  }
+
+function mapStateToProps(state) {
+  return{ token: state.token }
   }
 
 // keep this line at the end
 export default connect(
-  null, 
+  mapStateToProps, 
   mapDispatchToProps
 )(ExploreScreen)

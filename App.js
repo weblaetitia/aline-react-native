@@ -27,7 +27,8 @@ import { createStore, combineReducers } from "redux";
 import token from './reducers/token';
 import filter from './reducers/filter';
 import modal from './reducers/mapModal';
-const store = createStore(combineReducers({ token, filter, modal }));
+import favs from './reducers/favorites';
+const store = createStore(combineReducers({ token, filter, modal, favs }));
 
 
 

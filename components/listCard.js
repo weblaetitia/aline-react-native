@@ -16,21 +16,38 @@ function ListCard(props) {
 
   const navigation = useNavigation();
 
-    const [color, setColor] = useState(false)
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(props.isFav)
     const [visible, setVisible] = useState(false);
 
+
+    // afficher la modal
     const toggleOverlay = () => {
         setVisible(!visible);
       };
-
-    // console.log('listcardtoken :', props.token) // ex: Tdy18I0SxNtsYWJUA0S6KG7RAUDG2qQX
 
     const addFav = async (id) => {
     // si token n'existe pas
     if (!props.token || props.token == '' || props.token == undefined ) {
        console.log('veuillez vous enregistrer')
        toggleOverlay()
+    } else {
+      // if liked = true alors fetch pour supprimer
+      if (liked == false) {
+      var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${id}`)
+        var response = await rawResponse.json()
+        console.log(response)
+        if(response) {
+          setLiked(!liked)
+        }
+      } else {
+        var rawResponse = await fetch(`${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`)
+          var response = await rawResponse.json()
+          console.log(response)
+          if(response) {
+            setLiked(!liked)
+          }
+      }
+      
     }
 
     // fetch sur le user
@@ -52,14 +69,12 @@ function ListCard(props) {
                     require('../assets/icons/restaurant.png')
                   } 
                   />        
-              <Text style={{...styles.h3blue, paddingBottom: 4, marginLeft: 8}}>{props.name}</Text>
+              <Text style={{...styles.h3blue, fontSize: 20, paddingBottom: 4, paddingRight: 10, marginLeft: 8}}>{props.name}</Text>
             </View>
-            {/* {props.type == "restaurant" ? <Text style={{...styles.current16, fontWeight: 'bold'}}>Restaurant</Text> : props.type == "shop" ? 
-                                            <Text style={{...styles.current16, fontWeight: 'bold'}}>Magasin</Text> : <Text>–</Text>} */}
           </View>
           <View style={{width: 30, marginHorizontal: 5}}>
-            <TouchableOpacity onPress={() => {setColor(!color); addFav(props.id)}}>
-              <FontAwesome name="heart" size={24} color={color==false?greyLight:tomato} />
+            <TouchableOpacity onPress={() => addFav(props.id)}>
+              <FontAwesome name="heart" size={24} color={liked==true?tomato:greyLight} />
             </TouchableOpacity>
           </View>
         </View>
@@ -124,7 +139,7 @@ var peachLight = '#FED4CB'
 
 
   function mapStateToProps(state) {
-    return{ filter: state.filter, token: state.token }
+    return{ filter: state.filter, token: state.token, favs: state.favs }
     }
 
 // keep this line at the end
