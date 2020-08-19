@@ -14,6 +14,8 @@ import { AlineButton } from './aline-lib';
 
 function ListCard(props) {
 
+  const navigation = useNavigation();
+
     const [color, setColor] = useState(false)
     const [liked, setLiked] = useState(false)
     const [visible, setVisible] = useState(false);
@@ -74,7 +76,7 @@ function ListCard(props) {
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
             <View style={{width:'75%'}}>
             <Text>Vous devez être loggé pour ajouter des lieux à vos favoris</Text>
-            <AlineButton title="Se connecter" />
+            <AlineButton title="Se connecter" onPress={() => navigation.navigate('SignIn')} />
 
             </View>
         </Overlay>
