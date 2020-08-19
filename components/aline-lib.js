@@ -50,6 +50,12 @@ const AlineInputEmail = ({ children, value, onChange, placeholder, ...props }) =
     </BaseInputCenter>
   )
 
+const AlineInputPassword = ({ children, value, onChange, placeholder, ...props }) => (
+    <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
+      <TextInput secureTextEntry='true' autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} />
+    </BaseInputCenter>
+  )
+
 const AlineInputCenterArrow = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter {...props} >
 
@@ -183,4 +189,4 @@ line: {
   },
 })
 
-export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline, AlinePopin, AlineH1, Divider, AlineInputEmail}
+export {AlineButton, AlineInputCenter, AlineInputCenterArrow, AlineSeparator, AlineButtonOutline, AlinePopin, AlineH1, Divider, AlineInputEmail, AlineInputPassword}
