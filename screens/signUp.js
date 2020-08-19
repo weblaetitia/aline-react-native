@@ -140,7 +140,8 @@ function signUpScreen(props) {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: "center",
-      alignItems: 'center'
+      alignItems: 'center',
+      paddingVertical: 30
     },
     inner: {
       flex: 1,
