@@ -26,7 +26,8 @@ function MapScreen(props) {
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [markerSize, setMarkerSize] = useState(15);
+  // const [markerSize, setMarkerSize] = useState(17);
+  const [markerSelected, setMarkerSelected] = useState(null);
 
 
   useEffect(() => {
@@ -73,6 +74,7 @@ function MapScreen(props) {
     setModalVisibility(false)
   }
 
+  
   var placesMarkersList = placesMarkers.map((place,i)=> {
 
     var userDistance = geolib.getDistance(
@@ -83,19 +85,21 @@ function MapScreen(props) {
 
     if(userDistance < props.filter.distance){
 
+      markerSelected === i ? markerSize = {width: 30} : markerSize = {width: 17}
+
       return(
             <Marker
               key={`marker${i}`}
-              style={{width:markerSize}}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-              // title={place.name}
-              // description={place.type}
-              onSelect={ ()=> { displayModal(place), setMarkerSize(20) } }
+              onSelect={ ()=> { displayModal(place), setMarkerSelected(i) } }
               onDeselect={ () => { hideModal() } }
-              image={
-                place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')
-              }
-            />
+            >
+                <Image
+                  source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
+                  style={markerSize}
+                  resizeMode='contain'
+                />
+            </Marker>
       )
 
     }
@@ -110,6 +114,7 @@ function MapScreen(props) {
                         />  
 
 
+                          
   return (
          <View style={{flex:1}}>
             <MapView style = {styles.mapStyle}
