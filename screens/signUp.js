@@ -94,16 +94,15 @@ function signUpScreen(props) {
     return <AppLoading />;
   } else {
     return (
-        <SafeAreaView style={styles.container}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.inner}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.container}>
                 <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
                 <Text style={styles.h1}>S'enregistrer</Text>
               </ImageBackground>
-              <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                   <View>
 
+              <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                   <AlineInputCenter label="Votre prénom" onChange={(e) => setFirstNameInput(e)} placeholder='ex: John'style={{ flex: 1 }}/>
 
                   <AlineInputCenter label="Votre nom" onChange={(e) => setLastNameInput(e)} placeholder='ex: Doe'style={{ flex: 1 }}/>
@@ -113,23 +112,22 @@ function signUpScreen(props) {
                   <AlineInputPassword label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
 
                   <AlineInputPassword label="Confirmez votre mot de passe" onChange={(e) => setPasswordConfirmInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+              </KeyboardAvoidingView>
 
                   {alertMessage}
 
                   </View>
-                </TouchableWithoutFeedback>
                 <AlineButton title="S'enregistrer" onPress={() => addUserOnClick()} />
                 
-              </KeyboardAvoidingView>
                 <AlineSeparator text='ou' />
                 <Text style={styles.h2}>Déjà inscrit sur Aline ?</Text>
                 <AlineButtonOutline title="Se connecter" onPress={() => props.navigation.navigate('SignIn')}/>
                 <AlineSeparator text='ou' />
                 <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
+            <StatusBar style="dark" />
             </View>
+            </ScrollView>
           </TouchableWithoutFeedback>
-          <StatusBar style="dark" />
-        </SafeAreaView>
       )
     }
   }
