@@ -40,14 +40,19 @@ function SearchScreen(props) {
   if ((scanMode == false) && (noResultFound == false)) {
     async function findProducts () {
 
-      var response = await fetch(`${BASE_URL}/search/search`, {
+      var rawResponse = await fetch(`${BASE_URL}/search/search`, {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `dataProducts=${keyProducts}`
       });
     
-      var rawResponse = await response.json();  
-      console.log(rawResponse)
+      var response = await rawResponse.json();  
+
+      console.log('-------------------------------------')
+      console.log(response)
+      console.log('-------------------------------------')
+      
+      
     }
       return (
       <View style = {styles.container}>
