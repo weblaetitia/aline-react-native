@@ -38,16 +38,18 @@ function signInScreen(props) {
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
-          console.log(response)
           if (response.succes == true) {
-            setTokenExist(true)
             props.storeData(value)
+            // remplacer setToken exist par (props.token)
+            // setTokenExist(true)
+            console.log('value :', value)
           } else {
-            setTokenExist(false)
+            console.log('tokens doesnt match')
+            // setTokenExist(false)
           }
         } else {
           console.log('no token in ls')
-          setTokenExist(false)
+          // setTokenExist(false)
         }
       } catch(e) {
         // error reading value
@@ -66,7 +68,6 @@ function signInScreen(props) {
       body: `email=${emailInput}&password=${passwordInput}`
     })
     var response = await rawResponse.json()
-    console.log(response)
     if (response.succes == true) {
       // 1 -> store token in redux-store
       props.storeData(response.token)
@@ -84,7 +85,7 @@ function signInScreen(props) {
       console.log('unsucces')
       setAlert(true)
     }
-  }
+  } 
 
 
   // add alert message 
@@ -102,7 +103,7 @@ function signInScreen(props) {
       return <AppLoading />
     } else {
       // if @token exist -> redirect to Explore
-      if (tokenExist) {
+      if (props.token) {
         props.navigation.navigate('Explore')
         return <AppLoading />
       } else {
@@ -188,14 +189,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 // get data from store
-// function mapStateToProps(state) {
-//   return { token: state.token }
-// }
+function mapStateToProps(state) {
+  return { token: state.token }
+}
 
 /* REDUX */
 
 // keep this line at the end
 export default connect(
-  null, 
+  mapStateToProps, 
   mapDispatchToProps
 )(signInScreen)
