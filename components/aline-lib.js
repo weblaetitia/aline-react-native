@@ -113,7 +113,7 @@ const AlinePopin = ({text}) => (
 
 const styles = StyleSheet.create({
 alineButtonContainer: {
-    elevation: 8,
+    // elevation: 8,
     backgroundColor: mint,
     borderRadius: 32,
     paddingVertical: 8,
@@ -121,7 +121,7 @@ alineButtonContainer: {
     marginVertical: 14
 },
 alineButtonContainerOutline: {
-    elevation: 8,
+    // elevation: 8,
     borderWidth: 1,
     borderColor: mint,
     backgroundColor: '#fff',
