@@ -108,38 +108,23 @@ function signInScreen(props) {
         return <AppLoading />
       } else {
         return (
-          <ScrollView style={styles.scrollview}>
-            <SafeAreaView style={styles.container}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.inner}>
-                    <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
-                    <Text style={styles.h1}>Connexion</Text>
-                  </ImageBackground>
-                  <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                      <View>
-
-                      <AlineInputEmail onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
-
-                      <AlineInputPassword onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
-
-                      {alertMessage}
-
-                      </View>
-
-                    </TouchableWithoutFeedback>
-                    <AlineButton title="Connexion" onPress={() => getUserInfo()} />
-                  </KeyboardAvoidingView>
-                    <AlineSeparator text='ou' />
-                    <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
-                    <AlineButtonOutline title="S'enregistrer" onPress={() => props.navigation.navigate('SignUp')}/>
-                    <AlineSeparator text='ou' />
-                    <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
-                </View>
-              </TouchableWithoutFeedback>
-            </SafeAreaView>
-            <StatusBar style="dark" />
-          </ScrollView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{width:'100%'}}>
+            <View style={styles.container}>
+              <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
+              <Text style={styles.h1}>Connexion</Text>
+            </ImageBackground>
+                <AlineInputEmail onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com' styles={{backgroundColor:'green', width:'100%'}}/>
+                <AlineInputPassword onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
+                {alertMessage}
+              <AlineButton title="Connexion" onPress={() => getUserInfo()} />
+              <AlineSeparator text='ou' />
+              <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
+              <AlineButtonOutline title="S'enregistrer" onPress={() => props.navigation.navigate('SignUp')}/>
+              <AlineSeparator text='ou' />
+              <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
+              <StatusBar style="dark" />
+            </View>
+          </TouchableWithoutFeedback>
           )
       }      
     }

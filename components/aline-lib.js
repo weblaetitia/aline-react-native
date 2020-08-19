@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View, TextInput, Dimensions, Keyboard } from "react-native";
 
 // custom fonts
 import { AppLoading } from 'expo';
@@ -30,7 +30,7 @@ const AlineButtonOutline = ({ onPress, title, borderColor }) => (
 
   
 const BaseInputCenter = ({children, label}) => (
-    <View style={{width:'100%'}}>
+    <View style={{}}>
         {/* LABEL */}
         <Text style={styles.alineInputLabel}>{label}</Text>
         {/* input */}
@@ -40,19 +40,19 @@ const BaseInputCenter = ({children, label}) => (
 
 const AlineInputCenter = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
-      <TextInput value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} />
+      <TextInput value={value} onChangeText={onChange} placeholder={placeholder} style={{...styles.alineInput, width: Dimensions.get('window').width - 160}} />
     </BaseInputCenter>
   )
 
 const AlineInputEmail = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
-      <TextInput keyboardType='email-address' autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} />
+      <TextInput keyboardType='email-address' autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={{...styles.alineInput, width: Dimensions.get('window').width - 160}} />
     </BaseInputCenter>
   )
 
 const AlineInputPassword = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
-      <TextInput secureTextEntry='true' autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={styles.alineInput} />
+      <TextInput autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={{...styles.alineInput, width: Dimensions.get('window').width - 160}} />
     </BaseInputCenter>
   )
 
@@ -70,7 +70,7 @@ const AlineInputCenterArrow = ({ children, value, onChange, placeholder, ...prop
   )
 
 const AlineSeparator = ({text}) => (
-    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '90%', marginHorizontal:0, paddingHorizontal:0, paddingVertical: 20}}>
         <View style={styles.line} />
         <Text style={styles.alineInputLabel}>{text}</Text>
         <View style={styles.line} />
@@ -182,7 +182,7 @@ alineInputLabel: {
     textAlign: 'center'
 },
 line: {
-    flex: 0.4,
+    flex:0.5,
     borderWidth: 1,
     borderColor: greyLight,
     marginHorizontal: 10
