@@ -33,8 +33,9 @@ function signInScreen(props) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@token')
+        console.log('value of localstorage @token: ', value, '@@')
         if(value !== null) {
-          console.log('ok token exist in localstorage: ', value)
+          console.log('ok token exist in localstorage: ', value, '@@')
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()

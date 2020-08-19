@@ -1,8 +1,9 @@
 import React from 'react';
 import { SafeAreaView, View, ScrollView, Text, Button, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
-
+import SwitchButton from 'switch-button-react-native';
 // my components
-import { AlineH1 } from '../components/aline-lib'; 
+import { AlineH1, AlineButton } from '../components/aline-lib'; 
+
 
 
 // fonts
@@ -249,6 +250,10 @@ function ProductModalScreen({ route, navigation }) {
             <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
               <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
             </TouchableOpacity>
+            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
+                    <Text style={styles.h1}></Text>
+            </ImageBackground>
+            <AlineButton title="Enregistrer les modifications" />
           </View>
         </View>
       );
