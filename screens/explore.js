@@ -74,7 +74,6 @@ function ExploreScreen(props) {
   }
   
   const switchType = (val) => {
-    console.log(val)
     val === 1 ? setSearchedType('shop') :
     val === 2 ? setSearchedType('restaurant') :
     setSearchedType('')
