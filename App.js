@@ -91,7 +91,7 @@ function MyTabs() {
                                 }} />
       <Tab.Screen name="Deposit" component={SearchScreen} 
                                 options={{
-                                  tabBarLabel: 'Scanner',
+                                  tabBarLabel: 'Trouver',
                                   tabBarIcon: ({ color, size }) => (
                                     <MaterialCommunityIcons name="barcode-scan" size={24} color={color} />
                                   ),
