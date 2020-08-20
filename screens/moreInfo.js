@@ -13,6 +13,9 @@ import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 import token from '../reducers/token';
 import {connect} from 'react-redux';
 
+import * as Linking from 'expo-linking';
+
+
 
 
 /* Color ref */
@@ -93,7 +96,7 @@ function MoreInfoScreen(props) {
             />
 
             {/* nourrir Aline */}
-            <TouchableOpacity onPress={() => ('https://aline-consigne.herokuapp.com')} >
+            <TouchableOpacity onPress={() => Linking.openURL('https://aline-consigne.herokuapp.com')} >
             <ListItem
             rightIcon={
                 <MaterialCommunityIcons
@@ -129,7 +132,7 @@ function MoreInfoScreen(props) {
             />
 
             {/* instagram */}
-            <TouchableOpacity onPress={() => ('https://www.instagram.com/alineconsigne/')} >
+            <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/alineconsigne/')} >
             <ListItem
             rightIcon={
                 <AntDesign
@@ -146,7 +149,7 @@ function MoreInfoScreen(props) {
             </TouchableOpacity>
 
             {/* twitter */}
-            <TouchableOpacity onPress={() => ('https://twitter.com/aline_consigne')} >
+            <TouchableOpacity onPress={() => Linking.openURL('https://twitter.com/aline_consigne')} >
             <ListItem
             rightIcon={
                 <AntDesign

@@ -65,7 +65,7 @@ function SearchScreen(props) {
     }
       return (
       <View style = {styles.container}>
-        <Text style = {styles.current20}>Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau</Text>
+        <Text style = {styles.current20}>Chercher par produit, par marque, ou par nom d'établissement</Text>
         <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
         <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
         <View style={{width: '100%', marginVertical: 30}}>
