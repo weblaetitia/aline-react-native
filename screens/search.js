@@ -71,7 +71,7 @@ function SearchScreen(props) {
       return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style = {styles.container}>
-        <Text style = {styles.current20}>Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau</Text>
+        <Text style = {styles.current20}>Chercher par produit, par marque, ou par nom d'établissement</Text>
         <KeyboardAvoidingView>
         <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
         </KeyboardAvoidingView>
