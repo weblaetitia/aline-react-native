@@ -50,7 +50,6 @@ function ListScreen(props) {
           body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
         })
         var rawResponse = await response.json();  
-        console.log('RAwRESPONSE',rawResponse)
         setPlacesList(rawResponse)
 
     }

@@ -18,6 +18,7 @@ var mint = '#2DB08C';
 
 function MapModal (props) {
 
+
   const navigation = useNavigation();
   
   
@@ -33,9 +34,9 @@ function MapModal (props) {
         <TouchableOpacity style={styles.modal} onPress={() => navigation.navigate('Place', {place: props.modalDatas})} >
 
                     <Image
-                    style = {{width: 85, marginRight:10}}
+                    style = {{width: 95, height:95, marginRight:10}}
                     resizeMode = 'contain'
-                    source = {require('../assets/images/plat.png')} />
+                    source={{ uri: props.modalDatas.placeImg && props.modalDatas.placeImg != '' && props.modalDatas.placeImg != undefined ? props.modalDatas.placeImg : 'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716' }} />
                     <View>
                         <View style={{flexDirection:'row', alignItems:'center'}}>
                             <Image
@@ -44,16 +45,17 @@ function MapModal (props) {
                             source =  {
                               props.modalDatas.type === 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/restaurant.png') 
                             } />
-                            <Text style={{fontFamily:'Capriola_400Regular', fontSize:16, width:'70%'}}>{props.modalDatas.name}</Text>
+
+                            <Text style={{fontFamily:'Capriola_400Regular', fontSize:16, width:'60%'}}>{props.modalDatas.name}</Text>
                         </View>
-                        <View style={{width:'70%'}}>
+                        <View style={{width:'68%'}}>
                             <Text>{props.modalDatas.adress}</Text>
                         </View>
                         {/* <View>
                             <Text>{props.modalDatas.city}</Text>
                         </View> */}
                         <View>
-                            <Text style={{fontFamily:'Capriola_400Regular', fontSize:13, color:mint, marginTop:5, width:'70%'}}>{props.modalDatas.services}</Text>
+                            <Text style={{fontFamily:'Capriola_400Regular', fontSize:13, color:mint, marginTop:5, width:'68%'}}>{props.modalDatas.services}</Text>
                         </View>
                     </View>
 
