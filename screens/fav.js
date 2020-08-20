@@ -34,7 +34,7 @@ function FavScreen(props) {
 
   // message d'option si utilisateur non logué
   var nolog =  <View style={{paddingHorizontal: 40}}>
-                  <Text style={{...styles.current16}}>Vous devez être conncté pour ajouter des lieux à vos favoris</Text>
+                  <Text style={{...styles.current16}}>Vous devez être connecté pour ajouter des lieux à vos favoris</Text>
                   <AlineButton title="Se connecter" onPress={() => props.navigation.navigate('SignIn')} />
                 </View>
 
