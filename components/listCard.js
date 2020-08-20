@@ -22,18 +22,11 @@ function ListCard(props) {
 
     // verifier si la place est dans les favoris (en fetch)
     useEffect(() => {
-      const getFav = async () => {
-        var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-fav?token=${props.token}&placeid=${props.place._id}`)
-        var response = await rawResponse.json()
-        console.log(response)
-        if(response) {
-          setLiked(true)
-        } else {
-          setLiked(false)
-        }
+      const getLiked = async () => {
+        setLiked(props.isFav) // ok fonctionne
       }
-      getFav()
-    }, [props.filter])
+      getLiked()
+    }, [])
 
 
     // afficher la modal
@@ -47,22 +40,21 @@ function ListCard(props) {
        console.log('veuillez vous enregistrer')
        toggleOverlay()
     } else {
-      // if liked = true alors fetch pour supprimer
+      // if liked = false alors fetch pour ajouter
       if (liked == false) {
       var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${id}`)
         var response = await rawResponse.json()
-        console.log(response)
         if(response) {
-          setLiked(!liked)
           props.updateFavsRedux(response)
+          setLiked(!liked)
         }
-      } else {
+      } else if (liked == true) {
+        // if liked = tru alors fetch pour supprime
         var rawResponse = await fetch(`${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`)
-          var response = await rawResponse.json()
-          console.log(response)
+        var response = await rawResponse.json()
           if(response) {
-            setLiked(!liked)
             props.updateFavsRedux(response)
+            setLiked(!liked)
           }
       }
     }
@@ -84,7 +76,7 @@ function ListCard(props) {
             </View>
           </View>
           <View style={{width: 30, marginHorizontal: 5}}>
-            <TouchableOpacity onPress={() => addFav(props.place.id)}>
+            <TouchableOpacity onPress={() => addFav(props.place._id)}>
               <FontAwesome name="heart" size={24} color={liked==true?tomato:greyLight} />
             </TouchableOpacity>
           </View>

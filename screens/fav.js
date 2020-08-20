@@ -29,7 +29,7 @@ function FavScreen(props) {
 
   // message si pas de favoris
   var nofav = <View style={{paddingHorizontal: 40}}>
-              <Text style={{...styles.current16}}>Vous n'avez pas encore de favoris</Text>
+              <Text style={{fontFamily: 'Capriola_400Regular', fontSize: 16}}>Vous n'avez pas encore de favoris</Text>
             </View>
 
   // message d'option si utilisateur non logué
@@ -38,19 +38,17 @@ function FavScreen(props) {
                   <AlineButton title="Se connecter" onPress={() => props.navigation.navigate('SignIn')} />
                 </View>
 
-
-  // Boucle des favoris
-  var favlist = props.favs.map((fav, i) => {
-    return (
-      <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
-        <FavCard type={fav.type} name={fav.name} id={fav._id} services={fav.services} adress={fav.adress} />
-      </TouchableOpacity>
-    )
-  })
-
+  if(props.favs.length>0) {
+    // Boucle des favoris
+    var favlist = props.favs.map((fav, i) => {
+      return (
+        <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place: fav})} >
+          <FavCard type={fav.type} name={fav.name} id={fav._id} services={fav.services} adress={fav.adress} />
+        </TouchableOpacity>
+      )
+    })
+  }
   
-  // <Text>Loggué</Text>
-
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,})
 
