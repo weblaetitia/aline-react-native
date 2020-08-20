@@ -21,9 +21,6 @@ import {BASE_URL} from '../components/environment'
 
 function signInScreen(props) {
 
-
-  console.log("@@@@@@ signInScreen");
-
   const [tokenExist, setTokenExist] = useState(false)
   const [emailInput, setEmailInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
@@ -36,24 +33,18 @@ function signInScreen(props) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@token')
-        console.log('value of localstorage @token: ', value, '@@')
         if(value !== null) {
-          console.log('ok token exist in localstorage: ', value, '@@')
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
           if (response.succes == true) {
             props.storeData(value)
-            // remplacer setToken exist par (props.token)
-            // setTokenExist(true)
-            console.log('value :', value)
           } else {
             console.log('tokens doesnt match')
-            // setTokenExist(false)
+            props.storeData('')
           }
         } else {
           console.log('no token in ls')
-          // setTokenExist(false)
         }
       } catch(e) {
         // error reading value
@@ -61,10 +52,11 @@ function signInScreen(props) {
       }
 
       // delete token in store to logout
-      props.resetToken();
-      props.resetFilter();
-      props.resetMapModal();
-      props.resetFavorites();
+      
+      // props.resetToken(); // ??????
+      // props.resetFilter(); // ??????
+      // props.resetMapModal(); // ??????
+      // props.resetFavorites(); // ??????
     }
     getData()
   }, [])
