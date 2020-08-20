@@ -99,8 +99,6 @@ function MapScreen(props) {
       {latitude: currentLat, longitude: currentLong}
       )
       
-      // console.log('USERDISTANCE', userDistance)
-      // console.log('DISTANCEFILTER', distanceFilter)
 
     if(userDistance < distanceFilter){
 
@@ -111,7 +109,7 @@ function MapScreen(props) {
               key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
               onSelect={ ()=> { displayModal(place), setMarkerSelected(i) } }
-              onDeselect={ () => { hideModal() } }
+              onDeselect={ () => { hideModal(), setMarkerSelected('') } }
             >
                 <Image
                   source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}

@@ -22,13 +22,14 @@ function SearchScreen(props) {
   console.log('focus? ', isFocused)
 
   /* Fetch to find products  */
-  const [keyProducts, setKeyProducts] = useState('')
-  const [scanMode, setScanMode] = useState(false)
-  const [hasPermission, setHasPermission] = useState(null)
-  const [scanned, setScanned] = useState(false)
-  const [loader, setLoader] = useState(false)
-  const [noResultFound, setNoResultFound] = useState(false)
-  const [errMsg, setErrMsg] = useState('')
+  const [keyProducts, setKeyProducts] = useState('');
+  const [scanMode, setScanMode] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [noResultFound, setNoResultFound] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [searchResult, setSearchResult] = useState();
 
   useEffect(() => {
     (async () => {
@@ -47,19 +48,26 @@ function SearchScreen(props) {
         body: `dataProducts=${keyProducts}`
       });
     
-      var response = await rawResponse.json();  
+      var product = await rawResponse.json();
+        if(product.productsArray.length == 0) {
+          setNoResultFound(true)
+          setErrMsg("Désolé, nous n'avons pas trouvé de produits correspondants.")
+        }  else {
+          props.navigation.navigate('SearchedProducts', {product})
+        }
+    
 
-      console.log('-------------------------------------')
-      console.log(response)
-      console.log('-------------------------------------')
+      // console.log('-------------------------------------')
+      // console.log('SEARCH PRODUCT ===', product)
+      // console.log('-------------------------------------')
       
       
     }
       return (
       <View style = {styles.container}>
         <Text style = {styles.current20}>Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau</Text>
-        <AlineInputCenter onChange={(e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
-        <AlineButton onPress={() => {findProducts()} } title = "Recherche" />
+        <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
+        <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
         <View style={{width: '100%', marginVertical: 30}}>
           <AlineSeparator text = 'ou'/>
         </View>
@@ -111,12 +119,12 @@ function SearchScreen(props) {
       const handleBarCodeScanned = async ({ type, data }) => {
         setScanned(true);
         setLoader(true)
-        console.log('Bar code with type: ', type)
-        console.log('data: ', data)
+        // console.log('Bar code with type: ', type)
+        // console.log('data: ', data)
         // fetch in ddb if product exist
         var rawScannedProduct = await fetch(`${BASE_URL}/search/search-barcode?data=${data}`)
         var product = await rawScannedProduct.json()
-        console.log(product)
+        // console.log('SCAN PRODUCT ===',product)
         setScanMode(false)
         // ici renvoyer vers la page produit avec l'objet 'scannedProduct' en second arg
         if (product) {
