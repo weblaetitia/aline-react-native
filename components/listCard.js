@@ -16,8 +16,24 @@ function ListCard(props) {
 
   const navigation = useNavigation();
 
-    const [liked, setLiked] = useState(props.isFav)
-    const [visible, setVisible] = useState(false);
+    const [liked, setLiked] = useState(false)
+    const [visible, setVisible] = useState(false)
+ 
+
+    // verifier si la place est dans les favoris (en fetch)
+    useEffect(() => {
+      const getFav = async () => {
+        var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-fav?token=${props.token}&placeid=${props.place._id}`)
+        var response = await rawResponse.json()
+        console.log(response)
+        if(response) {
+          setLiked(true)
+        } else {
+          setLiked(false)
+        }
+      }
+      getFav()
+    }, [props.filter])
 
 
     // afficher la modal
@@ -38,6 +54,7 @@ function ListCard(props) {
         console.log(response)
         if(response) {
           setLiked(!liked)
+          props.updateFavsRedux(response)
         }
       } else {
         var rawResponse = await fetch(`${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`)
@@ -45,44 +62,38 @@ function ListCard(props) {
           console.log(response)
           if(response) {
             setLiked(!liked)
+            props.updateFavsRedux(response)
           }
       }
-      
     }
-
-    // fetch sur le user
-    // var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}?placeid=${id}`)
-    //   var response = await rawResponse.json()
-    //   console.log(response)
-    // add l'id au tableau des fav
-    }
+  }
 
     return (
         <View style={{width: '100%', marginHorizontal: 0, marginBottom: 30, paddingBottom: 30, borderBottomColor: greyLight, borderBottomWidth: 1, display: 'flex', alignItems: 'center'}}>
 
         <View style={{...styles.myCard, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Image source={{ uri: props.placeImg && props.placeImg != '' && props.placeImg != undefined ? props.placeImg : 'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716' }} style={{width: 90, height: 90}} />
+          <Image source={{ uri: props.place.placeImg && props.place.placeImg != '' && props.place.placeImg != undefined ? props.place.placeImg : 'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716' }} style={{width: 90, height: 90}} />
           <View style={{...styles.myTitle, marginLeft: 10, marginRight: 10}}>
             <View style={{display: 'flex', flexDirection: 'row'}}>
             <Image style={{width: 18, height: 18, marginTop: 3}} source = {
-                    props.type == 'shop' ? require('../assets/icons/boutique.png') :
+                    props.place.type == 'shop' ? require('../assets/icons/boutique.png') :
                     require('../assets/icons/restaurant.png')
                   } 
                   />        
-              <Text style={{...styles.h3blue, fontSize: 20, paddingBottom: 4, paddingRight: 10, marginLeft: 8}}>{props.name}</Text>
+              <Text style={{...styles.h3blue, fontSize: 20, paddingBottom: 4, paddingRight: 10, marginLeft: 8}}>{props.place.name}</Text>
             </View>
           </View>
           <View style={{width: 30, marginHorizontal: 5}}>
-            <TouchableOpacity onPress={() => addFav(props.id)}>
+            <TouchableOpacity onPress={() => addFav(props.place.id)}>
               <FontAwesome name="heart" size={24} color={liked==true?tomato:greyLight} />
             </TouchableOpacity>
           </View>
         </View>
         
-        { props.services && props.services != ',' ?  
+        { props.place.services && props.place.services != ',' ?  
           <View style={{...styles.myCard, marginTop: 18}}>
             <Text style={{...styles.current16, fontWeight: 'bold', marginBottom: 2}}>Service de consigne proposées: </Text>
-          <Text style={{...styles.current16}}>– {props.services}</Text>
+          <Text style={{...styles.current16}}>– {props.place.services}</Text>
           <Text style={{...styles.h3blue, color: mint, marginTop: 8}}>Consignes proposées entre 3 et 5 €</Text>
           </View> 
           : 
@@ -138,12 +149,21 @@ var peachLight = '#FED4CB'
   });
 
 
-  function mapStateToProps(state) {
-    return{ filter: state.filter, token: state.token, favs: state.favs }
+function mapStateToProps(state) {
+  return{ filter: state.filter, token: state.token, favs: state.favs }
+  }
+
+// apdate fav to store
+function mapDispatchToProps(dispatch) {
+  return{
+    updateFavsRedux: function(favs) {
+      dispatch( {type: 'updateFavs', favs})
     }
+  }
+}
 
 // keep this line at the end
 export default connect(
   mapStateToProps,
-  null, 
+  mapDispatchToProps, 
 )(ListCard)

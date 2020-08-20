@@ -57,9 +57,10 @@ function ListScreen(props) {
     getPlaces()
 
 }, [props.filter]);
+ 
 
 
-
+<<<<<<< HEAD
 var placeListGroup = placesList.map((placeItem,i)=> {
   var isFav = false
   if(props.fav){
@@ -70,12 +71,24 @@ var placeListGroup = placesList.map((placeItem,i)=> {
       }    
     })
   }   
+=======
+var placeListGroup = placesList.map((placeItem,i)=> {   
+  // var isFav = false
+  // if (props.favs) {
+  //   props.favs.forEach(fav => {
+  //     if(fav._id == placeItem._id) {
+  //       console.log('its a match')
+  //       isFav = true
+  //     }    
+  //   })
+  // }
+>>>>>>> 5450716ddee62b57f6fa97390ba81e79a52dc907
   
   return (
 
     <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
 
-        <ListCard isFav={isFav} placeImg={placeItem.placeImg} type={placeItem.type} name={placeItem.name} services={placeItem.services} id={placeItem._id} />
+        <ListCard place={placeItem} />
       
     </TouchableOpacity>
 

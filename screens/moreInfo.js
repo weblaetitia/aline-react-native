@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { AsyncStorage, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -10,6 +10,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
+import token from '../reducers/token';
+import {connect} from 'react-redux';
+
 
 
 /* Color ref */
@@ -20,6 +23,15 @@ var mint = '#2DB08C';
 function MoreInfoScreen(props) {
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
+
+  /* Logout delete in  */
+  async function logout() {
+   
+    await AsyncStorage.clear();
+
+  }
+  
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -49,6 +61,9 @@ function MoreInfoScreen(props) {
             />
             </TouchableOpacity>
 
+            {/* logout */}
+            <TouchableOpacity onPress={() => {logout(); props.navigation.navigate('SignIn')}} >
+             
             <ListItem
               rightIcon={
                   <AntDesign
@@ -61,6 +76,8 @@ function MoreInfoScreen(props) {
               title='Logout'
               bottomDivider
             />
+            </TouchableOpacity>
+
             <ListItem
               rightIcon={
                   <FontAwesome5
@@ -73,6 +90,9 @@ function MoreInfoScreen(props) {
               title='Soutenir Aline'
               bottomDivider
             />
+
+            {/* nourrir Aline */}
+            <TouchableOpacity onPress={() => ('https://aline-consigne.herokuapp.com')} >
             <ListItem
             rightIcon={
                 <MaterialCommunityIcons
@@ -85,6 +105,7 @@ function MoreInfoScreen(props) {
             title='Nourir Aline'
             bottomDivider
             />
+            </TouchableOpacity>
 
             {/* RESTONS EN CONTACT */}
             <ListItem
@@ -105,6 +126,9 @@ function MoreInfoScreen(props) {
             title='Facebook'
             bottomDivider
             />
+
+            {/* instagram */}
+            <TouchableOpacity onPress={() => ('https://www.instagram.com/alineconsigne/')} >
             <ListItem
             rightIcon={
                 <AntDesign
@@ -113,10 +137,15 @@ function MoreInfoScreen(props) {
                   color= {mint}
                 />
             } 
+            
             titleStyle={{color:'#033C47'}} 
             title='Instagram'
             bottomDivider
             />
+            </TouchableOpacity>
+
+            {/* twitter */}
+            <TouchableOpacity onPress={() => ('https://twitter.com/aline_consigne')} >
             <ListItem
             rightIcon={
                 <AntDesign
@@ -129,6 +158,8 @@ function MoreInfoScreen(props) {
             title='Twitter'
             bottomDivider
             />
+            </TouchableOpacity>
+            
             <ListItem
             rightIcon={
                 <FontAwesome5
@@ -193,6 +224,15 @@ function MoreInfoScreen(props) {
     },
   });
 
+  function mapStateToProps(state) {
+    return{ token: state.token }
+    }
+    
 
 // keep this line at the end
-export default MoreInfoScreen  
+export default connect(
+  mapStateToProps,
+  null, 
+)(MoreInfoScreen)
+
+

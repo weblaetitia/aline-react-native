@@ -1,121 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Card } from 'react-native-elements';
-
-import { AppLoading } from 'expo';
-import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
-
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
+import { AppLoading } from 'expo'
+import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola'
 import { StatusBar } from 'expo-status-bar';
+import {AlineButton} from '../components/aline-lib'
+import FavCard from '../components/favCard'
 
-
-/* Color ref */
-var blueDark = '#033C47';
-var mint = '#2DB08C';
-
+import {BASE_URL} from '../components/environment'
+import {connect} from 'react-redux'
 
 function FavScreen(props) {
+  const [status, setStatus] = useState('nofav')
 
-  const favList = [
-    {
-      title: "Bien l'épicerie",
-      adress: '123 rue Réaumur -',
-      zipCode: '75002',
-      city: 'Paris',
-      description: "Magasin d'alimentation bio",
-      services: 'Bouteilles consignées',
-      type: 'shop'
-    },
-    {
-      title: "Bien le restaurant",
-      adress: '321 rue Réaumur -',
-      zipCode: '75002',
-      city: 'Paris',
-      description: "Restaurant veg freindly",
-      services: 'Boites consignées',
-      type: 'restaurant'
-    },
-  ]
+  // check display
+  useEffect(() => {
+    console.log(props.token)
+    if (props.token) {
+      if (props.favs.length > 0) {
+        setStatus('favlist')
+      } else {
+        setStatus('nofav')
+      }
+    } else {
+      setStatus('nolog')
+    }
+  }, [])
 
-  var product = {
-    _id: '5f350f902b9fcc56501471e9',
-    network: 'looper',
-    name:"White IPA",
-    brand:"La Manivelle",
-    type:"Bière bio",
-    refoundPrice:2,
-    imageUrl:"https://res.cloudinary.com/alineconsigne/image/upload/v1597312872/69-blanche_ne296h.png",
-  }
+  // message si pas de favoris
+  var nofav = <View style={{paddingHorizontal: 40}}>
+              <Text style={{...styles.current16}}>Vous n'avez pas encore de favoris</Text>
+            </View>
 
-  var place = {
-    name:"Bioburger",
-    adress:"29 Rue de Vaugirard Paris",
-    city:"Paris",
-    phone:"01 42 22 12 22",
-    webSite:"http://lepetitlux.eatbu.com/",
-    google_place_id:"ChIJJe3qQtBx5kcREcjG33vJTZI",
-    network:"Reconcil",
-    networkImg: "https://res.cloudinary.com/alineconsigne/image/upload/v1597414611/acteurs/paris_-_repas_-_reconcil_dfp2uf.png",
-    type:"restaurant",
-    services: ["Boîtes repas consignées", "Couverts consignées"],
-    priceRange: [2, 8],
-    latitude:48.8481756,
-    longitude:2.3312189,
-    placeImg: "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716",
-    openingHours:"lundi: 08:30 – 19:50,mardi: 08:30 – 19:50,mercredi: 08:30 – 19:50,jeudi: 08:30 – 19:50,vendredi: 08:30 – 19:50,samedi: 08:30 – 19:50,dimanche: 09:00 – 18:50",
-  }
-
-  var favListGroup = favList.map((fav,i)=> {
-    
-    return(
-      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place})} >
-        <Card
-          key={i}
-          containerStyle = {styles.card} >
-            <View style = {styles.cardHead} >
-                <View style = {styles.cardTitle} >
-                    <Image
-                      style = {{width: '13%'}}
-                      resizeMode ='contain'
-                      source = {
-                        fav.type == 'shop' ? require('../assets/icons/boutique.png') :
-                        fav.type == 'restaurant' ? require('../assets/icons/restaurant.png') :
-                        require('../assets/icons/heart.png')
-                      } 
-                      />
-                    <Text style = {styles.h1Card}>
-                      {fav.title}
-                    </Text>
+  // message d'option si utilisateur non logué
+  var nolog =  <View style={{paddingHorizontal: 40}}>
+                  <Text style={{...styles.current16}}>Vous devez être conncté pour ajouter des lieux à vos favoris</Text>
+                  <AlineButton title="Se connecter" onPress={() => props.navigation.navigate('SignIn')} />
                 </View>
 
-                <Image
-                      style = {{width: '9%'}}
-                      resizeMode = 'contain'
-                      source = {require('../assets/icons/heart.png')} />
-            </View>
 
-            <View style = {styles.cardAdress} >
-                <Text style = {{color: blueDark, marginBottom: 10}} >
-                  {fav.adress}
-                </Text>
-                <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
-                  {fav.zipCode}
-                </Text>
-                <Text style = {{color: blueDark, marginBottom: 10, marginLeft: 5}} >
-                  {fav.city}
-                </Text>
-            </View>
-        
-            <Text style = {{color: blueDark, marginBottom: 5}} >
-              {fav.description}
-            </Text>
-            <Text style = {{color: blueDark, marginBottom: 10}} >
-              {fav.services}
-            </Text>
-        </Card>
+  // Boucle des favoris
+  var favlist = props.favs.map((fav, i) => {
+    return (
+      <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
+        <FavCard type={fav.type} name={fav.name} id={fav._id} services={fav.services} adress={fav.adress} />
       </TouchableOpacity>
     )
   })
+
+  
+  // <Text>Loggué</Text>
+
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,})
 
@@ -124,46 +59,53 @@ function FavScreen(props) {
   } else {
 
     return (
-      <ScrollView>
-        {favListGroup}
+      <View style={{...styles.container}}>
+        {status == 'nolog' ? nolog : status == 'favlist' ? <ScrollView showsVerticalScrollIndicator={false}>{favlist}</ScrollView> : status == 'nofav' ? nofav : nofav}
         <StatusBar style = "auto" />
-      </ScrollView>
+      </View>
     );
 
   }
-
 }
+// colors vars
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+var mint = '#2DB08C'
+var grayMedium = '#879299'
+var graySuperLight = '#f4f4f4'
+var greyLight = '#d8d8d8'
+var gold = "#E8BA00"
+var goldLight = '#faf1cb'
+var tomato = '#ec333b'
+var peach = '#ef7e67'
+var peachLight = '#FED4CB'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  card: {
+    width: '100%',
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    margin: 0 
+  },
+  current16: {
+  fontSize: 16,
+  color: blueDark
+  },
+})
+
   
-  const styles = StyleSheet.create({
 
-    card: {
-      width: '100%',
-      paddingHorizontal: 25,
-      paddingVertical: 10,
-      margin: 0 
-    },
-    cardHead: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between'
-    },
-    cardTitle: {
-      flexDirection: 'row',
-      alignItems: 'center'
-    },
-    h1Card: {
-      color: mint,
-      fontFamily: 'Capriola_400Regular',
-      fontSize: 18,
-      marginLeft: 10
-    },
-    cardAdress: {
-      flexDirection: 'row',
-      marginBottom: 10
-    }
-
-  });
-
+function mapStateToProps(state) {
+return{ token: state.token, favs: state.favs }
+}
 
 // keep this line at the end
-export default FavScreen  
+export default connect(
+mapStateToProps,
+null, 
+)(FavScreen)

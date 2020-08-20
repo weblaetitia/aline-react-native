@@ -8,7 +8,7 @@ import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 // custom button
-import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline} from '../components/aline-lib';
+import {AlineButton, AlineInputCenter, AlineSeparator, AlineButtonOutline, AlineInputEmail, AlineInputPassword} from '../components/aline-lib';
 
 // colors vars
 var blueDark = '#033C47'
@@ -20,6 +20,9 @@ import {BASE_URL} from '../components/environment'
 
 
 function signInScreen(props) {
+
+
+  console.log("@@@@@@ signInScreen");
 
   const [tokenExist, setTokenExist] = useState(false)
   const [emailInput, setEmailInput] = useState('')
@@ -33,8 +36,9 @@ function signInScreen(props) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@token')
+        console.log('value of localstorage @token: ', value, '@@')
         if(value !== null) {
-          console.log('ok token exist in localstorage: ', value)
+          console.log('ok token exist in localstorage: ', value, '@@')
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
@@ -55,6 +59,12 @@ function signInScreen(props) {
         // error reading value
         console.log(e)
       }
+
+      // delete token in store to logout
+      props.resetToken();
+      props.resetFilter();
+      props.resetMapModal();
+      props.resetFavorites();
     }
     getData()
   }, [])
@@ -100,46 +110,33 @@ function signInScreen(props) {
   }
 
     if (!fontsLoaded) {
+      console.log("@@@@@@ font fail");
       return <AppLoading />
     } else {
+      console.log("@@@@@@ font ok");
       // if @token exist -> redirect to Explore
       if (props.token) {
         props.navigation.navigate('Explore')
         return <AppLoading />
       } else {
         return (
-          <ScrollView style={styles.scrollview}>
-            <SafeAreaView style={styles.container}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.inner}>
-                    <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
-                    <Text style={styles.h1}>Connexion</Text>
-                  </ImageBackground>
-                  <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                      <View>
-
-                      <AlineInputCenter onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
-
-                      <AlineInputCenter onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
-
-                      {alertMessage}
-
-                      </View>
-
-                    </TouchableWithoutFeedback>
-                    <AlineButton title="Connexion" onPress={() => getUserInfo()} />
-                  </KeyboardAvoidingView>
-                    <AlineSeparator text='ou' />
-                    <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
-                    <AlineButtonOutline title="S'enregistrer" onPress={() => props.navigation.navigate('SignUp')}/>
-                    <AlineSeparator text='ou' />
-                    <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
-                </View>
-              </TouchableWithoutFeedback>
-            </SafeAreaView>
-            <StatusBar style="dark" />
-          </ScrollView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{width:'100%'}}>
+            <View style={styles.container}>
+              <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
+              <Text style={styles.h1}>Connexion</Text>
+            </ImageBackground>
+                <AlineInputEmail onChange={(e) => setEmailInput(e) } label="Votre email" placeholder='ex: exemple@email.com' styles={{backgroundColor:'green', width:'100%'}}/>
+                <AlineInputPassword onChange={(e) => setPasswordInput(e)} label="Votre mot de passe" placeholder='••••••••••'style={{ flex: 1 }}/>
+                {alertMessage}
+              <AlineButton title="Connexion" onPress={() => getUserInfo()} />
+              <AlineSeparator text='ou' />
+              <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
+              <AlineButtonOutline title="S'enregistrer" onPress={() => props.navigation.navigate('SignUp')}/>
+              <AlineSeparator text='ou' />
+              <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
+              <StatusBar style="dark" />
+            </View>
+          </TouchableWithoutFeedback>
           )
       }      
     }
@@ -179,12 +176,28 @@ function signInScreen(props) {
 
 /* REDUX */
 
-// push token to store
+// push token to store 
 function mapDispatchToProps(dispatch) {
   return{
     storeData: function(token) {
       dispatch( {type: 'saveToken', token})
-    }
+    
+    },
+   //delete token from store to logout
+
+    resetToken: function() {
+      dispatch( {type: 'deleteToken', token: ''})
+    },
+    resetFilter: function() {
+      dispatch( {type: 'deleteFilter', filter: {}})
+    },
+    resetMapModal: function() {
+      dispatch( {type: 'deleteMapModal', mapModal: {}})
+    },
+    resetFavorites: function() {
+      dispatch( {type: 'deleteFavorites', favorites: ''})
+    },
+   
   }
 }
 
@@ -194,6 +207,8 @@ function mapStateToProps(state) {
 }
 
 /* REDUX */
+
+
 
 // keep this line at the end
 export default connect(
