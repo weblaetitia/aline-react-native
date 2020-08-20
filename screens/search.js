@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
 
+
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 

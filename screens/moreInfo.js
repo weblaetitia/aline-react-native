@@ -26,9 +26,10 @@ function MoreInfoScreen(props) {
 
   /* Logout delete in  */
   async function logout() {
-   
-    await AsyncStorage.clear();
-
+    console.log("hello")
+    await AsyncStorage.removeItem('@token');
+    console.log("bye")
+    props.navigation.navigate('SignIn')
   }
   
 
@@ -62,7 +63,7 @@ function MoreInfoScreen(props) {
             </TouchableOpacity>
 
             {/* logout */}
-            <TouchableOpacity onPress={() => {logout(); props.navigation.navigate('SignIn')}} >
+            <TouchableOpacity onPress={() => {logout()}} >
              
             <ListItem
               rightIcon={

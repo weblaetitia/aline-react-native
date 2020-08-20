@@ -22,7 +22,7 @@ import {BASE_URL} from '../components/environment'
 function signInScreen(props) {
 
 
-  console.log("@@@@@@ signInScreen");
+  // console.log("@@@@@@ signInScreen");
 
   const [tokenExist, setTokenExist] = useState(false)
   const [emailInput, setEmailInput] = useState('')
@@ -37,7 +37,7 @@ function signInScreen(props) {
       try {
         const value = await AsyncStorage.getItem('@token')
         console.log('value of localstorage @token: ', value, '@@')
-        if(value !== null) {
+        if(value != null) {
           console.log('ok token exist in localstorage: ', value, '@@')
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
@@ -60,11 +60,6 @@ function signInScreen(props) {
         console.log(e)
       }
 
-      // delete token in store to logout
-      props.resetToken();
-      props.resetFilter();
-      props.resetMapModal();
-      props.resetFavorites();
     }
     getData()
   }, [])
@@ -102,7 +97,7 @@ function signInScreen(props) {
   var alertMessage
   
   if (alert) {
-    console.log('je passe dans le displayAlert')
+    // console.log('je passe dans le displayAlert')
     alertMessage = <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
   }
   if (alert == false) {
@@ -110,10 +105,10 @@ function signInScreen(props) {
   }
 
     if (!fontsLoaded) {
-      console.log("@@@@@@ font fail");
+      // console.log("@@@@@@ font fail");
       return <AppLoading />
     } else {
-      console.log("@@@@@@ font ok");
+      // console.log("@@@@@@ font ok");
       // if @token exist -> redirect to Explore
       if (props.token) {
         props.navigation.navigate('Explore')
@@ -183,20 +178,7 @@ function mapDispatchToProps(dispatch) {
       dispatch( {type: 'saveToken', token})
     
     },
-   //delete token from store to logout
 
-    resetToken: function() {
-      dispatch( {type: 'deleteToken', token: ''})
-    },
-    resetFilter: function() {
-      dispatch( {type: 'deleteFilter', filter: {}})
-    },
-    resetMapModal: function() {
-      dispatch( {type: 'deleteMapModal', mapModal: {}})
-    },
-    resetFavorites: function() {
-      dispatch( {type: 'deleteFavorites', favorites: ''})
-    },
    
   }
 }

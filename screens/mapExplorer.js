@@ -99,8 +99,8 @@ function MapScreen(props) {
       {latitude: currentLat, longitude: currentLong}
       )
       
-      console.log('USERDISTANCE', userDistance)
-      console.log('DISTANCEFILTER', distanceFilter)
+      // console.log('USERDISTANCE', userDistance)
+      // console.log('DISTANCEFILTER', distanceFilter)
 
     if(userDistance < distanceFilter){
 
