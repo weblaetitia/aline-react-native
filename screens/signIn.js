@@ -21,6 +21,9 @@ import {BASE_URL} from '../components/environment'
 
 function signInScreen(props) {
 
+
+  console.log("@@@@@@ signInScreen");
+
   const [tokenExist, setTokenExist] = useState(false)
   const [emailInput, setEmailInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
@@ -33,8 +36,9 @@ function signInScreen(props) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@token')
+        console.log('value of localstorage @token: ', value, '@@')
         if(value !== null) {
-          console.log('ok token exist in localstorage: ', value)
+          console.log('ok token exist in localstorage: ', value, '@@')
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
@@ -55,6 +59,12 @@ function signInScreen(props) {
         // error reading value
         console.log(e)
       }
+
+      // delete token in store to logout
+      props.resetToken();
+      props.resetFilter();
+      props.resetMapModal();
+      props.resetFavorites();
     }
     getData()
   }, [])
@@ -100,8 +110,10 @@ function signInScreen(props) {
   }
 
     if (!fontsLoaded) {
+      console.log("@@@@@@ font fail");
       return <AppLoading />
     } else {
+      console.log("@@@@@@ font ok");
       // if @token exist -> redirect to Explore
       if (props.token) {
         props.navigation.navigate('Explore')
@@ -164,12 +176,28 @@ function signInScreen(props) {
 
 /* REDUX */
 
-// push token to store
+// push token to store 
 function mapDispatchToProps(dispatch) {
   return{
     storeData: function(token) {
       dispatch( {type: 'saveToken', token})
-    }
+    
+    },
+   //delete token from store to logout
+
+    resetToken: function() {
+      dispatch( {type: 'deleteToken', token: ''})
+    },
+    resetFilter: function() {
+      dispatch( {type: 'deleteFilter', filter: {}})
+    },
+    resetMapModal: function() {
+      dispatch( {type: 'deleteMapModal', mapModal: {}})
+    },
+    resetFavorites: function() {
+      dispatch( {type: 'deleteFavorites', favorites: ''})
+    },
+   
   }
 }
 
@@ -179,6 +207,8 @@ function mapStateToProps(state) {
 }
 
 /* REDUX */
+
+
 
 // keep this line at the end
 export default connect(
