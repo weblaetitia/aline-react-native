@@ -321,7 +321,7 @@ function ProductModalScreen({ route, navigation }) {
             </View>
             
             <TouchableOpacity>
-              <AlineButton title="Enregistrer les modifications" onPress={() => props.navigation.navigate('MoreInfo')}/>
+              <AlineButton title="Enregistrer les modifications"/>
             </TouchableOpacity>
 
           </View>      
