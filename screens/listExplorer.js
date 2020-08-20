@@ -60,29 +60,15 @@ function ListScreen(props) {
  
 
 
-<<<<<<< HEAD
 var placeListGroup = placesList.map((placeItem,i)=> {
   var isFav = false
-  if(props.fav){
+  if (props.favs) {
     props.favs.forEach(fav => {
       if(fav._id == placeItem._id) {
-        console.log('its a match')
         isFav = true
       }    
     })
   }   
-=======
-var placeListGroup = placesList.map((placeItem,i)=> {   
-  // var isFav = false
-  // if (props.favs) {
-  //   props.favs.forEach(fav => {
-  //     if(fav._id == placeItem._id) {
-  //       console.log('its a match')
-  //       isFav = true
-  //     }    
-  //   })
-  // }
->>>>>>> 5450716ddee62b57f6fa97390ba81e79a52dc907
   
   return (
 
