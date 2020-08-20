@@ -15,6 +15,7 @@ import FavScreen from './screens/fav';
 import MoreInfoScreen from './screens/moreInfo';
 import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals';
 import SearchedProductsScreen from './screens/searchedProducts';
+import SearchedPlacesScreen from './screens/searchedPlaces';
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -143,6 +144,7 @@ function App() {
         <RootStack.Screen name="Product" component={ProductModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
         <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
+        <RootStack.Screen name='SearchedPlaces' component={SearchedPlacesScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
     </Provider>

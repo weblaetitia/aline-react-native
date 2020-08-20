@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, Text, Image, View, TouchableOpacity, Button, ImageBackground } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableOpacity, Button, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
 
 import { StatusBar } from 'expo-status-bar';
@@ -29,7 +29,7 @@ function SearchScreen(props) {
   const [loader, setLoader] = useState(false);
   const [noResultFound, setNoResultFound] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [searchResult, setSearchResult] = useState();
+  // const [searchResult, setSearchResult] = useState();
 
   useEffect(() => {
     (async () => {
@@ -49,24 +49,32 @@ function SearchScreen(props) {
       });
     
       var product = await rawResponse.json();
-        if(product.productsArray.length == 0) {
+        // if product found
+        if ((product.productsArray.length == 0) && (product.placesArray.length > 0)) {
           setNoResultFound(true)
           setErrMsg("Désolé, nous n'avons pas trouvé de produits correspondants.")
         }  else {
           props.navigation.navigate('SearchedProducts', {product})
         }
-    
+        // if places found
+        if ((product.placesArray.length == 0) && (product.productsArray.length > 0)) {
+          setNoResultFound(true)
+          setErrMsg("Désolé, nous n'avons pas trouvé de produits correspondants.")
+        }  else {
+          props.navigation.navigate('SearchedPlaces', {product})
+        }
 
-      // console.log('-------------------------------------')
-      // console.log('SEARCH PRODUCT ===', product)
-      // console.log('-------------------------------------')
+      
       
       
     }
       return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style = {styles.container}>
         <Text style = {styles.current20}>Rechercher un produit, une marque, un point de collecte, un restaurant ou un réseau</Text>
+        <KeyboardAvoidingView>
         <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
+        </KeyboardAvoidingView>
         <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
         <View style={{width: '100%', marginVertical: 30}}>
           <AlineSeparator text = 'ou'/>
@@ -80,6 +88,7 @@ function SearchScreen(props) {
         </TouchableOpacity>
         <StatusBar style = "auto" />
       </View>
+      </TouchableWithoutFeedback>
     )
     } else if (noResultFound) {
       return (
