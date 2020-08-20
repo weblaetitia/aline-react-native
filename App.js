@@ -1,7 +1,7 @@
 console.disableYellowBox = true;
 
 import React from 'react';
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 
 // Navigation
 import { createStackNavigator } from '@react-navigation/stack';
@@ -41,10 +41,12 @@ var mintLight = '#D5EFE8'
 
 function LogoTitle() {
   return (
+    <View  style={{ justifyContent: 'center', alignItems: 'center'}} >
     <Image
       style={{ width: 75, height: 26 }}
       source={require('./assets/logo.png')}
     />
+    </View>
   )
 }
 
