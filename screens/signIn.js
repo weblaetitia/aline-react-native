@@ -106,8 +106,8 @@ function signInScreen(props) {
         return <AppLoading />
       } else {
         return (
-          <ScrollView>
-            
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollview}>
+            <View style={{...styles.container}}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{width:'100%'}}>
                 <View style={styles.container}>
                   <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
@@ -125,7 +125,7 @@ function signInScreen(props) {
                   <StatusBar style="dark" />
                 </View>
               </TouchableWithoutFeedback>
-
+              </View>
           </ScrollView>
           )
       }      
@@ -140,7 +140,8 @@ function signInScreen(props) {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: "center",
-      alignItems: 'center'
+      alignItems: 'center',
+      paddingVertical: 30
     },
     inner: {
       flex: 1,
