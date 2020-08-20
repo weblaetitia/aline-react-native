@@ -16,11 +16,11 @@ var graySuperLight = '#f4f4f4';
 var blueDark = '#033C47';
 
 
-export default function SearchProductsScreen( { props, route, navigation }) {
+export default function SearchPlacesScreen( { props, route, navigation }) {
 
 
-    var products = route.params.product.productsArray
-    console.log('RESPONSE PRODUCT=====',products)
+    var products = route.params.product.placesArray
+    console.log('RESPONSE PLACE=====',products)
 
     var productsList = products.map((product, i) => {
 
@@ -28,12 +28,10 @@ export default function SearchProductsScreen( { props, route, navigation }) {
 
             <TouchableOpacity style={styles.productsView}
                 key={i}
-                onPress={ () => navigation.navigate('Product', {product})}
+                onPress={ () => navigation.navigate('Place', {place: product})}
             >
 
-                    <Text style={{fontFamily: 'Capriola_400Regular', fontSize:16, color: mint, margin:5}}>{product.name}</Text>
-
-                    <Text style={{margin:5, color: blueDark}}>{product.brand}</Text>
+                    <Text style={{fontFamily: 'Capriola_400Regular', fontSize:16, color: mint, margin:5, marginVertical: 10}}>{product.name}</Text>
 
             </TouchableOpacity>
 
@@ -57,7 +55,7 @@ export default function SearchProductsScreen( { props, route, navigation }) {
                                 </TouchableOpacity>
                         </View>
 
-                        <Text style={styles.title}>Choisissez un produit dans la liste</Text>
+                        <Text style={styles.title}>Choisissez un lieu dans la liste</Text>
 
                         {productsList}
 
@@ -104,4 +102,4 @@ const styles = StyleSheet.create({
         margin: 10,
         width: '80%',
       },
-}) 
+})

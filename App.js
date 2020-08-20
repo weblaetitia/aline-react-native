@@ -15,6 +15,7 @@ import FavScreen from './screens/fav';
 import MoreInfoScreen from './screens/moreInfo';
 import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals';
 import SearchedProductsScreen from './screens/searchedProducts';
+import SearchedPlacesScreen from './screens/searchedPlaces';
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -92,7 +93,7 @@ function MyTabs() {
                                 }} />
       <Tab.Screen name="Deposit" component={SearchScreen} 
                                 options={{
-                                  tabBarLabel: 'Scanner',
+                                  tabBarLabel: 'Trouver',
                                   tabBarIcon: ({ color, size }) => (
                                     <MaterialCommunityIcons name="barcode-scan" size={24} color={color} />
                                   ),
@@ -145,6 +146,7 @@ function App() {
         <RootStack.Screen name="Product" component={ProductModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
         <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
+        <RootStack.Screen name='SearchedPlaces' component={SearchedPlacesScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
     </Provider>
