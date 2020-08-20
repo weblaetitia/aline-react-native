@@ -94,6 +94,7 @@ function signUpScreen(props) {
     return <AppLoading />;
   } else {
     return (
+      <ScrollView style={styles.scrollview}>
         <SafeAreaView style={styles.container}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
@@ -130,6 +131,7 @@ function signUpScreen(props) {
           </TouchableWithoutFeedback>
           <StatusBar style="dark" />
         </SafeAreaView>
+      </ScrollView>
       )
     }
   }

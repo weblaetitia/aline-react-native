@@ -23,14 +23,12 @@ var mint = '#2DB08C';
 function MoreInfoScreen(props) {
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
+
+  /* Logout delete in  */
   async function logout() {
-    
+   
     await AsyncStorage.clear();
 
-
-    
-    props.navigation.navigate('SignIn');
-    console.log("hello") 
   }
   
 
@@ -64,7 +62,7 @@ function MoreInfoScreen(props) {
             </TouchableOpacity>
 
             {/* logout */}
-            <TouchableOpacity onPress={() => {logout()}} >
+            <TouchableOpacity onPress={() => {logout(); props.navigation.navigate('SignIn')}} >
              
             <ListItem
               rightIcon={
@@ -230,28 +228,11 @@ function MoreInfoScreen(props) {
     return{ token: state.token }
     }
     
-    function mapDispatchToProps(dispatch) {
-      return{
-        resetToken: function(token) {
-          dispatch( {type: 'deleteToken', token: undefined})
-        },
-        resetFilter: function(token) {
-          dispatch( {type: 'deleteFilter', filter: undefined})
-        },
-        resetMapModal: function(token) {
-          dispatch( {type: 'deleteMapModal', mapModal: undefined})
-        },
-        resetFav: function(token) {
-          dispatch( {type: 'deleteFav', fav: undefined})
-        },
-       
-      }
-    }
 
 // keep this line at the end
 export default connect(
   mapStateToProps,
-  mapDispatchToProps, 
+  null, 
 )(MoreInfoScreen)
 
 

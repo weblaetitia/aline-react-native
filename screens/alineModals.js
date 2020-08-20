@@ -245,16 +245,88 @@ function ProductModalScreen({ route, navigation }) {
   function AccountModalScreen({navigation }) {
       return (
         <View style={styles.container}>
+
+          {/* header */}
           <View style={styles.head}>
             <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
-              <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
+                <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
             </TouchableOpacity>
-            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
-                    <Text style={styles.h1}></Text>
-            </ImageBackground>
-            <AlineButton title="Enregistrer les modifications" />
           </View>
-        </View>
+
+            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ 
+              width: 250, 
+              height: 145, 
+              marginBottom: 50, 
+              marginTop: 20, 
+              top: 40 }} >
+                <Image source={require('../assets/icons/Mask.png')} style={{
+                  width: 80, 
+                  height: 80, 
+                  marginLeft: 80,
+                  marginTop: 25}}>       
+                </Image>
+            </ImageBackground>
+
+
+
+            <View style={{alignSelf: 'center', marginBottom: 40}}>
+              <Text style={styles.h1blueDark}>Laetitia Langlois</Text>
+            </View>
+            
+            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
+              <Text style={styles.h4mint}>Mon nom</Text>
+            </View>
+            <View style={{flexDirection:'row', alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
+            <Text style={{marginLeft: 30, marginTop: 5}}>Laetitia Langlois</Text>
+              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
+                width: 16, 
+                height: 16, 
+                marginLeft: 210, 
+                marginTop: 6}}>
+              </Image>
+            </View>
+
+            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
+              <Text style={styles.h4mint}>Mon email</Text>
+            </View>
+            <View style={{alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
+            <Text style={{marginLeft: 30, marginTop: 5}}>laetitia@email.com</Text>
+              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
+                width: 16, 
+                height: 16, 
+                marginLeft: 345, 
+                marginTop: -15}}>
+              </Image>
+            </View>
+
+            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
+              <Text style={styles.h4mint}>Mon mot de passe</Text>
+            </View>
+            <View style={{alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
+            <Text style={{marginLeft: 30, marginTop: 5}}>Modifier mon mot de passe</Text>
+              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
+                width: 16, 
+                height: 16, 
+                marginLeft: 345, 
+                marginTop: -15}}>
+              </Image>
+            </View>
+
+            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
+              <Text style={styles.h4mint}>Newsletter</Text>
+            </View>
+              <View style={styles.selectionBar}></View>
+            <View style={{alignSelf: 'flex-start', marginLeft: 30, marginTop: 10, marginBottom: 50}}>
+              <Text style={styles.h1}>S'abonner à la newsletter</Text>
+            </View>
+            
+            <TouchableOpacity>
+              <AlineButton title="Enregistrer les modifications" onPress={() => props.navigation.navigate('MoreInfo')}/>
+            </TouchableOpacity>
+
+          </View>      
+            
+      
       );
     }
 
@@ -293,6 +365,7 @@ const styles = StyleSheet.create({
     borderBottomColor: grayMedium,
     borderBottomWidth: 1,
     height: 50,
+    position: "absolute",
   },
   row: {
     display: 'flex',
@@ -357,8 +430,27 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: mint,
     letterSpacing: -0.7
-  }
+  },
+  h4mint: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 14,
+    color: mint,
+    letterSpacing: -0.7,
+  },
+  // h1mint: {
+  //   fontFamily: 'Capriola_400Regular', 
+  //   fontSize: 22,
+  //   color: mint,
+  //   letterSpacing: -0.7
+  // },
+  h1blueDark: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 26,
+    color: blueDark,
+    letterSpacing: -0.7
+  },
 })
+
 
 
 // keep this line at the end
