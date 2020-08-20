@@ -44,21 +44,20 @@ function ListScreen(props) {
 
 
 var placeListGroup = placesList.map((placeItem,i)=> {   
-  // var isFav = false
-  // if (props.favs) {
-  //   props.favs.forEach(fav => {
-  //     if(fav._id == placeItem._id) {
-  //       console.log('its a match')
-  //       isFav = true
-  //     }    
-  //   })
-  // }
+  var isFav = false
+  if (props.favs) {
+    props.favs.forEach(fav => {
+      if(fav._id == placeItem._id) {
+        isFav = true
+      }    
+    })
+  }
   
   return (
 
     <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
 
-        <ListCard place={placeItem} />
+        <ListCard place={placeItem} isFav={isFav} />
       
     </TouchableOpacity>
 
