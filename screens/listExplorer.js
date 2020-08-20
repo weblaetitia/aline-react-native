@@ -60,7 +60,7 @@ function ListScreen(props) {
  
 
 
-var placeListGroup = placesList.map((placeItem,i)=> {
+var placeListGroup = placesList.map((placeItem,i)=> {   
   var isFav = false
   if (props.favs) {
     props.favs.forEach(fav => {
@@ -68,13 +68,14 @@ var placeListGroup = placesList.map((placeItem,i)=> {
         isFav = true
       }    
     })
-  }   
+  }
+
   
   return (
 
     <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
 
-        <ListCard place={placeItem} />
+        <ListCard place={placeItem} isFav={isFav} />
       
     </TouchableOpacity>
 

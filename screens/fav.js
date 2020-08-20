@@ -42,7 +42,7 @@ function FavScreen(props) {
   // Boucle des favoris
   var favlist = props.favs.map((fav, i) => {
     return (
-      <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
+      <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place: fav})} >
         <FavCard type={fav.type} name={fav.name} id={fav._id} services={fav.services} adress={fav.adress} />
       </TouchableOpacity>
     )
