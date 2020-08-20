@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, View, ScrollView, Text, Button, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import SwitchButton from 'switch-button-react-native';
 // my components
 import { AlineH1, AlineButton } from '../components/aline-lib'; 
+// import BASE URL
+import {BASE_URL} from '../components/environment'
 
 
 
@@ -13,9 +15,18 @@ import { FontAwesome } from '@expo/vector-icons';
 
 function PlaceModalScreen({ route, navigation }) {
   var response = route.params  
-
-  console.log('::::::::::')
-  console.log(response)
+  const [networkImg, setNetworkImg] = useState('')
+  
+  // get image
+  useEffect(() => {
+    const getNetworkImg = async () => {
+      var rawResponse = await fetch(`${BASE_URL}/search/get-network-img?network=${response.place.network}`)
+      var resp = await rawResponse.json()
+      console.log('response : ', resp.networkImg)
+      setNetworkImg(resp.networkImg)
+    }
+    getNetworkImg()
+  }, [])
 
 
   if (response.place.openingHours && response.place.openingHours != '') {
@@ -118,7 +129,7 @@ function PlaceModalScreen({ route, navigation }) {
 
             {/* image du réseau */}
             <View style={{width: '100%', display: 'flex', alignItems:'center'}}>
-              <Image source={{ uri: response.place.networkImg }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
+              <Image source={{ uri: networkImg }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
             </View>
             
               <Text style={{...styles.h3mint, textAlign: 'center', marginTop:30}}>
