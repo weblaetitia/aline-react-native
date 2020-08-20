@@ -7,13 +7,14 @@ import { Image } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SignInScreen from './screens/signIn'
-import SignUpScreen from './screens/signUp'
-import ExploreScreen from './screens/explore'
-import SearchScreen from './screens/search'
-import FavScreen from './screens/fav'
-import MoreInfoScreen from './screens/moreInfo'
-import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals'
+import SignInScreen from './screens/signIn';
+import SignUpScreen from './screens/signUp';
+import ExploreScreen from './screens/explore';
+import SearchScreen from './screens/search';
+import FavScreen from './screens/fav';
+import MoreInfoScreen from './screens/moreInfo';
+import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals';
+import SearchedProductsScreen from './screens/searchedProducts';
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -141,6 +142,7 @@ function App() {
         <RootStack.Screen name="Place" component={PlaceModalScreen} />
         <RootStack.Screen name="Product" component={ProductModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
+        <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
     </Provider>
