@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
-import { FontAwesome } from '@expo/vector-icons';
 import {connect} from 'react-redux';
 import ListCard from '../components/listCard'
 
@@ -24,9 +23,26 @@ function ListScreen(props) {
   const [placesList, setPlacesList] = useState([]);
   
 
+  useEffect(() => {
+
+    async function getPlaces () {
+
+      var response = await fetch(`${BASE_URL}/map/getPlaces`, {
+        method: 'POST',
+        headers: {'Content-type': 'application/x-www-form-urlencoded'},
+        body: `name=&network=&type=shop`,
+      })
+      var rawResponse = await response.json();
+      setPlacesList(rawResponse)
+
+      }
+      getPlaces()
+
+  },[])
+
   useEffect(() => {   
     
-    async function getPlaces (data) {
+    async function getPlaces () {
 
         var response = await fetch(`${BASE_URL}/map/getPlaces`, {
           method: 'POST',
@@ -34,6 +50,7 @@ function ListScreen(props) {
           body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
         })
         var rawResponse = await response.json();  
+        console.log('RAwRESPONSE',rawResponse)
         setPlacesList(rawResponse)
 
     }
@@ -43,14 +60,16 @@ function ListScreen(props) {
 
 
 
-var placeListGroup = placesList.map((placeItem,i)=> {   
+var placeListGroup = placesList.map((placeItem,i)=> {
   var isFav = false
-  props.favs.forEach(fav => {
-    if(fav._id == placeItem._id) {
-      console.log('its a match')
-      isFav = true
-    }    
-  })
+  if(props.fav){
+    props.favs.forEach(fav => {
+      if(fav._id == placeItem._id) {
+        console.log('its a match')
+        isFav = true
+      }    
+    })
+  }   
   
   return (
 

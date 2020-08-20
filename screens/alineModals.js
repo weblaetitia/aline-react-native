@@ -147,7 +147,7 @@ function PlaceModalScreen({ route, navigation }) {
 
 function ProductModalScreen({ route, navigation }) {
   var response = route.params
-  console.log(response.product)
+  console.log('RESPONSE PRODUCT=====',response)
   
   return (    
     <View style={{...styles.container}}>
