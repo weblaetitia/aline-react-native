@@ -14,6 +14,9 @@ import { FontAwesome } from '@expo/vector-icons';
 function PlaceModalScreen({ route, navigation }) {
   var response = route.params  
 
+  console.log('::::::::::')
+  console.log(response)
+
 
   if (response.place.openingHours && response.place.openingHours != '') {
     var openingHours = response.place.openingHours.split(',')
@@ -113,14 +116,10 @@ function PlaceModalScreen({ route, navigation }) {
               {response.place.name} fait parti du réseau {response.place.network}
             </Text>
 
-            <ImageBackground source={{uri: response.place.networkImg}} style={{
-              marginTop: 30,
-              width: '100%',
-              height: 100,
-              resizeMode: "cover",
-              justifyContent: "center"
-              }
-              }></ImageBackground>
+            {/* image du réseau */}
+            <View style={{width: '100%', display: 'flex', alignItems:'center'}}>
+              <Image source={{ uri: response.place.networkImg }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
+            </View>
             
               <Text style={{...styles.h3mint, textAlign: 'center', marginTop:30}}>
                 Retrouvez tous les lieux de colecte sur la carte de ce réseau
@@ -147,9 +146,8 @@ function PlaceModalScreen({ route, navigation }) {
 }
 
 function ProductModalScreen({ route, navigation }) {
-  var response = route.params
-  console.log('RESPONSE PRODUCT=====',response)
-  
+  var response = route.params  
+  console.log(response)
   return (    
     <View style={{...styles.container}}>
 
@@ -164,13 +162,13 @@ function ProductModalScreen({ route, navigation }) {
         {/* body */}
         <View style={{width:'100%'}}>
 
-          {/* place header */}
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', marginTop: 50}}>
-              <Image source={{ uri: response.product.imageUrl }} style={{width: 250, height: 250, marginHorizontal: 'auto', marginBottom:20}} />
+          {/* product header */}
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end'}}>
+              <Image source={{ uri: response.product.imageUrl }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'cover', width: 150, height:280}} />
               <AlineH1 text={response.product.name}/>
-              <AlineH1 text={response.product.brand} style={{marginBottom: 30}}/>
+              <Text style={{...styles.currentBold, fontSize:20, color:grayMedium, marginBottom: 30, marginTop: 8}}>{response.product.brand.toUpperCase()}</Text>
             </View>
-          {/* place header */}
+          {/* product header */}
 
           {/* place body */}
           <View style={{marginHorizontal:25, marginVertical:30}}>
@@ -208,14 +206,9 @@ function ProductModalScreen({ route, navigation }) {
             </Text>
 
             {/* récupérer l'url du réseau */}
-            <ImageBackground source={{uri: response.product.networkImgUrl}} style={{
-              marginTop: 30,
-              width: '100%',
-              height: 100,
-              resizeMode: "cover",
-              justifyContent: "center"
-              }
-              }></ImageBackground>
+            <View style={{width: '100%', display: 'flex', alignItems:'center'}}>
+              <Image source={{ uri: response.product.networkImgUrl }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
+            </View>
             
               <Text style={{...styles.h3mint, textAlign: 'center', marginTop:30}}>
                 Retrouvez tous les lieux de colecte sur la carte de ce réseau
@@ -241,7 +234,6 @@ function ProductModalScreen({ route, navigation }) {
   )
 }
 
-  
   function AccountModalScreen({navigation }) {
       return (
         <View style={styles.container}>
@@ -257,7 +249,7 @@ function ProductModalScreen({ route, navigation }) {
               width: 250, 
               height: 145, 
               marginBottom: 50, 
-              marginTop: 20, 
+              marginTop: -60, 
               top: 40 }} >
                 <Image source={require('../assets/icons/Mask.png')} style={{
                   width: 80, 
@@ -365,7 +357,7 @@ const styles = StyleSheet.create({
     borderBottomColor: grayMedium,
     borderBottomWidth: 1,
     height: 50,
-    position: "absolute",
+    // position: "absolute",
   },
   row: {
     display: 'flex',
@@ -421,7 +413,7 @@ const styles = StyleSheet.create({
   },
   bigco2: {
     fontFamily: 'Capriola_400Regular', 
-    fontSize: 32,
+    fontSize: 28,
     color: blueDark,
     letterSpacing: -0.7
   },

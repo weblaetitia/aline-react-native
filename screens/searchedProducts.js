@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
         margin: 10,
         width: '80%',
       },
-})
+}) 
