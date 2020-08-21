@@ -81,7 +81,8 @@ function SearchScreen(props) {
           <AlineSeparator text = 'ou'/>
         </View>
 
-        <Button buttonStyle={{
+        <Button  onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}
+          buttonStyle={{
           backgroundColor: mint,
           borderRadius: 32,
           paddingVertical: 8,
