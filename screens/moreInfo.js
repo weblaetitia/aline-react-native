@@ -106,7 +106,7 @@ function MoreInfoScreen(props) {
                 />
             }  
             titleStyle={{color:'#033C47'}}
-            title='Nourir Aline'
+            title='Nourrir Aline'
             bottomDivider
             />
             </TouchableOpacity>
