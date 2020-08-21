@@ -52,7 +52,7 @@ const AlineInputEmail = ({ children, value, onChange, placeholder, ...props }) =
 
 const AlineInputPassword = ({ children, value, onChange, placeholder, ...props }) => (
     <BaseInputCenter style = {{ alignItems: 'center'}} {...props} >
-      <TextInput autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={{...styles.alineInput, width: Dimensions.get('window').width - 160}} />
+      <TextInput secureTextEntry autoCapitalize='none' value={value} onChangeText={onChange} placeholder={placeholder}  style={{...styles.alineInput, width: Dimensions.get('window').width - 160}} />
     </BaseInputCenter>
   )
 

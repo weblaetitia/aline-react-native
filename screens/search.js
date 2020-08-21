@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, Text, Image, View, TouchableOpacity, Button, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
 
 import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
-
+import { Button } from 'react-native-elements';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
@@ -79,13 +80,27 @@ function SearchScreen(props) {
         <View style={{width: '100%', marginVertical: 30}}>
           <AlineSeparator text = 'ou'/>
         </View>
-        <Text style = {styles.current20}>Scanner votre produit</Text>
+
+        <Button buttonStyle={{
+          backgroundColor: mint,
+          borderRadius: 32,
+          paddingVertical: 8,
+          paddingHorizontal: 28,
+          marginVertical: 14
+        }}
+          icon={
+            <MaterialCommunityIcons name="barcode-scan" size={24} color="white" style={{marginRight: 8}} />
+          }
+          title="Scannez votre produit"
+        />
+
+        {/* <Text style = {styles.current20}>Scanner votre produit</Text>
         <TouchableOpacity onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}>
           <Image
             style = {{width: 150, padding: 0}}
             resizeMode = 'contain'
             source = {require('../assets/icons/barcode_Big.png')} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <StatusBar style = "auto" />
       </View>
       </TouchableWithoutFeedback>
