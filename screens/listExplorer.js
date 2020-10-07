@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity } from 'react-native';
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 import {connect} from 'react-redux';
@@ -21,6 +21,8 @@ function ListScreen(props) {
   const navigation = useNavigation();
 
   const [placesList, setPlacesList] = useState([]);
+  const [placesListGroup, setPlacesListGroup] = useState([]);
+
   
 
   useEffect(() => {
@@ -37,6 +39,24 @@ function ListScreen(props) {
 
       }
       getPlaces()
+      console.log('premier chargement du composant - type : ', placesList.length)
+
+      var group = placesList.map((placeItem,i)=> {   
+        var isFav = false
+        if (props.favs) {
+          props.favs.forEach(fav => {
+            if(fav._id == placeItem._id) {
+              isFav = true
+            }
+          })
+        }
+        return (
+          <TouchableOpacity onPress={() => navigation.navigate('Place', {place: placeItem})} >
+              <ListCard place={placeItem} isFav={isFav} />
+          </TouchableOpacity>
+            );
+      })
+      setPlacesListGroup(group)
 
   },[])
 
@@ -54,52 +74,41 @@ function ListScreen(props) {
 
     }
     getPlaces()
+    console.log('type : ', placesList.length)
+
+    var group = placesList.map((placeItem,i)=> {   
+      var isFav = false
+      if (props.favs) {
+        props.favs.forEach(fav => {
+          if(fav._id == placeItem._id) {
+            isFav = true
+          }
+        })
+      }
+      return (
+        <TouchableOpacity key={placeItem._id} onPress={() => navigation.navigate('Place', {place: placeItem})} >
+            <ListCard place={placeItem} isFav={isFav} />
+        </TouchableOpacity>
+          );
+    })
+    setPlacesListGroup(group)
 
 }, [props.filter]);
  
 
 
-var placeListGroup = placesList.map((placeItem,i)=> {   
-  var isFav = false
-  if (props.favs) {
-    props.favs.forEach(fav => {
-      if(fav._id == placeItem._id) {
-        isFav = true
-      }    
-    })
-  }
-
-  
-  return (
-
-    <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: placeItem})} >
-
-        <ListCard place={placeItem} isFav={isFav} />
-      
-    </TouchableOpacity>
-
-      );
-
-})
 
 let [fontsLoaded] = useFonts({Capriola_400Regular,})
 
 if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-
     return (
-
         <ScrollView style={{marginTop:'22%'}}>
-
-              {placeListGroup}
-
+              {placesListGroup}
         </ScrollView>
-
     );
-
   }
-
 }
   
 
