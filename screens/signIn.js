@@ -40,11 +40,9 @@ function signInScreen(props) {
           if (response.succes == true) {
             props.storeData(value)
           } else {
-            console.log('tokens doesnt match')
             props.storeData('')
           }
         } else {
-          console.log('no token in ls')
         }
       } catch(e) {
         // error reading value
@@ -70,7 +68,6 @@ function signInScreen(props) {
       // 2 -> then to localstorage
       try {
         await AsyncStorage.setItem('@token', response.token)
-        console.log('ok pseudo store in localstorage')
       } catch (e) {
         // saving error
         console.log(e)
@@ -78,7 +75,6 @@ function signInScreen(props) {
       // 3 -> redirige vers 'Explorer
       props.navigation.navigate('Explore')
     } else {
-      console.log('unsucces')
       setAlert(true)
     }
   } 
@@ -88,7 +84,6 @@ function signInScreen(props) {
   var alertMessage
   
   if (alert) {
-    // console.log('je passe dans le displayAlert')
     alertMessage = <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
   }
   if (alert == false) {
@@ -96,10 +91,8 @@ function signInScreen(props) {
   }
 
     if (!fontsLoaded) {
-      // console.log("@@@@@@ font fail");
       return <AppLoading />
     } else {
-      // console.log("@@@@@@ font ok");
       // if @token exist -> redirect to Explore
       if (props.token) {
         props.navigation.navigate('Explore')

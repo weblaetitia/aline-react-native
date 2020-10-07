@@ -35,12 +35,10 @@ function signUpScreen(props) {
   const addUserOnClick = async () => {
     // check if all inputs are field
     if (firstNameInput == '' || lastNameInput == '' || emailInput == '' || passwordInput == '' || passwordConfirmInput == '') {
-      console.log('tous les inputs ne sont pas remplis')
       setAlert('requireAll')
     } else {
       // check if passwords match
       if (passwordInput !== passwordConfirmInput) {
-        console.log('les mots de passes ne sont pas identiques')
         setAlert('passwordsNotMatch')
       } else {
         // add to db
@@ -50,14 +48,12 @@ function signUpScreen(props) {
           body: `firstname=${firstNameInput}&lastname=${lastNameInput}&email=${emailInput}&password=${passwordInput}`
         })
         var response = await rawResponse.json()
-        console.log(response)
         if (response.succes == true) {
           // store token in redux
           props.storeData(response.token)
           // then to localstorage
           try {
             await AsyncStorage.setItem('@token', response.token)
-            console.log('ok pseudo store in localstorage')
           } catch (e) {
             // saving error
             console.log(e)
@@ -65,7 +61,6 @@ function signUpScreen(props) {
           // redirige vers 'Explorer
           props.navigation.navigate('Explore')
         } else {
-          console.log('unsucces')
           setAlert(true)
         }
       }
