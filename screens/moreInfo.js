@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { AsyncStorage, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { AsyncStorage, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -10,7 +10,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
-import token from '../reducers/token';
 import {connect} from 'react-redux';
 
 import * as Linking from 'expo-linking';
@@ -26,7 +25,7 @@ var mint = '#2DB08C';
 function MoreInfoScreen(props) {
 
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
-
+  
   /* Logout delete in  */
   async function logout() {
     console.log("hello")
@@ -34,14 +33,57 @@ function MoreInfoScreen(props) {
     console.log("bye")
     props.navigation.navigate('SignIn')
   }
+
+  /* Redirect to signUn */
+  function signin() {
+    props.navigation.navigate('SignIn')
+  }
   
+  let lignes;
+  if (props.token) {
+    lignes = (  <View>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
+                  <ListItem rightIcon={
+                      <FontAwesome
+                        name='user'
+                        size={20}
+                        color= {mint}
+                      />}
+                  titleStyle={{color:'#033C47'}}            
+                  title='Mon compte'
+                  bottomDivider
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={logout}>
+              <ListItem rightIcon={<AntDesign name='logout' size={20} color={mint} />}
+                titleStyle={{color:'#033C47'}}            
+                title='Se déconnecter'
+                bottomDivider
+              /></TouchableOpacity>
+              </View>
+                )
+  } else {
+    lignes = <TouchableOpacity onPress={signin} >
+              <ListItem
+                rightIcon={
+                    <FontAwesome
+                      name='sign-in'
+                      size={20}
+                      color= {mint}
+                    />
+                  }
+                titleStyle={{color:'#033C47'}}            
+                title="S'inscrire"
+                bottomDivider
+              />
+              </TouchableOpacity>
+  }
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-
-          <ScrollView>
+      <ScrollView>
 
             {/* ALINE ET MOI */}
             <ListItem
@@ -49,38 +91,8 @@ function MoreInfoScreen(props) {
                   title='Aline et moi'
                   bottomDivider
             />
-            {/* mon compte */}
-            <TouchableOpacity onPress={() => props.navigation.navigate('Account')} >
-            <ListItem
-              rightIcon={
-                  <FontAwesome
-                    name='user'
-                    size={20}
-                    color= {mint}
-                  />
-              }
-              titleStyle={{color:'#033C47'}}
-              title='Mon compte'
-              bottomDivider
-            />
-            </TouchableOpacity>
-
-            {/* logout */}
-            <TouchableOpacity onPress={() => {logout()}} >
-             
-            <ListItem
-              rightIcon={
-                  <AntDesign
-                    name='logout'
-                    size={20}
-                    color= {mint}
-                  />
-              }
-              titleStyle={{color:'#033C47'}}
-              title='Logout'
-              bottomDivider
-            />
-            </TouchableOpacity>
+            {/* mon compte || se connecter */}
+            {lignes}
 
             <ListItem
               rightIcon={
