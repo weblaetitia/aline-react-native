@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions } from 'react-native';
 import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
 
 import { StatusBar } from 'expo-status-bar';
@@ -20,7 +20,10 @@ var mint = '#2DB08C';
 function SearchScreen(props) {
   // isFocused
   const isFocused = useIsFocused()
-  console.log('focus? ', isFocused)
+  // console.log('focus? ', isFocused)
+
+  const windowHeight = Dimensions.get("window").height;
+  const windowWidth = Dimensions.get("window").width;
 
   /* Fetch to find products  */
   const [keyProducts, setKeyProducts] = useState('');
@@ -33,12 +36,10 @@ function SearchScreen(props) {
   // const [searchResult, setSearchResult] = useState();
 
   useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-      setScanned(false)
-    })()
-  }, [])
+
+
+
+  }, [scanMode])
 
   if ((scanMode == false) && (noResultFound == false)) {
     async function findProducts () {
@@ -119,6 +120,14 @@ function SearchScreen(props) {
       </View>
       )
     } else if (scanMode == true && isFocused) {
+
+
+      (async () => {
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
+        setScanned(false)
+      })()
+
       if (loader) {
         var layerView = <View style={styles.loadingView}><Text style={{color: 'white', fontWeight: 'bold'}}>   Loading...</Text></View>
       }
@@ -126,8 +135,8 @@ function SearchScreen(props) {
         var layerView = <ImageBackground source={require('../assets/images/scan-top-screen.png')} style={{
           position: 'absolute', 
           top: 0,
-          width: '100%',
-          height: '100%',
+          width: windowWidth,
+          height: windowHeight,
           resizeMode: "cover",
           justifyContent: "center"
         }
