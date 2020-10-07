@@ -246,68 +246,6 @@ function ProductModalScreen({ route, navigation }) {
   )
 }
 
-  function AccountModalScreen({navigation }) {
-      return (
-        <View style={styles.container}>
-
-          {/* header */}
-          <View style={styles.head}>
-            <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
-                <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
-            </TouchableOpacity>
-          </View>
-
-            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ 
-              width: 250, 
-              height: 145, 
-              marginBottom: 50, 
-              marginTop: -60, 
-              top: 40 }} >
-                <Image source={require('../assets/icons/Mask.png')} style={{
-                  width: 80, 
-                  height: 80, 
-                  marginLeft: 80,
-                  marginTop: 25}}>       
-                </Image>
-            </ImageBackground>
-
-
-
-            <View style={{alignSelf: 'center', marginBottom: 40}}>
-              <Text style={styles.h1blueDark}>Laetitia Langlois</Text>
-            </View>
-            
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={{...styles.h3mint, marginBottom: 6, marginTop: 6}}>Mon nom</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor: graySuperLight, width: '100%', borderWidth: 1, borderColor: greyLight, marginBottom: 20, paddingLeft: 30, paddingRight: 30}}>
-              <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>Laetitia Langlois</Text>
-              {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
-            </View>
-
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={{...styles.h3mint, marginBottom: 6, marginTop: 6}}>Mon email</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor: graySuperLight, width: '100%', borderWidth: 1, borderColor: greyLight, marginBottom: 20, paddingLeft: 30, paddingRight: 30}}>
-              <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>exemple@email.com</Text>
-              {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
-            </View>
-
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={{...styles.h3mint, marginBottom: 6, marginTop: 6}}>Mon mot de passe</Text>
-            </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor: graySuperLight, width: '100%', borderWidth: 1, borderColor: greyLight, marginBottom: 20, paddingLeft: 30, paddingRight: 30}}>
-              <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>Changer mon mot de passe</Text>
-              <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} />
-            </View>
-
-
-          </View>      
-            
-      
-      );
-    }
-
     
     
 // colors vars
@@ -432,4 +370,4 @@ const styles = StyleSheet.create({
 
 
 // keep this line at the end
-export {PlaceModalScreen, ProductModalScreen, AccountModalScreen}
+export {PlaceModalScreen, ProductModalScreen}

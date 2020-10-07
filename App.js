@@ -13,7 +13,8 @@ import ExploreScreen from './screens/explore';
 import SearchScreen from './screens/search';
 import FavScreen from './screens/fav';
 import MoreInfoScreen from './screens/moreInfo';
-import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals';
+import {PlaceModalScreen, ProductModalScreen} from './screens/alineModals';
+import {AccountModalScreen} from './screens/accountModalScreen';
 import SearchedProductsScreen from './screens/searchedProducts';
 import SearchedPlacesScreen from './screens/searchedPlaces';
 
