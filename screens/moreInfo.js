@@ -24,11 +24,9 @@ function MoreInfoScreen(props) {
   let [fontsLoaded] = useFonts({Capriola_400Regular,}) 
   
   /* Logout delete in  */
-  async function logout() {
-    console.log("hello")
-    await AsyncStorage.removeItem('@token');
-    console.log("bye")
-    props.navigation.navigate('SignIn')
+  function logout() {
+    props.navigation.navigate('SignIn', {logout: 'true'})
+    // AsyncStorage.removeItem('@token')
   }
 
   /* Redirect to signUn */
