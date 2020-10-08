@@ -3,24 +3,21 @@ import React, { useEffect } from 'react';
 import { AsyncStorage, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
-import { FontAwesome } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { AppLoading } from 'expo';
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
-import {connect} from 'react-redux';
+import token from '../reducers/token';
+import { connect } from 'react-redux';
 
 import * as Linking from 'expo-linking';
-
-
-
 
 /* Color ref */
 var blueDark = '#033C47';
 var mint = '#2DB08C';
-
 
 function MoreInfoScreen(props) {
 
@@ -246,9 +243,4 @@ function MoreInfoScreen(props) {
     
 
 // keep this line at the end
-export default connect(
-  mapStateToProps,
-  null, 
-)(MoreInfoScreen)
-
-
+export default connect(mapStateToProps, null)(MoreInfoScreen);

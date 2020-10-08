@@ -25,6 +25,7 @@ function MapScreen(props) {
   const [placesMarkers, setPlacesMarkers] = useState([]);
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
+  const [region, setRegion] = useState({})
   const [modalVisibility, setModalVisibility] = useState(false);
   const [markerSelected, setMarkerSelected] = useState(null);
   const [distanceFilter, setDistanceFilter] = useState();
@@ -35,10 +36,16 @@ function MapScreen(props) {
       var { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status === 'granted') {
         
-        Location.watchPositionAsync({distanceInterval: 10},
+        Location.watchPositionAsync({distanceInterval: 2},
           (location) => {
             setCurrentLat(location.coords.latitude)
             setCurrentLong(location.coords.longitude)
+            setRegion({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            })
           }
         );
       }
@@ -136,12 +143,7 @@ function MapScreen(props) {
          <View style={{flex:1}}>
             <MapView style = {styles.mapStyle}
               rotateEnabled= {false}
-              initialRegion={{
-                latitude: currentLat,
-                longitude: currentLong,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
+              region={region}
             >
     
                 {placesMarkersList}
