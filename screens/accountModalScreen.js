@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
-
+import {connect} from 'react-redux';
 
 
 // fonts
@@ -8,13 +8,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 
-function AccountModalScreen({navigation }) {
+function AccountModalScreen(props) {
     return (
     <View style={styles.container}>
 
         {/* header */}
         <View style={styles.head}>
-        <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
+        <TouchableOpacity onPress={() => props.navigation.goBack()} title="Dismiss" >
             <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
         </TouchableOpacity>
         </View>
@@ -36,14 +36,14 @@ function AccountModalScreen({navigation }) {
 
 
         <View style={{alignSelf: 'center', marginBottom: 40}}>
-            <Text style={styles.h1blueDark}>Laetitia Langlois</Text>
+            <Text style={styles.h1blueDark}>{props.infos.firstName} {props.infos.lastName}</Text>
         </View>
         
         <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
             <Text style={{...styles.h3mint, marginBottom: 6, marginTop: 6}}>Mon nom</Text>
         </View>
         <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor: graySuperLight, width: '100%', borderWidth: 1, borderColor: greyLight, marginBottom: 20, paddingLeft: 30, paddingRight: 30}}>
-            <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>Laetitia Langlois</Text>
+            <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>{props.infos.firstName} {props.infos.lastName}</Text>
             {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
         </View>
 
@@ -51,7 +51,7 @@ function AccountModalScreen({navigation }) {
             <Text style={{...styles.h3mint, marginBottom: 6, marginTop: 6}}>Mon email</Text>
         </View>
         <View style={{flexDirection:'row', justifyContent:'space-between', backgroundColor: graySuperLight, width: '100%', borderWidth: 1, borderColor: greyLight, marginBottom: 20, paddingLeft: 30, paddingRight: 30}}>
-            <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>exemple@email.com</Text>
+            <Text style={{...styles.current, marginTop: 5, paddingTop: 6, paddingBottom: 8}}>{props.infos.email}</Text>
             {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
         </View>
 
@@ -184,7 +184,13 @@ const styles = StyleSheet.create({
   },
 })
 
-
+function mapStateToProps(state) {
+return{ infos: state.infos }
+}
+  
 
 // keep this line at the end
-export {AccountModalScreen}
+export default connect(
+mapStateToProps,
+null, 
+)(AccountModalScreen)

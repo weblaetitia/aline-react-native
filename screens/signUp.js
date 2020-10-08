@@ -51,6 +51,13 @@ function signUpScreen(props) {
         if (response.succes == true) {
           // store token in redux
           props.storeData(response.token)
+          // store users-info in redux
+          props.storeUserInfo({
+            firstName: response.firstName,
+            lastName: response.lastName,
+            email: response.email,
+            token: response.token,
+          })
           // then to localstorage
           try {
             await AsyncStorage.setItem('@token', response.token)
@@ -168,7 +175,10 @@ function mapDispatchToProps(dispatch) {
   return{
     storeData: function(token) {
       dispatch( {type: 'saveToken', token})
-    }
+    },
+    storeUserInfo: function(infos) {
+      dispatch( {type: 'saveUserInfo', infos} )
+    },
   }
 }
 
