@@ -37,7 +37,6 @@ function signInScreen(props) {
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
-          console.log('from check-token :', response)
           if (response.succes == true) {
             props.storeData(value)
             props.storeUserInfo({
@@ -69,7 +68,6 @@ function signInScreen(props) {
       body: `email=${emailInput}&password=${passwordInput}`
     })
     var response = await rawResponse.json()
-    console.log('when sign-in btn is pressed', response)
     if (response.succes == true) {
       // 1 -> store token in redux-store
       props.storeData(response.token)
