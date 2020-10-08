@@ -6,7 +6,10 @@ import SwitchButton from 'switch-button-react-native';
 
 import { AlineInputCenter, AlineButton } from '../components/aline-lib'
 
+// fonts
 import { FontAwesome } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+
 
 import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
@@ -23,6 +26,7 @@ import {BASE_URL} from '../components/environment'
 
 /* Color ref */
 var mint = '#2DB08C';
+var mintDark = '#2BA282';
 var graySuperLight = '#f4f4f4';
 var grayMedium = '#879299';
 var blueDark = '#033C47';
@@ -87,22 +91,22 @@ function ExploreScreen(props) {
 
                 <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
 
-                    <View style={{ alignSelf:'center' }}>
+                    <View style={{ alignSelf:'center', marginTop: 10 }}>
 
                         <SwitchButton
                             onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
                             text1 = 'Map'                        // optional: first text in switch button --- default ON
                             text2 = 'Liste'                       // optional: second text in switch button --- default OFF
-                            switchWidth = {100}                 // optional: switch width --- default 44
-                            switchHeight = {28}                 // optional: switch height --- default 100
+                            switchWidth = {140}                 // optional: switch width --- default 44
+                            switchHeight = {32}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                            switchBorderRadius = {100}          // optional: switch border radius --- default oval
+                            switchBorderRadius = {70}          // optional: switch border radius --- default oval
                             switchSpeedChange = {200}           // optional: button change speed --- default 100
                             switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
                             switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
+                            btnBorderColor = {mintDark}          // optional: button border color --- default #00a4b9
                             btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
+                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
                             activeFontColor = '#fff'            // optional: active font color --- default #fff
                         />
 
@@ -130,18 +134,17 @@ function ExploreScreen(props) {
         <KeyboardAvoidingView>
 
             <Overlay isVisible={overlayVisibility} onBackdropPress={closeOverlay}>
-                <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, paddingTop:'10%', alignItems:'center'}}>
+                <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, paddingTop: 50, alignItems:'center'}}>
 
-                    <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', width: Dimensions.get('window').width, marginBottom:20 }}>
+                    <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', width: Dimensions.get('window').width, marginBottom: 20 }}>
 
                         <Text style={styles.overlayTitle}>Filtrer</Text>
-                        
-                        <FontAwesome 
-                          style={{alignSelf:'flex-end', margin:10}}
-                          onPress={ ()=> closeOverlay()} 
-                          name="close" 
-                          size={30} 
-                          color={grayMedium} />
+
+                        <Ionicons name="md-close" 
+                        size={34} 
+                        color={grayMedium} 
+                        style={{alignSelf:'flex-end', margin:10}} 
+                        onPress={ ()=> closeOverlay()} />
                     
                     </View>  
 
@@ -177,17 +180,17 @@ function ExploreScreen(props) {
                         <SwitchButton
                             onValueChange={(val) => setActiveSwitchDistance(val)}      // this is necessary for this component
                             text1 = 'Distance'                        // optional: first text in switch button --- default ON
-                            text2 = 'Ordre alphabétique'                       // optional: second text in switch button --- default OFF
-                            switchWidth = {300}                 // optional: switch width --- default 44
-                            switchHeight = {40}                 // optional: switch height --- default 100
+                            text2 = 'Ordre alphabétique'        // optional: second text in switch button --- default OFF
+                            switchWidth = {320}                 // optional: switch width --- default 44
+                            switchHeight = {32}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
                             switchBorderRadius = {100}          // optional: switch border radius --- default oval
                             switchSpeedChange = {200}           // optional: button change speed --- default 100
                             switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
                             switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
+                            btnBorderColor = {mintDark}            // optional: button border color --- default #00a4b9
                             btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
+                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
                             activeFontColor = '#fff'            // optional: active font color --- default #fff
                         />
 
@@ -199,18 +202,18 @@ function ExploreScreen(props) {
                     <SwitchButton
                             style={{ marginTop:40 }}
                             onValueChange={(val) => {setActiveSwitchPlace(val), switchType(val)}}      // this is necessary for this component
-                            text1 = 'Point de collecte'                        // optional: first text in switch button --- default ON
-                            text2 = 'Restaurant'                       // optional: second text in switch button --- default OFF
-                            switchWidth = {300}                 // optional: switch width --- default 44
-                            switchHeight = {40}                 // optional: switch height --- default 100
+                            text1 = 'Point de collecte'         // optional: first text in switch button --- default ON
+                            text2 = 'Restaurant'                // optional: second text in switch button --- default OFF
+                            switchWidth = {320}                 // optional: switch width --- default 44
+                            switchHeight = {32}                 // optional: switch height --- default 100
                             switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
                             switchBorderRadius = {100}          // optional: switch border radius --- default oval
                             switchSpeedChange = {200}           // optional: button change speed --- default 100
                             switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
                             switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = '#00a4b9'          // optional: button border color --- default #00a4b9
+                            btnBorderColor = {mintDark}            // optional: button border color --- default #00a4b9
                             btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = '#b1b1b1'               // optional: text font color --- default #b1b1b1
+                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
                             activeFontColor = '#fff'            // optional: active font color --- default #fff
                         />
                     
@@ -245,10 +248,10 @@ function ExploreScreen(props) {
       flexDirection: 'row',
       justifyContent:'flex-start',
       alignItems:'center',
-      height:'45%',
+      height: 32,
       width:'140%',
       backgroundColor: graySuperLight,
-      borderRadius: 50,
+      borderRadius: 16,
       borderColor: grayMedium,
       borderWidth: 1,
       paddingHorizontal: 15,
