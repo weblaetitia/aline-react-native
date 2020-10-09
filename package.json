@@ -26,10 +26,12 @@
     "react-native-dotenv": "^2.3.0",
     "react-native-elements": "^2.1.0",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-make": "^1.0.1",
     "react-native-maps": "0.27.1",
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-switch": "^2.0.0",
     "react-native-switch-selector": "^2.0.6",
     "react-native-vector-icons": "^7.0.0",
@@ -40,6 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@bam.tech/react-native-make": "^3.0.0",
     "babel-preset-expo": "~8.1.0"
   },
   "private": true
