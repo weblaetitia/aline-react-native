@@ -11,6 +11,7 @@ import {BASE_URL} from '../components/environment'
 // fonts
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 
 function PlaceModalScreen({ route, navigation }) {
@@ -245,94 +246,6 @@ function ProductModalScreen({ route, navigation }) {
   )
 }
 
-  function AccountModalScreen({navigation }) {
-      return (
-        <View style={styles.container}>
-
-          {/* header */}
-          <View style={styles.head}>
-            <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss" >
-                <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
-            </TouchableOpacity>
-          </View>
-
-            <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ 
-              width: 250, 
-              height: 145, 
-              marginBottom: 50, 
-              marginTop: -60, 
-              top: 40 }} >
-                <Image source={require('../assets/icons/Mask.png')} style={{
-                  width: 80, 
-                  height: 80, 
-                  marginLeft: 80,
-                  marginTop: 25}}>       
-                </Image>
-            </ImageBackground>
-
-
-
-            <View style={{alignSelf: 'center', marginBottom: 40}}>
-              <Text style={styles.h1blueDark}>Laetitia Langlois</Text>
-            </View>
-            
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={styles.h4mint}>Mon nom</Text>
-            </View>
-            <View style={{flexDirection:'row', alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
-            <Text style={{marginLeft: 30, marginTop: 5}}>Laetitia Langlois</Text>
-              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
-                width: 16, 
-                height: 16, 
-                marginLeft: 210, 
-                marginTop: 6}}>
-              </Image>
-            </View>
-
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={styles.h4mint}>Mon email</Text>
-            </View>
-            <View style={{alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
-            <Text style={{marginLeft: 30, marginTop: 5}}>laetitia@email.com</Text>
-              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
-                width: 16, 
-                height: 16, 
-                marginLeft: 345, 
-                marginTop: -15}}>
-              </Image>
-            </View>
-
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={styles.h4mint}>Mon mot de passe</Text>
-            </View>
-            <View style={{alignSelf: 'flex-start', backgroundColor: '#f4f4f4', width: '100%', height:30, borderWidth: 0.2, marginBottom: 20}}>
-            <Text style={{marginLeft: 30, marginTop: 5}}>Modifier mon mot de passe</Text>
-              <Image source={require('../assets/icons/chevronRightSolid.png')} style={{
-                width: 16, 
-                height: 16, 
-                marginLeft: 345, 
-                marginTop: -15}}>
-              </Image>
-            </View>
-
-            <View style={{alignSelf: 'flex-start', marginLeft: 30}}>
-              <Text style={styles.h4mint}>Newsletter</Text>
-            </View>
-              <View style={styles.selectionBar}></View>
-            <View style={{alignSelf: 'flex-start', marginLeft: 30, marginTop: 10, marginBottom: 50}}>
-              <Text style={styles.h1}>S'abonner à la newsletter</Text>
-            </View>
-            
-            <TouchableOpacity>
-              <AlineButton title="Enregistrer les modifications"/>
-            </TouchableOpacity>
-
-          </View>      
-            
-      
-      );
-    }
-
     
     
 // colors vars
@@ -457,4 +370,4 @@ const styles = StyleSheet.create({
 
 
 // keep this line at the end
-export {PlaceModalScreen, ProductModalScreen, AccountModalScreen}
+export {PlaceModalScreen, ProductModalScreen}

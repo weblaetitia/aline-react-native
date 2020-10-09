@@ -37,14 +37,19 @@ function signInScreen(props) {
           // check if it exists in db
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
+          console.log('from check-token :', response)
           if (response.succes == true) {
             props.storeData(value)
+            props.storeUserInfo({
+              firstName: response.firstName,
+              lastName: response.lastName,
+              email: response.email,
+              token: response.token,
+            })
           } else {
-            console.log('tokens doesnt match')
             props.storeData('')
           }
         } else {
-          console.log('no token in ls')
         }
       } catch(e) {
         // error reading value
@@ -64,13 +69,20 @@ function signInScreen(props) {
       body: `email=${emailInput}&password=${passwordInput}`
     })
     var response = await rawResponse.json()
+    console.log('when sign-in btn is pressed', response)
     if (response.succes == true) {
       // 1 -> store token in redux-store
       props.storeData(response.token)
+      // 1b -> store name and email in redux-store
+      props.storeUserInfo({
+        firstName: response.firstName,
+        lastName: response.lastName,
+        email: response.email,
+        token: response.token,
+      })
       // 2 -> then to localstorage
       try {
         await AsyncStorage.setItem('@token', response.token)
-        console.log('ok pseudo store in localstorage')
       } catch (e) {
         // saving error
         console.log(e)
@@ -78,7 +90,6 @@ function signInScreen(props) {
       // 3 -> redirige vers 'Explorer
       props.navigation.navigate('Explore')
     } else {
-      console.log('unsucces')
       setAlert(true)
     }
   } 
@@ -88,7 +99,6 @@ function signInScreen(props) {
   var alertMessage
   
   if (alert) {
-    // console.log('je passe dans le displayAlert')
     alertMessage = <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
   }
   if (alert == false) {
@@ -96,10 +106,8 @@ function signInScreen(props) {
   }
 
     if (!fontsLoaded) {
-      // console.log("@@@@@@ font fail");
       return <AppLoading />
     } else {
-      // console.log("@@@@@@ font ok");
       // if @token exist -> redirect to Explore
       if (props.token) {
         props.navigation.navigate('Explore')
@@ -172,9 +180,10 @@ function mapDispatchToProps(dispatch) {
   return{
     storeData: function(token) {
       dispatch( {type: 'saveToken', token})
-    
     },
-
+    storeUserInfo: function(infos) {
+      dispatch( {type: 'saveUserInfo', infos} )
+    },
    
   }
 }

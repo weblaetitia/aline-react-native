@@ -13,7 +13,8 @@ import ExploreScreen from './screens/explore';
 import SearchScreen from './screens/search';
 import FavScreen from './screens/fav';
 import MoreInfoScreen from './screens/moreInfo';
-import {PlaceModalScreen, ProductModalScreen, AccountModalScreen} from './screens/alineModals';
+import {PlaceModalScreen, ProductModalScreen} from './screens/alineModals';
+import AccountModalScreen from './screens/accountModalScreen';
 import SearchedProductsScreen from './screens/searchedProducts';
 import SearchedPlacesScreen from './screens/searchedPlaces';
 
@@ -27,10 +28,11 @@ import { Entypo } from '@expo/vector-icons';
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import token from './reducers/token';
+import infos from './reducers/userInfos';
 import filter from './reducers/filter';
 import modal from './reducers/mapModal';
 import favs from './reducers/favorites';
-const store = createStore(combineReducers({ token, filter, modal, favs }));
+const store = createStore(combineReducers({ token, filter, modal, favs, infos }));
 
 
 

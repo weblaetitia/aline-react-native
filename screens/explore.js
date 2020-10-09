@@ -43,15 +43,12 @@ function ExploreScreen(props) {
   // check if user have fav and store them in redux
   useEffect(() => {
     const checkUserFav = async () => {
-      console.log('-----', props.token) 
       if (props.token) {
         var rawResponse = await fetch(`${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`)
         var response = await rawResponse.json()
         if (response) {
-          console.log(response)
           props.storeFav(response)
         } else {
-          console.log('pas de fav dans la liste')
         }
      } else {
        console.log('no token in redux')
