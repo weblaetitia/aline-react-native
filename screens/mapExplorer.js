@@ -46,6 +46,12 @@ function MapScreen(props) {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             })
+            // and store location in redux
+            var userLocation = {
+              userLat: location.coords.latitude,
+              userLong: location.coords.longitude
+            }
+            props.storeUserLocation(userLocation)
           }
         );
       }
@@ -62,9 +68,8 @@ function MapScreen(props) {
       var rawResponse = await response.json();
       setPlacesMarkers(rawResponse)
       setDistanceFilter(5000)
-
-  }
-  getPlaces()
+    }
+    getPlaces()
 
   }, []);
 
@@ -176,6 +181,9 @@ function MapScreen(props) {
       storeData: function(data) {
         dispatch( {type: 'saveModalData', data})
       },
+      storeUserLocation: function(userLocation) {
+        dispatch( {type: 'saveUserLocation', userLocation})
+      }
     }
   }
 

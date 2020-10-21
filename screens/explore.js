@@ -86,51 +86,48 @@ function ExploreScreen(props) {
     
     <SafeAreaView style={styles.container}>
 
-            <View style={{flex: 1}}>
-                {activeSwitch === 1 ? <Map/> : <List/>}
+      <View style={{flex: 1}}>
 
-                <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
+          {/* Map or List component */}
+          {activeSwitch === 1 ? <Map/> : <List/>}
 
-                    <View style={{ alignSelf:'center', marginTop: 10 }}>
+          {/* switch btb and input/btn */}
+          <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
+              <View style={{ alignSelf:'center', marginTop: 10 }}>
+                  <SwitchButton
+                      onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
+                      text1 = 'Map'                        // optional: first text in switch button --- default ON
+                      text2 = 'Liste'                       // optional: second text in switch button --- default OFF
+                      switchWidth = {140}                 // optional: switch width --- default 44
+                      switchHeight = {32}                 // optional: switch height --- default 100
+                      switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
+                      switchBorderRadius = {70}          // optional: switch border radius --- default oval
+                      switchSpeedChange = {200}           // optional: button change speed --- default 100
+                      switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
+                      switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
+                      btnBorderColor = {mintDark}          // optional: button border color --- default #00a4b9
+                      btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
+                      fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
+                      activeFontColor = '#fff'            // optional: active font color --- default #fff
+                  />
+              </View>
+              <TouchableOpacity
+                style={{flex:1, alignItems:'center'}}
+                onPress={()=>{openOverlay()}}>
+                  <View style={styles.inputBadge} >
+                        <Image
+                          style={{width:'6%', marginRight:5}}
+                          resizeMode='contain'
+                          source = {require('../assets/icons/location-arrow.png')} />
+                        <Text style={styles.textBadge}>Que cherchez-vous ?</Text>
+                  </View>
+                </TouchableOpacity>
+          </View>
+          {/* END switch btb and input/btn */}
 
-                        <SwitchButton
-                            onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
-                            text1 = 'Map'                        // optional: first text in switch button --- default ON
-                            text2 = 'Liste'                       // optional: second text in switch button --- default OFF
-                            switchWidth = {140}                 // optional: switch width --- default 44
-                            switchHeight = {32}                 // optional: switch height --- default 100
-                            switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                            switchBorderRadius = {70}          // optional: switch border radius --- default oval
-                            switchSpeedChange = {200}           // optional: button change speed --- default 100
-                            switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                            switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = {mintDark}          // optional: button border color --- default #00a4b9
-                            btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
-                            activeFontColor = '#fff'            // optional: active font color --- default #fff
-                        />
+      </View>
 
-                    </View>
-
-
-                    <TouchableOpacity
-                      style={{flex:1, alignItems:'center'}}
-                      onPress={()=>{openOverlay()}}>
-                        <View style={styles.inputBadge} >
-                              <Image
-                                style={{width:'6%', marginRight:5}}
-                                resizeMode='contain'
-                                source = {require('../assets/icons/location-arrow.png')} />
-                              <Text style={styles.textBadge}>Que cherchez-vous ?</Text>
-                        </View>
-
-                     </TouchableOpacity>
-
-                </View>
-
-
-            </View>
-
+        {/* Filter modal */}
         <KeyboardAvoidingView>
 
             <Overlay isVisible={overlayVisibility} onBackdropPress={closeOverlay}>
@@ -227,7 +224,7 @@ function ExploreScreen(props) {
             </Overlay>
 
         </KeyboardAvoidingView>
-
+        {/* END Filter modal */}
 
         <StatusBar style="auto" />
 

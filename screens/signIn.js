@@ -31,6 +31,7 @@ function signInScreen(props) {
   useEffect(() => {
     // delete token from localstorage when redirect from logout info-screen
     const clearToken = async () => {
+      if (props.route.params != undefined) {
         if (props.route.params.logout === 'true') {
           try {
             await AsyncStorage.removeItem('@token');
@@ -42,6 +43,7 @@ function signInScreen(props) {
           }
         }
       }
+    }
     clearToken()
   }, [props.route])
 
