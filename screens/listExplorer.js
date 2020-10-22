@@ -28,67 +28,32 @@ function ListScreen(props) {
   const [distanceFilter, setDistanceFilter] = useState();
 
 
-  useEffect(() => {
-
-    async function getPlaces () {
-      var response = await fetch(`${BASE_URL}/map/getPlaces`, {
-        method: 'POST',
-        headers: {'Content-type': 'application/x-www-form-urlencoded'},
-        body: `name=&network=&type=shop`,
-      })
-      var rawResponse = await response.json();
-      setPlacesList(rawResponse)
-
-      }
-      getPlaces()
-
-      // ------ boucler les places ------ //
-    var group = placesList.map((placeItem,i)=> {   
-      var isFav = false
-      if (props.favs) {
-        props.favs.forEach(fav => {
-          if(fav._id == placeItem._id) {
-            isFav = true
-          }
-        })
-      }
-      // get distance between user and the place
-      var userDistance = geolib.getDistance(
-        {latitude: placeItem.latitude, longitude: placeItem.longitude},
-        {latitude: props.userLocation.userLat, longitude: props.userLocation.userLong}
-        )        
-        // set distance from filter (redux)
-        setDistanceFilter(props.filter.distance)
-        
-        // if distance from user and the place is < than filterd distance: display place
-        if(userDistance < distanceFilter){ 
-        return (
-          <TouchableOpacity key={placeItem._id} onPress={() => navigation.navigate('Place', {place: placeItem})} >
-              <ListCard place={placeItem} isFav={isFav} />
-          </TouchableOpacity>
-            )
-        } else {
-          // console.log('trop loin (list)', placeItem.name, userDistance, '>', distanceFilter)
-        }
-
-      
-    })
-    setPlacesListGroup(group)
-
-  },[])
-
-  // ------------ lores de la maj du filtre --------------- //
-  useEffect(() => {       
-    async function getPlaces () {
-        var response = await fetch(`${BASE_URL}/map/getPlaces`, {
+  useEffect(() => {     
+    console.log('-------')  
+    console.log('enter useEffect')  
+    // get place list from store if user didn't set filter or from DB is user filter
+    async function getPlaces() {
+      console.log(props.filter.distance)
+      if (props.filter.distance == undefined) {
+        console.log('i am in no filter')
+        // take redux
+        console.log(props.storedPlacesList)
+        setPlacesList(props.storedPlacesList)
+      } else {
+        // ask DB
+        console.log('filter exist')
+        var rawResponse = await fetch(`${BASE_URL}/map/getPlaces`, {
           method: 'POST',
           headers: {'Content-type': 'application/x-www-form-urlencoded'},
           body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
         })
-        var rawResponse = await response.json();  
-        setPlacesList(rawResponse)
+        var response = await rawResponse.json();  
+        setPlacesList(response)
+      }
     }
     getPlaces()
+    console.log('fin')
+    console.log(placesList[0])
 
 
     // ------ boucler les places ------ //
@@ -148,7 +113,7 @@ if (!fontsLoaded) {
 
 
   function mapStateToProps(state) {
-    return{ filter: state.filter, token: state.token, favs: state.favs, userLocation: state.userLocation }
+    return{ filter: state.filter, token: state.token, favs: state.favs, userLocation: state.userLocation, storedPlacesList: state.placesList }
     }
 
 // keep this line at the end

@@ -67,10 +67,10 @@ function MapScreen(props) {
     async function getPlaces() {
       if (props.filter.length == undefined) {
         // no filter (first load)
-        console.log('get all places (front)')
         var rawResponse = await fetch(`${BASE_URL}/map/get-all-places`)
-        var response = await rawResponse.json()
+        var response = await rawResponse.json() // response is an object
         setPlacesMarkers(response)
+        props.storePlacesList(response) // redux!
         setDistanceFilter(5000) // distance de base = 5km
       } else {
         //if user set some filters
@@ -180,6 +180,9 @@ function MapScreen(props) {
       },
       storeUserLocation: function(userLocation) {
         dispatch( {type: 'saveUserLocation', userLocation})
+      },
+      storePlacesList: function(list) {
+        dispatch( {type: 'savePlacesList', list}) 
       }
     }
   }

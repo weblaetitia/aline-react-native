@@ -33,7 +33,8 @@ import filter from './reducers/filter';
 import modal from './reducers/mapModal';
 import favs from './reducers/favorites';
 import userLocation from './reducers/userLocation';
-const store = createStore(combineReducers({ token, filter, modal, favs, infos, userLocation }));
+import placesList from './reducers/placesList'
+const store = createStore(combineReducers({ token, filter, modal, favs, infos, userLocation, placesList }));
 
 
 
