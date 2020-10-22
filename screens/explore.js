@@ -190,7 +190,7 @@ function ExploreScreen(props) {
                             fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
                             activeFontColor = '#fff'            // optional: active font color --- default #fff
                         />
-
+                    
                     </View>
 
                     <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
