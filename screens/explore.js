@@ -41,9 +41,9 @@ function ExploreScreen(props) {
   const [searchedNetwork, setSearchedNetwork] = useState('');
   const [sliderValue, setSliderValue] = useState(10);
   const [searchedType, setSearchedType] = useState('shop');
-  const [activeSwitchDistance, setActiveSwitchDistance] = useState(1);
   const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
   const [mapListIndex, setMapListIndex] = useState(0)
+  const [placeIndex, setPlaceIndex] = useState(0)
 
   // check if user have fav and store them in redux
   useEffect(() => {
@@ -67,7 +67,7 @@ function ExploreScreen(props) {
   const openOverlay = () => {
     setSearchedName('')
     setSearchedNetwork('');
-    setSearchedType('shop')
+    // setSearchedType('shop')
     setOverlayVisibility(true);
   };
 
@@ -76,12 +76,10 @@ function ExploreScreen(props) {
   }
   
   const switchType = (val) => {
+    val === 0 ? setSearchedType('restaurant') :
     val === 1 ? setSearchedType('shop') :
-    val === 2 ? setSearchedType('restaurant') :
-    setSearchedType('')
+    setSearchedType('restaurant')
   };
-
-  console.log('mon composant ', mapListIndex )
 
   return (
     
@@ -175,27 +173,16 @@ function ExploreScreen(props) {
 
                     
 
-                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
-                    <View style={{ marginTop: 10}}>
-                    
-                    <SwitchButton
-                            style={{ marginTop:40 }}
-                            onValueChange={(val) => {setActiveSwitchPlace(val), switchType(val)}}      // this is necessary for this component
-                            text1 = 'Point de collecte'         // optional: first text in switch button --- default ON
-                            text2 = 'Restaurant'                // optional: second text in switch button --- default OFF
-                            switchWidth = {320}                 // optional: switch width --- default 44
-                            switchHeight = {32}                 // optional: switch height --- default 100
-                            switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                            switchBorderRadius = {100}          // optional: switch border radius --- default oval
-                            switchSpeedChange = {200}           // optional: button change speed --- default 100
-                            switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                            switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = {mintDark}            // optional: button border color --- default #00a4b9
-                            btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
-                            activeFontColor = '#fff'            // optional: active font color --- default #fff
-                        />
-                    
+                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu</Text>
+                    <View style={{ marginTop: 30, width:'80%'}}>
+                      <SegmentedControl
+                        appearance='light'
+                        values={['Restaurant', 'Magasin']}
+                        selectedIndex={placeIndex}
+                        onChange={(event) => {
+                          setPlaceIndex(event.nativeEvent.selectedSegmentIndex), switchType(event.nativeEvent.selectedSegmentIndex)
+                        }}
+                      />
                     </View>
 
                     <View style={{marginTop:30}}>
@@ -258,11 +245,7 @@ function ExploreScreen(props) {
       fontFamily: 'Capriola_400Regular',
       fontSize: 16,
       color: blueDark
-    },
-    switchActiveText: {
-      color: '#FFFFFF',
-      fontSize: 18,
-      }
+    }
   });
 
 
