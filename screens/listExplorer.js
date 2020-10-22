@@ -135,7 +135,7 @@ if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-        <ScrollView style={{marginTop:'22%'}}>
+        <ScrollView style={{marginTop: 120}}>
               {placesListGroup}
         </ScrollView>
     );
