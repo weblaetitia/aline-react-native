@@ -25,17 +25,22 @@ function MapScreen(props) {
   const [placesMarkers, setPlacesMarkers] = useState([]);
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
-  const [region, setRegion] = useState({})
+  const [region, setRegion] = useState({
+    latitude: 46.7272732,
+    longitude: -0.5904226,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.1,
+  })
   const [modalVisibility, setModalVisibility] = useState(false);
   const [markerSelected, setMarkerSelected] = useState(null);
   const [distanceFilter, setDistanceFilter] = useState();
 
 
-  useEffect(() => {
+  useEffect(() => {   
+    // ask permissions for user position, then display the map and store user position
     async function askPermissions() {
       var { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status === 'granted') {
-        
         Location.watchPositionAsync({distanceInterval: 2},
           (location) => {
             setCurrentLat(location.coords.latitude)
@@ -58,36 +63,28 @@ function MapScreen(props) {
     }
     askPermissions();
 
-    async function getPlaces (data) {
-
-      var response = await fetch(`${BASE_URL}/map/getPlaces`, {
-        method: 'POST',
-        headers: {'Content-type': 'application/x-www-form-urlencoded'},
-        body: `name=&network=&type=shop`,
-      })
-      var rawResponse = await response.json();
-      setPlacesMarkers(rawResponse)
-      setDistanceFilter(5000)
+    // get Places 
+    async function getPlaces() {
+      if (props.filter.length == undefined) {
+        // no filter (first load)
+        console.log('get all places (front)')
+        var rawResponse = await fetch(`${BASE_URL}/map/get-all-places`)
+        var response = await rawResponse.json()
+        setPlacesMarkers(response)
+        setDistanceFilter(5000) // distance de base = 5km
+      } else {
+        //if user set some filters
+        var rawResponse = await fetch(`${BASE_URL}/map/getPlaces`, {
+          method: 'POST',
+          headers: {'Content-type': 'application/x-www-form-urlencoded'},
+          body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
+        })
+        var response = await rawResponse.json();  
+        setPlacesMarkers(response)
+        setDistanceFilter(props.filter.distance)
+      }
     }
     getPlaces()
-
-  }, []);
-
-  useEffect(() => {   
-    
-      async function getPlaces (data) {
-
-          var response = await fetch(`${BASE_URL}/map/getPlaces`, {
-            method: 'POST',
-            headers: {'Content-type': 'application/x-www-form-urlencoded'},
-            body: `name=${props.filter.name}&network=${props.filter.network}&type=${props.filter.type}`,
-          })
-          var rawResponse = await response.json();  
-          setPlacesMarkers(rawResponse)
-          setDistanceFilter(props.filter.distance)
-
-      }
-      getPlaces()
 
   }, [props.filter]);
     
