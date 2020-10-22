@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
-import SwitchButton from 'switch-button-react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 
 import { AlineInputCenter, AlineButton } from '../components/aline-lib'
@@ -31,7 +30,6 @@ var mintDark = '#2BA282';
 var graySuperLight = '#f4f4f4';
 var grayMedium = '#879299';
 var blueDark = '#033C47';
-var white = '#ffffff';
 
 
 function ExploreScreen(props) {
@@ -40,8 +38,7 @@ function ExploreScreen(props) {
   const [searchedName, setSearchedName] = useState('');
   const [searchedNetwork, setSearchedNetwork] = useState('');
   const [sliderValue, setSliderValue] = useState(10);
-  const [searchedType, setSearchedType] = useState('shop');
-  const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
+  const [searchedType, setSearchedType] = useState('');
   const [mapListIndex, setMapListIndex] = useState(0)
   const [placeIndex, setPlaceIndex] = useState(0)
 
@@ -226,10 +223,6 @@ function ExploreScreen(props) {
     },
     textBadge: {
       color: grayMedium
-    },
-    overlay: {
-      width: 500,
-      height: 500,
     },
     slider: {
       width:'80%',

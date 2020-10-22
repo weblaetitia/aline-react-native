@@ -38,8 +38,7 @@
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.1",
-    "redux": "^4.0.5",
-    "switch-button-react-native": "^1.0.3"
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

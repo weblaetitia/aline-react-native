@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView, View, ScrollView, Text, Button, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native'
-import SwitchButton from 'switch-button-react-native';
 // my components
 import { AlineH1, AlineButton } from '../components/aline-lib'; 
 // import BASE URL
