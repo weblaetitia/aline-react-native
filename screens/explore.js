@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
 import SwitchButton from 'switch-button-react-native';
+import SegmentedControl from '@react-native-community/segmented-control';
 
 import { AlineInputCenter, AlineButton } from '../components/aline-lib'
 
@@ -30,12 +31,11 @@ var mintDark = '#2BA282';
 var graySuperLight = '#f4f4f4';
 var grayMedium = '#879299';
 var blueDark = '#033C47';
+var white = '#ffffff';
 
 
 function ExploreScreen(props) {
 
-
-  const [activeSwitch, setActiveSwitch] = useState(1);
   const [overlayVisibility, setOverlayVisibility] = useState(false);
   const [searchedName, setSearchedName] = useState('');
   const [searchedNetwork, setSearchedNetwork] = useState('');
@@ -43,6 +43,7 @@ function ExploreScreen(props) {
   const [searchedType, setSearchedType] = useState('shop');
   const [activeSwitchDistance, setActiveSwitchDistance] = useState(1);
   const [activeSwitchPlace, setActiveSwitchPlace] = useState(1);
+  const [mapListIndex, setMapListIndex] = useState(0)
 
   // check if user have fav and store them in redux
   useEffect(() => {
@@ -80,6 +81,7 @@ function ExploreScreen(props) {
     setSearchedType('')
   };
 
+  console.log('mon composant ', mapListIndex )
 
   return (
     
@@ -89,39 +91,39 @@ function ExploreScreen(props) {
       <View style={{flex: 1}}>
 
           {/* Map or List component */}
-          {activeSwitch === 1 ? <Map/> : <List/>}
+          {mapListIndex === 0 ? <Map/> : <List/>}
 
           {/* switch btb and input/btn */}
           <View style={{ flex:1, alignSelf:'center', marginTop:'2%', position:'absolute' }}>
-              <View style={{ alignSelf:'center', marginTop: 10 }}>
-                  <SwitchButton
-                      onValueChange={(val) => setActiveSwitch(val)}      // this is necessary for this component
-                      text1 = 'Map'                        // optional: first text in switch button --- default ON
-                      text2 = 'Liste'                       // optional: second text in switch button --- default OFF
-                      switchWidth = {140}                 // optional: switch width --- default 44
-                      switchHeight = {32}                 // optional: switch height --- default 100
-                      switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                      switchBorderRadius = {70}          // optional: switch border radius --- default oval
-                      switchSpeedChange = {200}           // optional: button change speed --- default 100
-                      switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                      switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                      btnBorderColor = {mintDark}          // optional: button border color --- default #00a4b9
-                      btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                      fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
-                      activeFontColor = '#fff'            // optional: active font color --- default #fff
-                  />
+
+            {/* SEGMENT CONTROL BUTTON */}
+            <View style={{ marginTop: 10}}>
+            <SegmentedControl
+              appearance='light'                      // 'dark', 'light'
+              // fontStyle={{color:mint}}             // An object container with color, fontSize, fontFamily   // NOT WORKING ON iOS13+
+              // activeFontStyle={{color:'white'}}     // An object container with color, fontSize, fontFamily  // NOT WORKING ON iOS13+
+              // tintColor={mint}                      // Accent color of the control
+              // backgroundColor='white'               // Background color color of the control // NOT WORKING ON iOS13+
+              values={['Carte', 'Liste']}
+              selectedIndex={mapListIndex}
+              onChange={(event) => {
+                setMapListIndex(event.nativeEvent.selectedSegmentIndex)
+              }}
+            />
+          </View>
+
+            {/* INPUT-LIKE BUTTON */}
+            <TouchableOpacity
+              style={{flex:1, alignItems:'center'}}
+              onPress={()=>{openOverlay()}}>
+              <View style={styles.inputBadge} >
+                <Image
+                  style={{width:'6%', marginRight:5}}
+                  resizeMode='contain'
+                  source = {require('../assets/icons/location-arrow.png')} />
+                <Text style={styles.textBadge}>Que cherchez-vous ?</Text>
               </View>
-              <TouchableOpacity
-                style={{flex:1, alignItems:'center'}}
-                onPress={()=>{openOverlay()}}>
-                  <View style={styles.inputBadge} >
-                        <Image
-                          style={{width:'6%', marginRight:5}}
-                          resizeMode='contain'
-                          source = {require('../assets/icons/location-arrow.png')} />
-                        <Text style={styles.textBadge}>Que cherchez-vous ?</Text>
-                  </View>
-                </TouchableOpacity>
+            </TouchableOpacity>
           </View>
           {/* END switch btb and input/btn */}
 
@@ -171,27 +173,7 @@ function ExploreScreen(props) {
                     />
                     <Text style={styles.overlayText}>{sliderValue} km</Text>
 
-                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Classer par :</Text>
-                    <View style={{ marginTop:10 }}>
-
-                        <SwitchButton
-                            onValueChange={(val) => setActiveSwitchDistance(val)}      // this is necessary for this component
-                            text1 = 'Distance'                        // optional: first text in switch button --- default ON
-                            text2 = 'Ordre alphabétique'        // optional: second text in switch button --- default OFF
-                            switchWidth = {320}                 // optional: switch width --- default 44
-                            switchHeight = {32}                 // optional: switch height --- default 100
-                            switchdirection = 'rtl'             // optional: switch button direction ( ltr and rtl ) --- default ltr
-                            switchBorderRadius = {100}          // optional: switch border radius --- default oval
-                            switchSpeedChange = {200}           // optional: button change speed --- default 100
-                            switchBorderColor = {grayMedium}       // optional: switch border color --- default #d4d4d4
-                            switchBackgroundColor = {graySuperLight}      // optional: switch background color --- default #fff
-                            btnBorderColor = {mintDark}            // optional: button border color --- default #00a4b9
-                            btnBackgroundColor = {mint}      // optional: button background color --- default #00bcd4
-                            fontColor = {grayMedium}               // optional: text font color --- default #b1b1b1
-                            activeFontColor = '#fff'            // optional: active font color --- default #fff
-                        />
                     
-                    </View>
 
                     <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu :</Text>
                     <View style={{ marginTop: 10}}>
@@ -276,7 +258,11 @@ function ExploreScreen(props) {
       fontFamily: 'Capriola_400Regular',
       fontSize: 16,
       color: blueDark
-    }
+    },
+    switchActiveText: {
+      color: '#FFFFFF',
+      fontSize: 18,
+      }
   });
 
 
