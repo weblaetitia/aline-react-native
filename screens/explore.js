@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
 import SegmentedControl from '@react-native-community/segmented-control';
 
@@ -125,71 +125,94 @@ function ExploreScreen(props) {
       </View>
 
         {/* Filter modal */}
-        <KeyboardAvoidingView>
+        
+        <Overlay isVisible={overlayVisibility}>
+          <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={{flex: 1}}>
+            <View style={{...styles.modalContainer, width: Dimensions.get('window').width}}  >
 
-            <Overlay isVisible={overlayVisibility} onBackdropPress={closeOverlay}>
-                <View style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, paddingTop: 50, alignItems:'center'}}>
+              {/* header */}
+              <View style={styles.head}>
+                <TouchableOpacity onPress={() => closeOverlay() } title="Dismiss" >
+                    <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
+                </TouchableOpacity>
+              </View>
+              
+              <TouchableWithoutFeedback style={{width: Dimensions.get('window').width}} onPress={Keyboard.dismiss} >
+                <>
 
-                    <View style={{ flexDirection:'row', alignItems:'center', justifyContent:'space-between', width: Dimensions.get('window').width, marginBottom: 20 }}>
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <Text style={{...styles.modalTitle, width: '90%'}}>Filtrer ma recherche</Text>
+                </View>
 
-                        <Text style={styles.overlayTitle}>Filtrer</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <Text style={{...styles.inputLabel, width: '90%'}}>Chercher par nom</Text>
+                </View>
 
-                        <Ionicons name="md-close" 
-                        size={34} 
-                        color={grayMedium} 
-                        style={{alignSelf:'flex-end', margin:10}} 
-                        onPress={ ()=> closeOverlay()} />
-                    
-                    </View>  
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <TextInput style={{...styles.alineInput, width: '90%'}} onChange={ (e)=> setSearchedName(e) } placeholder='ex: café de Paris' />
+                </View>
+                
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <Text style={{...styles.inputLabel, width: '90%'}}>Chercher par Réseaux</Text>
+                </View>
+                
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <TextInput style={{...styles.alineInput, width: '90%'}} onChange={ (e)=> setSearchedNetwork(e) } placeholder='ex: JeanBouteille' />
+                </View>
 
-                    <AlineInputCenter onChange={ (e)=> setSearchedName(e) } label="Chercher par nom" placeholder='ex: café de Paris' style={{ flex: 1 }}/>
-                    <AlineInputCenter onChange={ (e)=> setSearchedNetwork(e) } label="Chercher par Réseaux" placeholder='ex: JeanBouteille' style={{ flex: 1 }}/>
+                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  <Text style={{...styles.inputLabel, width: '90%'}}>Rayon de recherche</Text>
+                </View>
 
-                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Rayon de recherche</Text>
-                    <Slider
-                      style={styles.slider}
-                      value={sliderValue}
-                      onValueChange={setSliderValue}
-                      maximumValue={80}
-                      minimumValue={1}
-                      step={1}
-                      trackStyle={{ height: 5, backgroundColor: 'red' }}
-                      thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
-                      thumbProps={{
-                        children: (
-                          <FontAwesome
-                            name="heartbeat"
-                            size={30}
-                            containerStyle={{ bottom: 20, right: 20 }}
-                            color="red"
-                          />
-                      ),
-                    }}
+                <Slider
+                    style={styles.slider}
+                    value={sliderValue}
+                    onValueChange={setSliderValue}
+                    maximumValue={80}
+                    minimumValue={1}
+                    step={1}
+                    trackStyle={{ height: 5, backgroundColor: 'red' }}
+                    thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
+                    thumbProps={{
+                      children: (
+                        <FontAwesome
+                          name="heartbeat"
+                          size={30}
+                          containerStyle={{ bottom: 20, right: 20 }}
+                          color="red"
+                        />
+                    ),
+                  }}
+                  />
+                  <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                    <Text style={{textAlign: 'center'}}>{sliderValue} km</Text>
+                  </View>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', marginBottom: 16}}>
+                    <Text style={{...styles.inputLabel, width: '90%'}}>Type de lieu</Text>
+                  </View>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                    <SegmentedControl
+                      style={{width: '90%'}}
+                      appearance='light'
+                      values={['Restaurant', 'Magasin']}
+                      selectedIndex={placeIndex}
+                      onChange={(event) => {
+                        setPlaceIndex(event.nativeEvent.selectedSegmentIndex), switchType(event.nativeEvent.selectedSegmentIndex)
+                      }}
                     />
-                    <Text style={styles.overlayText}>{sliderValue} km</Text>
+                  </View>
+                  
+                  <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                    <AlineButton style={{width: '90%'}} title="Filtrer" onPress={()=> {props.storeData({name:searchedName, network:searchedNetwork, type:searchedType, distance:sliderValue*1000}), closeOverlay()}} />
+                  </View>
+                  </>
+                </TouchableWithoutFeedback>
+              </View>
+            </KeyboardAvoidingView>   
+        </Overlay>
 
-                    
-
-                    <Text style={{ marginTop:30, fontFamily:'Capriola_400Regular', fontSize:16, color:blueDark }}>Type de lieu</Text>
-                    <View style={{ marginTop: 30, width:'80%'}}>
-                      <SegmentedControl
-                        appearance='light'
-                        values={['Restaurant', 'Magasin']}
-                        selectedIndex={placeIndex}
-                        onChange={(event) => {
-                          setPlaceIndex(event.nativeEvent.selectedSegmentIndex), switchType(event.nativeEvent.selectedSegmentIndex)
-                        }}
-                      />
-                    </View>
-
-                    <View style={{marginTop:30}}>
-                        <AlineButton title="Filtrer" onPress={()=> {props.storeData({name:searchedName, network:searchedNetwork, type:searchedType, distance:sliderValue*1000}), closeOverlay()}} />
-                    </View>                
-
-                </View>         
-            </Overlay>
-
-        </KeyboardAvoidingView>
         {/* END Filter modal */}
 
         <StatusBar style="auto" />
@@ -203,6 +226,45 @@ function ExploreScreen(props) {
       flex: 1,
       backgroundColor: '#FFFFFF'
     },
+    modalContainer: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'flex-start', 
+      backgroundColor:'#fff',
+    },
+    head: {
+      backgroundColor: '#fff',
+      width: '100%',
+      marginTop: 50,
+      marginBottom: 0,
+      paddingHorizontal: 25,
+      paddingVertical: 10,
+      margin: 0,
+      borderBottomColor: grayMedium,
+      borderBottomWidth: 1,
+      height: 50,
+      // position: "absolute",
+    },
+    alineInput: {
+      backgroundColor: graySuperLight,
+      borderRadius: 32,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+      marginVertical: 14,
+      marginHorizontal: 'auto'
+  },
+  modalTitle: {
+    fontFamily: 'Capriola_400Regular',
+    fontSize:30,
+    color: blueDark,
+    marginTop: 30
+  },
+  inputLabel: {
+    fontFamily: 'Capriola_400Regular',
+    fontSize: 16,
+    color: blueDark,
+    marginTop: 30
+  },
     mapStyle: {
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
