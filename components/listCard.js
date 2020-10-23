@@ -77,15 +77,18 @@ function ListCard(props) {
             </View>
             <View style={{width: 30, marginHorizontal: 5}}>
               <TouchableOpacity onPress={() => addFav(props.place._id)}>
-                <FontAwesome name="heart" size={24} color={liked==true?tomato:greyLight} />
+                {liked ?
+                <FontAwesome name="heart" size={24} color={tomato} />
+                :
+                <FontAwesome name="heart-o" size={24} color={grayMedium} />
+                }
               </TouchableOpacity>
             </View>
           </View>
         
         { props.place.services && props.place.services != ',' ?  
           <View style={{...styles.myCard, marginTop: 18}}>
-            <Text style={{...styles.current16, fontWeight: 'bold', marginBottom: 2}}>{props.place._id}</Text>
-            <Text style={{...styles.current16, fontWeight: 'bold', marginBottom: 2}}>Service de consigne proposées: </Text>
+          <Text style={{...styles.current16, fontWeight: 'bold', marginBottom: 2}}>Service de consigne proposées: </Text>
           <Text style={{...styles.current16}}>– {props.place.services}</Text>
           <Text style={{...styles.h3blue, color: mint, marginTop: 8}}>Consignes proposées entre 3 et 5 €</Text>
           </View> 

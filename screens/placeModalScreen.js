@@ -99,7 +99,9 @@ function PlaceModalScreen(props) {
               </View>
               <View>
                 <TouchableOpacity onPress={ () => changeFavStatus(response.place._id) }>
-                  <FontAwesome name="heart" size={24} style={isFav ? styles.favHeart : styles.unFavHeart} />
+                    {isFav ? 
+                    <FontAwesome name="heart" size={24} style={styles.favHeart} /> :
+                    <FontAwesome name="heart-o" size={24} style={styles.unFavHeart}  />}
                 </TouchableOpacity>
               
               </View>

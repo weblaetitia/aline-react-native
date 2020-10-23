@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
       letterSpacing: -0.7
     },
     unFavHeart: {
-      color: greyLight,
+      color: grayMedium,
     },
     favHeart: {
       color: tomato
