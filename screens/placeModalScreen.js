@@ -168,7 +168,7 @@ function PlaceModalScreen(props) {
 
             {/* image du réseau */}
             <View style={{width: '100%', display: 'flex', alignItems:'center'}}>
-              <Image source={{ uri: networkImg }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
+              <Image source={{ uri: networkImg ? networkImg : 'https://res.cloudinary.com/alineconsigne/image/upload/v1597671122/website/placeholder-image_eoeppy.png' }} style={{marginHorizontal: 'auto', marginBottom:20, marginTop: 20, resizeMode:'contain', width: 200, height:100}} />
             </View>
             
               <Text style={{...styles.h3mint, textAlign: 'center', marginTop:30}}>
