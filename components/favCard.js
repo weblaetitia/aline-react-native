@@ -20,6 +20,7 @@ if (liked == false) {
     var response = await rawResponse.json()
     console.log(response)
     if(response) {
+        props.storeFav(response)
         setLiked(!liked)
     }
     } else {
@@ -27,6 +28,7 @@ if (liked == false) {
         var response = await rawResponse.json()
         console.log(response)
         if(response) {
+        props.storeFav(response)
         setLiked(!liked)
         }
     }
@@ -110,13 +112,20 @@ h3blue: {
 }
 });
 
+function mapDispatchToProps(dispatch) {
+return{
+    storeFav: function(favs) {
+    dispatch({type: 'updateFavs', favs})
+    }
+}
+}
 
 function mapStateToProps(state) {
-return{ favs: state.favs }
+return{ favs: state.favs, token: state.token }
 }
 
 // keep this line at the end
 export default connect(
   mapStateToProps,
-  null, 
+  mapDispatchToProps, 
 )(FavCard)

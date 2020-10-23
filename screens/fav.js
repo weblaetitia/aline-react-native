@@ -25,7 +25,7 @@ function FavScreen(props) {
     } else {
       setStatus('nolog')
     }
-  }, [])
+  }, [props.favs])
 
   // message si pas de favoris
   var nofav = <View style={{paddingHorizontal: 40}}>

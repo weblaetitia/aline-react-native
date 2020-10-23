@@ -51,6 +51,7 @@ function ExploreScreen(props) {
         if (response) {
           props.storeFav(response)
         } else {
+          props.storeFav('')
         }
      } else {
        console.log('no token in redux')
