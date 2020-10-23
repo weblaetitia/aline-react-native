@@ -108,6 +108,12 @@ const styles = StyleSheet.create({
       color: blueDark,
       letterSpacing: -0.7
     },
+    unFavHeart: {
+      color: greyLight,
+    },
+    favHeart: {
+      color: tomato
+    }
   })
 
 export {styles};

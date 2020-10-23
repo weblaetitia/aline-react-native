@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
+import {connect} from 'react-redux';
+
 // my components
 import { AlineH1 } from '../components/aline-lib'; 
 // import BASE URL
@@ -13,24 +15,57 @@ import { FontAwesome } from '@expo/vector-icons';
 import { styles } from './styles/styles'
 
 
-export default function PlaceModalScreen({ route, navigation }) {
-  var response = route.params  
+function PlaceModalScreen(props) {
+  var response = props.route.params  
   const [networkImg, setNetworkImg] = useState('')
-  
-  // get image
-  useEffect(() => {
-    const getNetworkImg = async () => {
-      var rawResponse = await fetch(`${BASE_URL}/search/get-network-img?network=${response.place.network}`)
-      var resp = await rawResponse.json()
-      console.log('response : ', resp.networkImg)
-      setNetworkImg(resp.networkImg)
-    }
-    getNetworkImg()
-  }, [])
+  const [isFav, setIsFav] = useState(false)
 
+    // get image
+    useEffect(() => {
+        const getNetworkImg = async () => {
+          var rawResponse = await fetch(`${BASE_URL}/search/get-network-img?network=${response.place.network}`)
+          var resp = await rawResponse.json()
+          setNetworkImg(resp.networkImg)
+        }
+        getNetworkImg()
+
+        const getFavStatus = () => {
+            if (props.favs) {
+                props.favs.forEach(fav => {
+                    if (response.place._id === fav._id) {
+                        setIsFav(true)
+                    } 
+                })
+              }
+        }
+        getFavStatus()
+      }, [])
+    
 
   if (response.place.openingHours && response.place.openingHours != '') {
     var openingHours = response.place.openingHours.split(',')
+  }
+
+
+  const changeFavStatus = async (placeID) => {
+      // delete from db
+      // change redux state
+      // change heart color
+      if (isFav === true) {
+          var rawResponse = await fetch(`${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${placeID}`)
+          var response = await rawResponse.json()
+          if(response) {
+              props.storeFav(response)
+              setIsFav(!isFav)
+            }
+      } else {
+        var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${placeID}`)
+        var response = await rawResponse.json()
+        if(response) {
+            props.storeFav(response)
+            setIsFav(!isFav)
+        }
+      }
   }
   
 
@@ -39,7 +74,7 @@ export default function PlaceModalScreen({ route, navigation }) {
 
     {/* header */}
     <View style={{...styles.head}}>
-      <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss">
+      <TouchableOpacity onPress={() => props.navigation.goBack()} title="Dismiss">
         <Ionicons name="md-close" size={34} color={grayMedium} style={{textAlign: 'right'}} />
       </TouchableOpacity>
     </View>
@@ -63,8 +98,8 @@ export default function PlaceModalScreen({ route, navigation }) {
               <AlineH1 text={response.place.name}/>
               </View>
               <View>
-                <TouchableOpacity>
-                  <FontAwesome name="heart" size={24} color="tomato" />
+                <TouchableOpacity onPress={ () => changeFavStatus(response.place._id) }>
+                  <FontAwesome name="heart" size={24} style={isFav ? styles.favHeart : styles.unFavHeart} />
                 </TouchableOpacity>
               
               </View>
@@ -169,3 +204,22 @@ var goldLight = '#faf1cb'
 var tomato = '#ec333b'
 var peach = '#ef7e67'
 var peachLight = '#FED4CB'
+
+
+function mapDispatchToProps(dispatch) {
+    return{
+        storeFav: function(favs) {
+            dispatch({type: 'updateFavs', favs})
+        }
+    }
+}
+    
+function mapStateToProps(state) {
+    return{ favs: state.favs, token: state.token }
+}
+    
+// keep this line at the end
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps, 
+)(PlaceModalScreen)
