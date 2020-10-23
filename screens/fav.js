@@ -29,7 +29,7 @@ function FavScreen(props) {
 
   // message si pas de favoris
   var nofav = <View style={{paddingHorizontal: 40}}>
-              <Text style={{fontFamily: 'Capriola_400Regular', fontSize: 16}}>Vous n'avez pas encore de favoris</Text>
+              <Text style={{fontFamily: 'Capriola_400Regular', fontSize: 16, color: blueDark}}>Vous n'avez pas encore de favoris</Text>
             </View>
 
   // message d'option si utilisateur non logué
@@ -58,7 +58,14 @@ function FavScreen(props) {
 
     return (
       <View style={{...styles.container}}>
-        {status == 'nolog' ? nolog : status == 'favlist' ? <ScrollView showsVerticalScrollIndicator={false}>{favlist}</ScrollView> : status == 'nofav' ? nofav : nofav}
+        {status == 'nolog' ? 
+        nolog 
+        : 
+        status == 'favlist' ? 
+        <ScrollView showsVerticalScrollIndicator={false}><Text style={{...styles.h1blueDark}}>Mes favoris</Text>{favlist}</ScrollView>
+         : 
+         status == 'nofav' ? 
+         nofav : nofav}
         <StatusBar style = "auto" />
       </View>
     );
@@ -82,7 +89,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-start',
+    backgroundColor: 'white',
+    paddingLeft: 25,
   },
   card: {
     width: '100%',
@@ -93,6 +102,14 @@ const styles = StyleSheet.create({
   current16: {
   fontSize: 16,
   color: blueDark
+  },
+  h1blueDark: {
+    fontFamily: 'Capriola_400Regular', 
+    fontSize: 26,
+    color: blueDark,
+    letterSpacing: -0.7,
+    marginTop: 20,
+    marginBottom: 20
   },
 })
 
