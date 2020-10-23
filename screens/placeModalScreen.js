@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 
 // my components
 import { AlineH1 } from '../components/aline-lib'; 
+import MiniMap from '../components/miniMap'
+
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 
@@ -177,14 +179,9 @@ function PlaceModalScreen(props) {
           </View>
           {/* place body */}
 
-            <ImageBackground source={{uri: "https://res.cloudinary.com/alineconsigne/image/upload/v1597221942/exemple_map_doqipr.png"}} style={{
-                marginTop: 0,
-                width: '100%',
-                height: 400,
-                resizeMode: "cover",
-                justifyContent: "center"
-              }
-              }></ImageBackground>
+            {/* MINI Map send a props to Child componenet */}
+            <MiniMap place={response.place} />
+            {/* MINI Map */}
 
         </View>
         {/* body */} 
