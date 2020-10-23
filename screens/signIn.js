@@ -58,7 +58,9 @@ function signInScreen(props) {
           var rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
           var response = await rawResponse.json()
           if (response.succes == true) {
-            props.storeData(value)
+            // store token
+            props.storeData(value) 
+            // store user info in redux (name, email, token)
             props.storeUserInfo({
               firstName: response.firstName,
               lastName: response.lastName,
