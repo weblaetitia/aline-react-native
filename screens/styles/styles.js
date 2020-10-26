@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
 
+// get statusbar height
+import { StatusBarHeight } from '../../functions/functionFile';
+
 // colors vars
 var blueDark = '#033C47'
 var mintLight = '#D5EFE8'
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
     head: {
       backgroundColor: '#fff',
       width: '100%',
-      marginTop: 50,
+      marginTop: StatusBarHeight,
       marginBottom: 0,
       paddingHorizontal: 25,
       paddingVertical: 10,
