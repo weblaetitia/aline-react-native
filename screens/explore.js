@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, KeyboardAvoidingView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image } from 'react-native';
 import { Overlay, Slider } from 'react-native-elements';
 import SegmentedControl from '@react-native-community/segmented-control';
+import { useNavigation } from '@react-navigation/native';
+
 
 import { AlineInputCenter, AlineButton } from '../components/aline-lib'
 
@@ -34,13 +36,15 @@ var blueDark = '#033C47';
 
 function ExploreScreen(props) {
 
+  const navigation = useNavigation();
+
   const [overlayVisibility, setOverlayVisibility] = useState(false);
-  const [searchedName, setSearchedName] = useState('');
-  const [searchedNetwork, setSearchedNetwork] = useState('');
-  const [sliderValue, setSliderValue] = useState(10);
-  const [searchedType, setSearchedType] = useState('');
+  // const [searchedName, setSearchedName] = useState('');
+  // const [searchedNetwork, setSearchedNetwork] = useState('');
+  // const [sliderValue, setSliderValue] = useState(10);
+  // const [searchedType, setSearchedType] = useState('');
   const [mapListIndex, setMapListIndex] = useState(0)
-  const [placeIndex, setPlaceIndex] = useState(0)
+  // const [placeIndex, setPlaceIndex] = useState(0)
 
   // check if user have fav and store them in redux
   useEffect(() => {
@@ -62,22 +66,22 @@ function ExploreScreen(props) {
 
 
 
-  const openOverlay = () => {
-    setSearchedName('')
-    setSearchedNetwork('');
-    // setSearchedType('shop')
-    setOverlayVisibility(true);
-  };
+  // const openOverlay = () => {
+  //   setSearchedName('')
+  //   setSearchedNetwork('');
+  //   // setSearchedType('shop')
+  //   setOverlayVisibility(true);
+  // };
 
-  const closeOverlay = () => {
-    setOverlayVisibility(false)
-  }
+  // const closeOverlay = () => {
+  //   setOverlayVisibility(false)
+  // }
   
-  const switchType = (val) => {
-    val === 0 ? setSearchedType('restaurant') :
-    val === 1 ? setSearchedType('shop') :
-    setSearchedType('restaurant')
-  };
+  // const switchType = (val) => {
+  //   val === 0 ? setSearchedType('restaurant') :
+  //   val === 1 ? setSearchedType('shop') :
+  //   setSearchedType('restaurant')
+  // };
 
   return (
     
@@ -111,7 +115,8 @@ function ExploreScreen(props) {
             {/* INPUT-LIKE BUTTON */}
             <TouchableOpacity
               style={{flex:1, alignItems:'center'}}
-              onPress={()=>{openOverlay()}}>
+              onPress={() => navigation.navigate('Filter', {filtre: 'fiiiltre'})}
+              >
               <View style={styles.inputBadge} >
                 <Image
                   style={{width:'6%', marginRight:5}}
@@ -127,21 +132,21 @@ function ExploreScreen(props) {
 
         {/* Filter modal */}
         
-        <Overlay isVisible={overlayVisibility}>
+        {/* <Overlay isVisible={overlayVisibility}>
           <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={{flex: 1}}>
             <View style={{...styles.modalContainer, width: Dimensions.get('window').width}}  >
 
               {/* header */}
-              <View style={styles.head}>
+              {/* <View style={styles.head}>
                 <TouchableOpacity onPress={() => closeOverlay() } title="Dismiss" >
                     <Ionicons name="md-close" size={34} color={grayMedium} style={{position: "absolute", alignSelf: 'flex-end'}} />
                 </TouchableOpacity>
-              </View>
+              </View> */}
               
-              <TouchableWithoutFeedback style={{width: Dimensions.get('window').width}} onPress={Keyboard.dismiss} >
-                <>
+              {/* <TouchableWithoutFeedback style={{width: Dimensions.get('window').width}} onPress={Keyboard.dismiss} > */}
+                {/* <> */} 
 
-                <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                {/* <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
                   <Text style={{...styles.modalTitle, width: '90%'}}>Filtrer ma recherche</Text>
                 </View>
 
@@ -163,9 +168,9 @@ function ExploreScreen(props) {
 
                 <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
                   <Text style={{...styles.inputLabel, width: '90%'}}>Rayon de recherche</Text>
-                </View>
+                </View> */}
 
-                <Slider
+                {/* <Slider
                     style={styles.slider}
                     value={sliderValue}
                     onValueChange={setSliderValue}
@@ -191,9 +196,9 @@ function ExploreScreen(props) {
 
                   <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', marginBottom: 16}}>
                     <Text style={{...styles.inputLabel, width: '90%'}}>Type de lieu</Text>
-                  </View>
+                  </View> */}
 
-                  <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
+                  {/* <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
                     <SegmentedControl
                       style={{width: '90%'}}
                       appearance='light'
@@ -212,7 +217,7 @@ function ExploreScreen(props) {
                 </TouchableWithoutFeedback>
               </View>
             </KeyboardAvoidingView>   
-        </Overlay>
+        </Overlay> */}
 
         {/* END Filter modal */}
 
@@ -246,26 +251,6 @@ function ExploreScreen(props) {
       height: 50,
       // position: "absolute",
     },
-    alineInput: {
-      backgroundColor: graySuperLight,
-      borderRadius: 32,
-      paddingVertical: 8,
-      paddingHorizontal: 14,
-      marginVertical: 14,
-      marginHorizontal: 'auto'
-  },
-  modalTitle: {
-    fontFamily: 'Capriola_400Regular',
-    fontSize:30,
-    color: blueDark,
-    marginTop: 30
-  },
-  inputLabel: {
-    fontFamily: 'Capriola_400Regular',
-    fontSize: 16,
-    color: blueDark,
-    marginTop: 30
-  },
     mapStyle: {
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
@@ -286,10 +271,6 @@ function ExploreScreen(props) {
     },
     textBadge: {
       color: grayMedium
-    },
-    slider: {
-      width:'80%',
-      alignSelf:'center'
     },
     overlayTitle: {
       fontFamily: 'Capriola_400Regular',

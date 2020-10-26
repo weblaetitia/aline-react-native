@@ -18,6 +18,7 @@ import PlaceModalScreen from './screens/placeModalScreen';
 import AccountModalScreen from './screens/accountModalScreen';
 import SearchedProductsScreen from './screens/searchedProducts';
 import SearchedPlacesScreen from './screens/searchedPlaces';
+import FilterModalScreen from './screens/filterModalScreen';
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -149,6 +150,7 @@ function App() {
         <RootStack.Screen name="Main" component={MainStackScreen} />
         <RootStack.Screen name="Place" component={PlaceModalScreen} />
         <RootStack.Screen name="Product" component={ProductModalScreen} />
+        <RootStack.Screen name="Filter" component={FilterModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
         <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
         <RootStack.Screen name='SearchedPlaces' component={SearchedPlacesScreen} />
