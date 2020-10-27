@@ -28,14 +28,34 @@ function FilterModalScreen(props) {
     const [restaurant, setRestaurant] = useState(false)
     const [shop, setShop] = useState(false)
 
-    const handleFilterDatas = () => {
+    useEffect(() =>{
+        // get filter info from store(redux)
+        const setFilterInfo = () => {
+            props.filter.placeName ? setSearchedName(props.filter.placeName) : setSearchedName('')
+            props.filter.placeDistance ? setSliderValue(props.filter.placeDistance*0.001) : setSliderValue(10)
+            props.filter.restaurant ? setRestaurant(true) : setRestaurant(false)
+            props.filter.shop ? setShop(true) : setShop(false)
+        }
+        setFilterInfo()
         
+    }, [props.filter])
+
+    const handleFilterClick = () => {
+        // A ajouter : si placeName != '' alors faire une requette fetch sur le nom et ouvrir une modalscreeen Place
+        // send to store(redux)
         props.storeFilterDatas({
             placeName: searchedName,
             placeDistance: sliderValue*1000,
             restaurant: restaurant,
             shop: shop
         })
+    }
+
+    const clearFilter = () => {
+        setSearchedName('');
+        setSliderValue(10);
+        setRestaurant(false)
+        setShop(false)
     }
 
     return (    
@@ -51,9 +71,13 @@ function FilterModalScreen(props) {
     <TouchableWithoutFeedback style={{width: Dimensions.get('window').width}} onPress={Keyboard.dismiss} >
         <>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
-            <Text style={{...filterStyles.mainTitle, width: '100%'}}>Filtrer ma recherche</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', paddingHorizontal:14}}>
+            <Text style={{...filterStyles.mainTitle}}>Filtrer</Text>
+            <TouchableOpacity onPress={() => clearFilter()}>
+                <Text style={{...filterStyles.clearText}}>Effacer tous les filtres</Text>
+            </TouchableOpacity>
         </View>
+
 
         <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
             <Text style={{...filterStyles.inputLabel, width: '100%'}}>Chercher par nom de lieu</Text>
@@ -61,11 +85,12 @@ function FilterModalScreen(props) {
 
         <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
             <TextInput style={inputHasFocus ? customInputSelected : customInput} 
-            onChange={ (e)=> setSearchedName(e) } placeholder='ex: Café de Paris' 
+            onChangeText={ (e)=> setSearchedName(e) } placeholder='ex: Café de Paris' 
             autoCorrect={false}
             onFocus={() => setInputHasFocus(true)}
             onBlur={() => setInputHasFocus(false)}
             selectionColor={mint}
+            value={searchedName}
             />
         </View>
 
@@ -115,7 +140,7 @@ function FilterModalScreen(props) {
         </View>
             
         <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
-            <AlineButton style={{width: '90%'}} title="Filtrer" onPress={()=> {handleFilterDatas(), props.navigation.goBack()} } />
+            <AlineButton style={{width: '90%'}} title="Filtrer" onPress={()=> {handleFilterClick(), props.navigation.goBack()} } />
         </View>
             </>
         </TouchableWithoutFeedback> 
@@ -144,12 +169,21 @@ const filterStyles = {
     },
     mainTitle: {
         fontFamily: 'Capriola_400Regular',
+        letterSpacing: -0.7,
         fontSize:30,
         color: blueDark,
-        marginTop: 30
+        marginTop: 30, 
+        marginBottom: -4,
+    },
+    clearText: {
+        fontSize: 14,
+        color: mint,
+        marginTop: 30, 
+        letterSpacing: -0.4,
     },
     inputLabel: {
         fontFamily: 'Capriola_400Regular',
+        letterSpacing: -0.7,
         fontSize: 16,
         color: blueDark,
         marginTop: 30
@@ -192,7 +226,7 @@ function mapDispatchToProps(dispatch) {
 }
     
 function mapStateToProps(state) {
-    return{ filterDatas: state.filterDatas }
+    return{ filter: state.filter }
 }
     
 // keep this line at the end
