@@ -25,8 +25,8 @@ function FilterModalScreen(props) {
     const [searchedName, setSearchedName] = useState('');
     const [sliderValue, setSliderValue] = useState(10);
     const [inputHasFocus, setInputHasFocus] = useState(false)
-    const [restaurant, setRestaurant] = useState(false)
-    const [shop, setShop] = useState(false)
+    const [restaurant, setRestaurant] = useState(true)
+    const [shop, setShop] = useState(true)
 
     useEffect(() =>{
         // get filter info from store(redux)
@@ -54,8 +54,8 @@ function FilterModalScreen(props) {
     const clearFilter = () => {
         setSearchedName('');
         setSliderValue(10);
-        setRestaurant(false)
-        setShop(false)
+        setRestaurant(true)
+        setShop(true)
     }
 
     return (    
