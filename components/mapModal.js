@@ -40,13 +40,11 @@ function MapModal (props) {
                     props.place.type === 'shop' ? require('../assets/icons/boutique.png') : require('../assets/icons/restaurant.png') 
                   } />
 
-                  <Text style={{...styles.text, fontFamily:'Capriola_400Regular', letterSpacing: -0.7, fontSize: 14, width:'60%'}}>{props.place.name}</Text>
+                  <Text style={{...styles.text, fontFamily:'Capriola_400Regular', letterSpacing: -0.7, fontSize: 14, width:'72%'}}>{props.place.name}</Text>
               </View>
               <View style={{width:'68%'}}>
                   <Text style={styles.text}>{props.place.adress}</Text>
-              </View>
-              <View>
-                  <Text>{props.place.city}</Text>
+                  <Text style={styles.text}>{props.place.city}</Text>
               </View>
               <View>
                   <Text style={{ fontWeight: 'bold', letterSpacing: -0.4, fontSize: 12, color:mint, marginTop:5, width:'64%'}}>{props.place.services}</Text>
