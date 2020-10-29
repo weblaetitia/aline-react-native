@@ -5,27 +5,16 @@ import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 
+// my components
+import MarkerRestaurant from '../components/markerRestaurant'
+import MarkerShop from '../components/markerShop'
+
 function MiniMap(props) {
 
-    // const place = {
-    //     _id: "5f352142b958eb0c9f0f6379",
-    //     adress: "74 Rue des Poissonniers",
-    //     city: "Paris",
-    //     google_place_id: "",
-    //     keywords: ["laiterie", "paris", "restaurant", "café", "traiteur",
-    //     ],
-    //     latitude: 48.890967,
-    //     longitude: 2.35166,
-    //     name: "La Laiterie de Paris",
-    //     network: "Reconcil",
-    //     openingHours: "lundi: 12:00 – 14:30, 17:30 – 22:00,mardi: 12:00 – 14:30, 17:30 – 22:00,mercredi: 12:00 – 14:30, 17:30 – 22:00,jeudi: 12:00 – 14:30, 17:30 – 22:00,vendredi: 12:00 – 14:30, 17:30 – 22:00,samedi: 12:00 – 14:30, 17:30 – 22:00,dimanche: 12:00 – 14:30, 17:30 – 22:00",
-    //     phone: "+33 1 42 59 44 64",
-    //     placeImg: "https://res.cloudinary.com/alineconsigne/image/upload/v1597751869/restaurants/restaurants-2_bk7pnq.jpg",
-    //     products: [],
-    //     services: "Boîtes repas et couverts consignés",
-    //     type: "restaurant",
-    //     webSite: "http://lalaiteriedeparis.blogspot.com/",
-    // }
+    // set markers size
+    const smallSize = {width: 22, height: 30}
+    const bigSize = {width: 32, height: 44}
+    const mediumSize = {width: 28, height: 35}
     
     const [placesList, setPlacesList] = useState([])
 
@@ -46,12 +35,14 @@ function MiniMap(props) {
             <Marker
               key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-            >
-                <Image
-                  source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
-                  style={{width: 18 }}
-                  resizeMode='contain'
-                />
+            ><View style={smallSize}>
+                {
+                place.type=='shop'?
+                <MarkerRestaurant size={smallSize} />
+                :
+                <MarkerShop size={smallSize} />
+                }
+                </View>
             </Marker>
         )
     })
@@ -67,13 +58,15 @@ function MiniMap(props) {
             >
                 <Marker 
                         coordinate={{latitude: props.place.latitude, longitude: props.place.longitude}}
-                        title= {props.place.name}
                 >
-                    <Image
-                        source={props.place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
-                        style={{width: 32 }}
-                        resizeMode='contain'
-                        />
+                    <View style={mediumSize}>
+                        {
+                            props.place.type=='shop'?
+                            <MarkerRestaurant size={mediumSize} />
+                            :
+                            <MarkerShop size={mediumSize} />
+                        }
+                    </View>
                 </Marker>  
                 {MarkerList}
             </MapView>
