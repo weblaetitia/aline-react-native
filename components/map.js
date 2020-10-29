@@ -4,6 +4,8 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 // my components
 import MapModal from '../components/mapModal';
+import MarkerRestaurant from '../components/markerRestaurant'
+import MarkerShop from '../components/markerShop'
 
 // map style
 const mapStyle = [
@@ -39,8 +41,8 @@ function Map(props) {
     }
 
     // set markers list
-    const smallViewBox = '0 0 22 30'
-    const largeViewBox = '0 0 30 41'
+    const smallSize = {width: 22, height: 30}
+    const bigSize = {width: 32, height: 44}
 
     return (
         <View style={{ flex: 1 }}>
@@ -61,13 +63,17 @@ function Map(props) {
                               coordinate={{latitude: place.latitude, longitude: place.longitude}}
                               onPress={ ()=> { displayModal(place), setMarkerSelected(i) } }
                               onDeselect={ () => { hideModal(), setMarkerSelected('') } }
-                            >
-                              <Image
-                                source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
-                                style={markerSelected === i ?{width: 36} : {width: 24} }
-                                resizeMode='contain'
-                              />
-                            </Marker>
+                            >{
+                              place.type=='shop'?
+                              <View style={{width: 32, height: 44}}>
+                                <MarkerRestaurant size={markerSelected==i?bigSize:smallSize} />
+                              </View>
+                              :
+                              <View style={{width: 32, height: 44}}>
+                                <MarkerShop size={markerSelected==i?bigSize:smallSize} />
+                              </View>
+                              
+                            }</Marker>
                         )
                     })
                     } 
