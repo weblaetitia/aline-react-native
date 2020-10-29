@@ -41,8 +41,8 @@ function Map(props) {
     }
 
     // set markers size
-    const smallSize = {width: 22, height: 30}
-    const bigSize = {width: 32, height: 44}
+    const smallSize = {width: 22, height: 30, translateX: 5, translateY: 14}
+    const bigSize = {width: 32, height: 44, translateX: 0, translateY: 0}
 
     return (
         <View style={{ flex: 1 }}>
@@ -63,17 +63,16 @@ function Map(props) {
                               coordinate={{latitude: place.latitude, longitude: place.longitude}}
                               onPress={ ()=> { displayModal(place), setMarkerSelected(i) } }
                               onDeselect={ () => { hideModal(), setMarkerSelected('') } }
-                            >{
-                              place.type=='shop'?
-                              <View style={{width: 32, height: 44}}>
-                                <MarkerRestaurant size={markerSelected==i?bigSize:smallSize} />
+                            >
+                               <View style={{width: 32, height: 44}}>
+                                {
+                                  place.type=='shop'?
+                                  <MarkerShop size={markerSelected==i?bigSize:smallSize} />
+                                  :
+                                  <MarkerRestaurant size={markerSelected==i?bigSize:smallSize} />                              
+                                }
                               </View>
-                              :
-                              <View style={{width: 32, height: 44}}>
-                                <MarkerShop size={markerSelected==i?bigSize:smallSize} />
-                              </View>
-                              
-                            }</Marker>
+                            </Marker>
                         )
                     })
                     } 

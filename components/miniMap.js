@@ -12,9 +12,8 @@ import MarkerShop from '../components/markerShop'
 function MiniMap(props) {
 
     // set markers size
-    const smallSize = {width: 22, height: 30}
-    const bigSize = {width: 32, height: 44}
-    const mediumSize = {width: 28, height: 35}
+    const smallSize = {width: 22, height: 30, translateX: 5, translateY: 14}
+    const mediumSize = {width: 28, height: 35, translateX: 2, translateY: 9}
     
     const [placesList, setPlacesList] = useState([])
 
@@ -35,12 +34,12 @@ function MiniMap(props) {
             <Marker
               key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-            ><View style={smallSize}>
+            ><View style={{width: 32, height: 44}}>
                 {
                 place.type=='shop'?
-                <MarkerRestaurant size={smallSize} />
-                :
                 <MarkerShop size={smallSize} />
+                :
+                <MarkerRestaurant size={smallSize} />
                 }
                 </View>
             </Marker>
@@ -59,12 +58,12 @@ function MiniMap(props) {
                 <Marker 
                         coordinate={{latitude: props.place.latitude, longitude: props.place.longitude}}
                 >
-                    <View style={mediumSize}>
+                    <View style={{width: 32, height: 44}}>
                         {
                             props.place.type=='shop'?
-                            <MarkerRestaurant size={mediumSize} />
+                            <MarkerShop size={smallSize} />
                             :
-                            <MarkerShop size={mediumSize} />
+                            <MarkerRestaurant size={smallSize} />
                         }
                     </View>
                 </Marker>  
