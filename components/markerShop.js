@@ -4,8 +4,8 @@ import Svg, { Defs, Ellipse, Path } from "react-native-svg"
 
 function MarkerShop(props) {
   return (
-    <Svg viewBox="0 0 32 44" width={props.size.width} height={props.size.height}>
-      <Ellipse cx={16} cy={41.47} rx={5.7} ry={2.53} opacity={0.1} />
+    <Svg viewBox="0 0 32 44" width={props.size.width} height={props.size.height} style={{transform: [{ translateX: props.size.translateX }, {translateY: props.size.translateY}]}}>
+      <Ellipse cx={16} cy={41.47} rx={5.7} ry={2.53} fill="#000" opacity={0.1} />
       <Path
         d="M14.4 40C2.61 23.4.43 21.7.43 15.59A15.36 15.36 0 0116 .43a15.36 15.36 0 0115.57 15.16c0 6.11-2.18 7.81-14 24.45a2 2 0 01-2.71.47 1.83 1.83 0 01-.46-.51z"
         fill="#e8ba00"
