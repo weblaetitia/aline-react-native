@@ -40,7 +40,7 @@ function Map(props) {
         setModalVisibility(false)
     }
 
-    // set markers list
+    // set markers size
     const smallSize = {width: 22, height: 30}
     const bigSize = {width: 32, height: 44}
 
