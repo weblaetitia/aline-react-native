@@ -40,6 +40,13 @@ function Map(props) {
         setModalVisibility(false)
     }
 
+    const deselect = () => {
+      if (markerSelected != null) {
+        hideModal()
+        setMarkerSelected(null)
+      }
+    }
+
     // set markers size
     const smallSize = {width: 22, height: 30, translateX: 5, translateY: 14}
     const bigSize = {width: 32, height: 44, translateX: 0, translateY: 0}
@@ -55,6 +62,7 @@ function Map(props) {
                 showsTraffic={false}
                 loadingEnabled={true}
                 customMapStyle={mapStyle}
+                onPress={() => deselect() }
             >
                 { props.filteredPlaces.map((place,i) => {
                         return(
@@ -62,7 +70,7 @@ function Map(props) {
                               key={`marker${i}`}
                               coordinate={{latitude: place.latitude, longitude: place.longitude}}
                               onPress={ ()=> { displayModal(place), setMarkerSelected(i) } }
-                              onDeselect={ () => { hideModal(), setMarkerSelected('') } }
+                              // onDeselect={ () => { hideModal(), setMarkerSelected('') } }
                             >
                                <View style={{width: 32, height: 44}}>
                                 {
