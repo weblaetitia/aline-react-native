@@ -50,7 +50,7 @@ function LogoTitle() {
     <View  style={{ justifyContent: 'center', alignItems: 'center'}} >
     <Image
       style={{ width: 75, height: 26 }}
-      source={require('./assets/logo.png')}
+      source={require('./assets/images/logo.png')}
     />
     </View>
   )
