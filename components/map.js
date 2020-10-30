@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
+import { StyleSheet, Dimensions, View, TouchableOpacity} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 // my components
 import MapModal from '../components/mapModal';
 import MarkerRestaurant from '../components/markerRestaurant'
 import MarkerShop from '../components/markerShop'
+
+// icons
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+/* Color ref */
+var greyLight = '#d8d8d8';
+var graySuperLight = '#f4f4f4';
+var mint = '#2DB08C';
+var mintDark = '#2BA282';
+var grayMedium = '#879299';
+var blueDark = '#033C47';
 
 // map style
 const mapStyle = [
@@ -27,10 +38,10 @@ function Map(props) {
     const [markerSelected, setMarkerSelected] = useState(null);
 
     const [region, setRegion] = useState({
-        latitude: 44.74925167481967,
-        longitude: 5.3769888509293935,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: props.region.latitude,
+        longitude: props.region.longitude,
+        latitudeDelta: props.region.latitudeDelta,
+        longitudeDelta: props.region.longitudeDelta,
     })
 
     const displayModal = (place) => {
@@ -92,6 +103,10 @@ function Map(props) {
                 />  
 
             </MapView>
+            
+            <TouchableOpacity style={{...styles.centerMap}} onPress={() => {setRegion(props.region)}}>
+              <MaterialCommunityIcons name="target" size={24} color="white" />
+            </TouchableOpacity>
 
             {modalVisibility == true ? <MapModal place={props.filteredPlaces[markerSelected]} /> : null}
 
@@ -108,6 +123,17 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height
     },
+    centerMap: {
+      flexDirection:'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      alignSelf: 'center',
+      padding: 10,
+      backgroundColor: mint,
+      position:'absolute',
+      bottom : 15,
+      right: 15,
+    }
   })
 
 export default Map;
