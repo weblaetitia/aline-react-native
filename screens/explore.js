@@ -10,11 +10,6 @@ import * as geolib from 'geolib';
 import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
 
-// fonts
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
-
 // my components
 import Map from '../components/map';
 import List from '../components/listExplore';
@@ -22,7 +17,6 @@ import List from '../components/listExplore';
 
 // import BASE URL
 import { BASE_URL } from '../components/environment'
-import filter from '../reducers/filter';
 
 /* Color ref */
 var mint = '#2DB08C';
@@ -204,19 +198,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
   },
-  head: {
-    backgroundColor: '#fff',
-    width: '100%',
-    marginTop: 50,
-    marginBottom: 0,
-    paddingHorizontal: 25,
-    paddingVertical: 10,
-    margin: 0,
-    borderBottomColor: grayMedium,
-    borderBottomWidth: 1,
-    height: 50,
-    // position: "absolute",
-  },
   mapStyle: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
@@ -238,17 +219,6 @@ const styles = StyleSheet.create({
   textBadge: {
     color: grayMedium
   },
-  overlayTitle: {
-    fontFamily: 'Capriola_400Regular',
-    fontSize: 30,
-    color: blueDark,
-    marginLeft: '10%'
-  },
-  overlayText: {
-    fontFamily: 'Capriola_400Regular',
-    fontSize: 16,
-    color: blueDark
-  }
 });
 
 

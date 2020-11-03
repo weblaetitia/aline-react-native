@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import {connect} from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,15 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import ListCard from './listCard';
 
 
-
-/* Color ref */
-var blueDark = '#033C47';
-var mint = '#2DB08C';
-
-
 function ListScreen(props) {
-
-    console.log('filteredPlaces', props.filteredPlaces.length)
 
   const navigation = useNavigation()
 
@@ -45,13 +37,9 @@ function ListScreen(props) {
 }
   
 
-
-
-
-
-  function mapStateToProps(state) {
-    return{ favs: state.favs }
-    }
+function mapStateToProps(state) {
+return{ favs: state.favs }
+}
 
 // keep this line at the end
 export default connect(
