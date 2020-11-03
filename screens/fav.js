@@ -15,7 +15,6 @@ function FavScreen(props) {
 
   // check display
   useEffect(() => {
-    console.log(props.token)
     if (props.token) {
       if (props.favs.length > 0) {
         setStatus('favlist')

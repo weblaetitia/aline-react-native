@@ -104,7 +104,6 @@ function ExploreScreen(props) {
   }, [])
 
   useEffect(() => {
-    console.log('FILTRE')
     // filter places
     const filterPlaces = (places, filter) => {
 
