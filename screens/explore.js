@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as geolib from 'geolib';
-
+import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
 
 // fonts
@@ -48,6 +48,7 @@ function ExploreScreen(props) {
 
   const [allPlacesList, setAllPlacesList] = useState({})
   const [filteredPlaces, setFilteredPlaces] = useState([])
+  const [mapReady, setMapReady] = useState(false)
 
 
   useEffect(() => {
@@ -98,6 +99,7 @@ function ExploreScreen(props) {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             })
+            setMapReady(true)
           }
         );
       }
@@ -141,12 +143,17 @@ function ExploreScreen(props) {
     filterPlaces(allPlacesList, props.filter)
   }, [allPlacesList, props.filter])
 
+  if (mapReady == false) {
+    return (
+      <AppLoading />
+    ); }
+
   return (
 
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1 }}>
-        {/* {mapListIndex === 0 ? <Map/> : <List/>} */}
-        <Map filteredPlaces={filteredPlaces} userPosition={{ currentLat, currentLong }} region={region} />
+      <Map filteredPlaces={filteredPlaces} userPosition={{ currentLat, currentLong }} region={region} />
+        
         <View style={{ flex: 1, alignSelf: 'center', marginTop: '2%', position: 'absolute' }}>
           <View style={{ marginTop: 10 }}>
             <SegmentedControl
