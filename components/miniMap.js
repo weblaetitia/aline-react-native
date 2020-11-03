@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
@@ -10,6 +12,8 @@ import MarkerRestaurant from '../components/markerRestaurant'
 import MarkerShop from '../components/markerShop'
 
 function MiniMap(props) {
+
+    const navigation = useNavigation();
 
     // set markers size
     const smallSize = {width: 22, height: 30, translateX: 5, translateY: 14}
@@ -28,6 +32,19 @@ function MiniMap(props) {
         }
         getNetworksPlaces(props.place.network)
     }, [])
+
+    // store Filter
+    const handleClick = () => {
+        console.log('clickk')
+        props.storeFilterDatas({
+            placeDistance: 10000,
+            placeName: "",
+            networkName: props.place.network,
+            restaurant: true,
+            shop: true,
+        })
+        navigation.navigate('Explore')
+    }
 
     let MarkerList = placesList.map( (place, i) => {
         return(
@@ -48,7 +65,9 @@ function MiniMap(props) {
 
     return(
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => handleClick() }>
             <MapView style={styles.mapStyle}
+                onPress={() => handleClick() }
                 rotateEnabled={false}
                 region={ {  latitude: (props.place.latitude + 0.008),
                             longitude: (props.place.longitude - 0.005),
@@ -69,6 +88,7 @@ function MiniMap(props) {
                 </Marker>  
                 {MarkerList}
             </MapView>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -86,4 +106,16 @@ const styles = StyleSheet.create({
     },
   });
 
-export default MiniMap
+
+function mapDispatchToProps(dispatch) {
+return {
+    storeFilterDatas: function (filterDatas) {
+    dispatch({ type: 'saveFilterData', filterDatas })
+    }
+}
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+  )(MiniMap)

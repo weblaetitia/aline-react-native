@@ -45,6 +45,7 @@ function FilterModalScreen(props) {
         // send to store(redux)
         props.storeFilterDatas({
             placeName: searchedName,
+            networkName: '',
             placeDistance: sliderValue*1000,
             restaurant: restaurant,
             shop: shop

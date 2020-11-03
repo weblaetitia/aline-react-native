@@ -17,6 +17,11 @@ var blueDark = '#033C47';
 function MapModal (props) {
 
   const navigation = useNavigation();
+
+  const handleClick = () => {
+    props.handleclickParent()
+    navigation.navigate('Place', {place: props.place})
+  }
   
     let [fontsLoaded] = useFonts({Capriola_400Regular,})
 
@@ -27,7 +32,7 @@ function MapModal (props) {
    
       return(
 
-        <TouchableOpacity style={styles.modal} onPress={() => navigation.navigate('Place', {place: props.place})} >
+        <TouchableOpacity style={styles.modal} onPress={() => handleClick() } >
           <Image
           style = {{width: 95, height:95, marginRight:10, resizeMode:'cover'}}
           source={{ uri: props.place.placeImg && props.place.placeImg != '' && props.place.placeImg != undefined ? props.place.placeImg : 'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716' }} />

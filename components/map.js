@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Dimensions, View, TouchableOpacity} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
@@ -108,7 +108,7 @@ function Map(props) {
               <MaterialCommunityIcons name="target" size={24} color="white" />
             </TouchableOpacity>
 
-            {modalVisibility == true ? <MapModal place={props.filteredPlaces[markerSelected]} /> : null}
+            {modalVisibility == true ? <MapModal place={props.filteredPlaces[markerSelected]} handleclickParent={deselect} /> : null}
 
 
         </View>

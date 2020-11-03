@@ -27,9 +27,9 @@ var blueDark = '#033C47';
 
 
 function ExploreScreen(props) {
-
+  
   const navigation = useNavigation();
-
+  
   const [mapListIndex, setMapListIndex] = useState(0)           // O = 'Carte'  -   1 = 'Liste'
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
@@ -39,13 +39,13 @@ function ExploreScreen(props) {
     latitudeDelta: 0.1,
     longitudeDelta: 0.1,
   })
-
+  
   const [allPlacesList, setAllPlacesList] = useState({})
   const [filteredPlaces, setFilteredPlaces] = useState([])
   const [mapReady, setMapReady] = useState(false)
-
-
-  useEffect(() => {
+  
+  
+  useEffect(() => {    
     // get places
     const getPlaces = async () => {
       // get all places
@@ -59,6 +59,7 @@ function ExploreScreen(props) {
     props.storeFilterDatas({
       placeDistance: 10000,
       placeName: "",
+      networkName: "",
       restaurant: true,
       shop: true,
     })
@@ -107,6 +108,9 @@ function ExploreScreen(props) {
     // filter places
     const filterPlaces = (places, filter) => {
 
+      console.log('FILTER')
+      console.log(filter.networkName)
+
       let tempPlaces = []
 
       let filterdistance = 10000 // default 10km
@@ -122,13 +126,17 @@ function ExploreScreen(props) {
           { latitude: currentLat, longitude: currentLong }
         )
         if (distanceFromUser < filterdistance) {
-          if ((filter.restaurant == true) && (place.type == 'restaurant')) {
-            tempPlaces.push(place)
-          }
-          if ((filter.shop == true) && (place.type == 'shop')) {
-            tempPlaces.push(place)
-          }
-          if ((filter.shop == false) && (filter.restaurant == false)) {
+          if (filter.networkName == '') {
+            if ((filter.restaurant == true) && (place.type == 'restaurant')) {
+              tempPlaces.push(place)
+            }
+            if ((filter.shop == true) && (place.type == 'shop')) {
+              tempPlaces.push(place)
+            }
+            if ((filter.shop == false) && (filter.restaurant == false)) {
+              tempPlaces.push(place)
+            }
+          } else if (filter.networkName == place.network) {
             tempPlaces.push(place)
           }
         }
