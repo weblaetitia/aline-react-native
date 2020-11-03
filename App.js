@@ -32,11 +32,8 @@ import { createStore, combineReducers } from "redux";
 import token from './reducers/token';
 import infos from './reducers/userInfos';
 import filter from './reducers/filter';
-import modal from './reducers/mapModal';
 import favs from './reducers/favorites';
-import userLocation from './reducers/userLocation';
-import placesList from './reducers/placesList'
-const store = createStore(combineReducers({ token, modal, favs, infos, userLocation, placesList, filter }));
+const store = createStore(combineReducers({ token, favs, infos, filter }));
 
 
 
