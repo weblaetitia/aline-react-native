@@ -133,9 +133,16 @@ function ExploreScreen(props) {
           }
         }
       })
-      setFilteredPlaces(tempPlaces)
-    }
 
+      // randomize places in array
+      let shuffled = tempPlaces
+      .map((a) => ({sort: Math.random(), value: a}))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value)
+      
+      setFilteredPlaces(shuffled)
+
+    }
     filterPlaces(allPlacesList, props.filter)
   }, [allPlacesList, props.filter])
 
