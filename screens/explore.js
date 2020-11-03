@@ -17,7 +17,7 @@ import { useFonts, Capriola_400Regular } from '@expo-google-fonts/capriola';
 
 // my components
 import Map from '../components/map';
-import List from '../screens/listExplorer';
+import List from '../components/listExplore';
 
 
 // import BASE URL
@@ -36,7 +36,7 @@ function ExploreScreen(props) {
 
   const navigation = useNavigation();
 
-  const [mapListIndex, setMapListIndex] = useState(0)
+  const [mapListIndex, setMapListIndex] = useState(0)           // O = 'Carte'  -   1 = 'Liste'
   const [currentLat, setCurrentLat] = useState(48.8648758);
   const [currentLong, setCurrentLong] = useState(2.3501831);
   const [region, setRegion] = useState({
@@ -114,7 +114,6 @@ function ExploreScreen(props) {
     const filterPlaces = (places, filter) => {
 
       let tempPlaces = []
-      console.log('FILTER : ',filter)
 
       let filterdistance = 10000 // default 10km
       if (filter.placeDistance != '') {
@@ -146,13 +145,18 @@ function ExploreScreen(props) {
   if (mapReady == false) {
     return (
       <AppLoading />
-    ); }
+    ) }
 
   return (
 
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1 }}>
-      <Map filteredPlaces={filteredPlaces} userPosition={{ currentLat, currentLong }} region={region} />
+        {
+          mapListIndex === 0 ?
+          <Map filteredPlaces={filteredPlaces} userPosition={{ currentLat, currentLong }} region={region} />
+          :
+          <List filteredPlaces={filteredPlaces} />
+        }
         
         <View style={{ flex: 1, alignSelf: 'center', marginTop: '2%', position: 'absolute' }}>
           <View style={{ marginTop: 10 }}>
