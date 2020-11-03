@@ -128,6 +128,9 @@ function ExploreScreen(props) {
           if ((filter.shop == true) && (place.type == 'shop')) {
             tempPlaces.push(place)
           }
+          if ((filter.shop == false) && (filter.restaurant == false)) {
+            tempPlaces.push(place)
+          }
         }
       })
       setFilteredPlaces(tempPlaces)
