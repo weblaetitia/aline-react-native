@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet, Dimensions, TouchableOpacity, View} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
@@ -10,6 +10,19 @@ import {BASE_URL} from '../components/environment'
 // my components
 import MarkerRestaurant from '../components/markerRestaurant'
 import MarkerShop from '../components/markerShop'
+
+// map style
+const mapStyle = [
+    {
+      "featureType": "poi",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    }
+  ]
 
 function MiniMap(props) {
 
@@ -69,6 +82,11 @@ function MiniMap(props) {
             <MapView style={styles.mapStyle}
                 onPress={() => handleClick() }
                 rotateEnabled={false}
+                provider={PROVIDER_GOOGLE}
+                rotateEnabled={false}
+                showsTraffic={false}
+                loadingEnabled={true}
+                customMapStyle={mapStyle}
                 region={ {  latitude: (props.place.latitude + 0.008),
                             longitude: (props.place.longitude - 0.005),
                             latitudeDelta: 0.05,
