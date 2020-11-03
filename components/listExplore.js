@@ -13,17 +13,9 @@ function ListScreen(props) {
   const navigation = useNavigation()
 
   let group = props.filteredPlaces.map((placeItem, i) => {
-      let isFav = false
-      if (props.favs) {
-          props.favs.forEach(fav => {
-            if(fav._id == placeItem._id) {
-                isFav = true
-              }
-          })
-      }
-      return (
+    return (
         <TouchableOpacity key={placeItem._id} onPress={() => navigation.navigate('Place', {place: placeItem})} >
-            <ListCard place={placeItem} isFav={isFav} />
+            <ListCard place={placeItem} />
         </TouchableOpacity>
           )
   })
