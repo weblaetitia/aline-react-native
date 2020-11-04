@@ -108,9 +108,6 @@ function ExploreScreen(props) {
     // filter places
     const filterPlaces = (places, filter) => {
 
-      console.log('FILTER')
-      console.log(filter.networkName)
-
       let tempPlaces = []
 
       let filterdistance = 10000 // default 10km
