@@ -80,7 +80,7 @@ function FilterModalScreen(props) {
         </View>
 
 
-        <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
+        {/* <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
             <Text style={{...filterStyles.inputLabel, width: '100%'}}>Chercher par nom de lieu</Text>
         </View>
 
@@ -93,7 +93,7 @@ function FilterModalScreen(props) {
             selectionColor={mint}
             value={searchedName}
             />
-        </View>
+        </View> */}
 
         <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
             <Text style={{...filterStyles.inputLabel, width: '100%'}}>Rayon de recherche</Text>
