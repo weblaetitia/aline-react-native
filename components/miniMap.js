@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
-import { StyleSheet, Dimensions, Text, View, Image} from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, Dimensions, TouchableOpacity, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 
+// my components
+import MarkerRestaurant from '../components/markerRestaurant'
+import MarkerShop from '../components/markerShop'
+
+// map style
+const mapStyle = [
+    {
+      "featureType": "poi",
+      "elementType": "labels",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    }
+  ]
+
 function MiniMap(props) {
 
-    // const place = {
-    //     _id: "5f352142b958eb0c9f0f6379",
-    //     adress: "74 Rue des Poissonniers",
-    //     city: "Paris",
-    //     google_place_id: "",
-    //     keywords: ["laiterie", "paris", "restaurant", "café", "traiteur",
-    //     ],
-    //     latitude: 48.890967,
-    //     longitude: 2.35166,
-    //     name: "La Laiterie de Paris",
-    //     network: "Reconcil",
-    //     openingHours: "lundi: 12:00 – 14:30, 17:30 – 22:00,mardi: 12:00 – 14:30, 17:30 – 22:00,mercredi: 12:00 – 14:30, 17:30 – 22:00,jeudi: 12:00 – 14:30, 17:30 – 22:00,vendredi: 12:00 – 14:30, 17:30 – 22:00,samedi: 12:00 – 14:30, 17:30 – 22:00,dimanche: 12:00 – 14:30, 17:30 – 22:00",
-    //     phone: "+33 1 42 59 44 64",
-    //     placeImg: "https://res.cloudinary.com/alineconsigne/image/upload/v1597751869/restaurants/restaurants-2_bk7pnq.jpg",
-    //     products: [],
-    //     services: "Boîtes repas et couverts consignés",
-    //     type: "restaurant",
-    //     webSite: "http://lalaiteriedeparis.blogspot.com/",
-    // }
+    const navigation = useNavigation();
+
+    // set markers size
+    const smallSize = {width: 22, height: 30, translateX: 5, translateY: 14}
+    const mediumSize = {width: 28, height: 35, translateX: 2, translateY: 9}
     
     const [placesList, setPlacesList] = useState([])
 
@@ -41,25 +46,47 @@ function MiniMap(props) {
         getNetworksPlaces(props.place.network)
     }, [])
 
+    // store Filter
+    const handleClick = () => {
+        console.log('clickk')
+        props.storeFilterDatas({
+            placeDistance: 10000,
+            placeName: "",
+            networkName: props.place.network,
+            restaurant: true,
+            shop: true,
+        })
+        navigation.navigate('Explore')
+    }
+
     let MarkerList = placesList.map( (place, i) => {
         return(
             <Marker
               key={`marker${i}`}
               coordinate={{latitude: place.latitude, longitude: place.longitude}}
-            >
-                <Image
-                  source={place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
-                  style={{width: 18 }}
-                  resizeMode='contain'
-                />
+            ><View style={{width: 32, height: 44}}>
+                {
+                place.type=='shop'?
+                <MarkerShop size={smallSize} />
+                :
+                <MarkerRestaurant size={smallSize} />
+                }
+                </View>
             </Marker>
         )
     })
 
     return(
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => handleClick() }>
             <MapView style={styles.mapStyle}
+                onPress={() => handleClick() }
                 rotateEnabled={false}
+                provider={PROVIDER_GOOGLE}
+                rotateEnabled={false}
+                showsTraffic={false}
+                loadingEnabled={true}
+                customMapStyle={mapStyle}
                 region={ {  latitude: (props.place.latitude + 0.008),
                             longitude: (props.place.longitude - 0.005),
                             latitudeDelta: 0.05,
@@ -67,16 +94,19 @@ function MiniMap(props) {
             >
                 <Marker 
                         coordinate={{latitude: props.place.latitude, longitude: props.place.longitude}}
-                        title= {props.place.name}
                 >
-                    <Image
-                        source={props.place.type == 'shop' ? require('../assets/icons/markerBoutique.png') : require('../assets/icons/markerRestaurant.png')}
-                        style={{width: 32 }}
-                        resizeMode='contain'
-                        />
+                    <View style={{width: 32, height: 44}}>
+                        {
+                            props.place.type=='shop'?
+                            <MarkerShop size={smallSize} />
+                            :
+                            <MarkerRestaurant size={smallSize} />
+                        }
+                    </View>
                 </Marker>  
                 {MarkerList}
             </MapView>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -94,4 +124,16 @@ const styles = StyleSheet.create({
     },
   });
 
-export default MiniMap
+
+function mapDispatchToProps(dispatch) {
+return {
+    storeFilterDatas: function (filterDatas) {
+    dispatch({ type: 'saveFilterData', filterDatas })
+    }
+}
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+  )(MiniMap)

@@ -42,11 +42,6 @@ function PlaceModalScreen(props) {
         }
         getFavStatus()
       }, [])
-    
-
-  if (response.place.openingHours && response.place.openingHours != '') {
-    var openingHours = response.place.openingHours.split(',')
-  }
 
 
   const changeFavStatus = async (placeID) => {
@@ -131,10 +126,10 @@ function PlaceModalScreen(props) {
                                       } 
 
 
-            {openingHours? <View>
+            {response.place.openingHours? <View>
               <View style={styles.line} />
               <Text style={styles.currentBold}>Horaires</Text>
-              {openingHours? openingHours.map((listItem, i) =>{
+              {response.place.openingHours? response.place.openingHours.map((listItem, i) =>{
                 return(
                   <Text key={i} style={styles.current}>
                       - {listItem}

@@ -20,15 +20,23 @@ function ListCard(props) {
     const [visible, setVisible] = useState(false)
  
 
-    // verifier si la place est dans les favoris (en fetch)
+    // verifier si la place est dans les favoris
     useEffect(() => {
       const getLiked = async () => {
-        setLiked(props.isFav) // ok fonctionne
+        if (props.favs.length == 0) {
+          setLiked(false)
+        } else {
+          props.favs.forEach(fav=> {
+            if (fav._id == props.place._id) {
+              setLiked(true)
+            }
+          })
+        }
       }
       getLiked()
-    }, [])
+    }, [props.favs])
 
-
+    
     // afficher la modal
     const toggleOverlay = () => {
         setVisible(!visible);
@@ -37,7 +45,6 @@ function ListCard(props) {
     const addFav = async (id) => {
     // si token n'existe pas
     if (!props.token || props.token == '' || props.token == undefined ) {
-       console.log('veuillez vous enregistrer')
        toggleOverlay()
     } else {
       // if liked = false alors fetch pour ajouter
@@ -146,7 +153,7 @@ var peachLight = '#FED4CB'
 
 
 function mapStateToProps(state) {
-  return{ filter: state.filter, token: state.token, favs: state.favs }
+  return{ token: state.token, favs: state.favs }
   }
 
 // apdate fav to store

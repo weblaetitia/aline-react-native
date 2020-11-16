@@ -1,6 +1,6 @@
 export default function(filterDatas = {}, action) {
-    if (action.type === 'saveData') {
-        return action.data
+    if (action.type === 'saveFilterData') {
+        return action.filterDatas
     } else  {
         return filterDatas
     }

@@ -18,6 +18,7 @@ import PlaceModalScreen from './screens/placeModalScreen';
 import AccountModalScreen from './screens/accountModalScreen';
 import SearchedProductsScreen from './screens/searchedProducts';
 import SearchedPlacesScreen from './screens/searchedPlaces';
+import FilterModalScreen from './screens/filterModalScreen';
 
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -31,11 +32,8 @@ import { createStore, combineReducers } from "redux";
 import token from './reducers/token';
 import infos from './reducers/userInfos';
 import filter from './reducers/filter';
-import modal from './reducers/mapModal';
 import favs from './reducers/favorites';
-import userLocation from './reducers/userLocation';
-import placesList from './reducers/placesList'
-const store = createStore(combineReducers({ token, filter, modal, favs, infos, userLocation, placesList }));
+const store = createStore(combineReducers({ token, favs, infos, filter }));
 
 
 
@@ -149,6 +147,7 @@ function App() {
         <RootStack.Screen name="Main" component={MainStackScreen} />
         <RootStack.Screen name="Place" component={PlaceModalScreen} />
         <RootStack.Screen name="Product" component={ProductModalScreen} />
+        <RootStack.Screen name="Filter" component={FilterModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
         <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
         <RootStack.Screen name='SearchedPlaces' component={SearchedPlacesScreen} />
