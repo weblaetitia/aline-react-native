@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "Aline",
-    "slug": "Aline",
+    "slug": "aline",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -17,17 +17,17 @@
       "**/*"
     ],
     "android": {
-    "config": {
-    "googleMaps": {
-      "apiKey": "AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE"
-    }
-    }
+      "package": "com.aline.aline",
+      "versionCode": 1
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aline.aline",
+      "buildNumber": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
