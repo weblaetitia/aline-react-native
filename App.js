@@ -16,8 +16,7 @@ import MoreInfoScreen from './screens/moreInfo';
 import ProductModalScreen from './screens/productModalScreen';
 import PlaceModalScreen from './screens/placeModalScreen';
 import AccountModalScreen from './screens/accountModalScreen';
-import SearchedProductsScreen from './screens/searchedProducts';
-import SearchedPlacesScreen from './screens/searchedPlaces';
+import SearchedResultsScreen from './screens/searchedResults';
 import FilterModalScreen from './screens/filterModalScreen';
 
 // icons
@@ -149,8 +148,7 @@ function App() {
         <RootStack.Screen name="Product" component={ProductModalScreen} />
         <RootStack.Screen name="Filter" component={FilterModalScreen} />
         <RootStack.Screen name="Account" component={AccountModalScreen} />
-        <RootStack.Screen name='SearchedProducts' component={SearchedProductsScreen} />
-        <RootStack.Screen name='SearchedPlaces' component={SearchedPlacesScreen} />
+        <RootStack.Screen name='SearchedResults' component={SearchedResultsScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
     </Provider>

@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
-
 import { StyleSheet, Text, Image, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Dimensions } from 'react-native';
-import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
-
 import { StatusBar } from 'expo-status-bar';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 
+import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
+
 /* Color ref */
 var blueDark = '#033C47';
 var mint = '#2DB08C';
+var tomato = '#ec333b'
 
 
 function SearchScreen(props) {
+
+  const navigation = useNavigation()
+
+
   // isFocused
   const isFocused = useIsFocused()
   // console.log('focus? ', isFocused)
@@ -32,54 +37,42 @@ function SearchScreen(props) {
   const [scanned, setScanned] = useState(false);
   const [loader, setLoader] = useState(false);
   const [noResultFound, setNoResultFound] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
   // const [searchResult, setSearchResult] = useState();
-
-  useEffect(() => {
-
-
-
-  }, [scanMode])
 
   if ((scanMode == false) && (noResultFound == false)) {
     async function findProducts () {
-
-      var rawResponse = await fetch(`${BASE_URL}/search/search`, {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `dataProducts=${keyProducts}`
-      });
-    
-      var product = await rawResponse.json();
-        // if product found
-        if ((product.productsArray.length == 0) && (product.placesArray.length > 0)) {
-          setNoResultFound(true)
-          setErrMsg("Désolé, nous n'avons pas trouvé de produits correspondants.")
-        }  else {
-          props.navigation.navigate('SearchedProducts', {product})
-        }
-        // if places found
-        if ((product.placesArray.length == 0) && (product.productsArray.length > 0)) {
-          setNoResultFound(true)
-          setErrMsg("Désolé, nous n'avons pas trouvé de produits correspondants.")
-        }  else {
-          props.navigation.navigate('SearchedPlaces', {product})
-        }
-
+      if (keyProducts != '') {
+        var rawResponse = await fetch(`${BASE_URL}/search/search`, {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `dataProducts=${keyProducts}`
+        });
       
-      
+        var response = await rawResponse.json();
+        if ((response.productsArray.length === 0) && (response.placesArray.length === 0)) {
+            // nothing found
+            setNoResultFound(true)
+          }  else {
+            // found something!
+            setNoResultFound(false)
+            navigation.navigate('SearchedResults', {response})
+          }
+      } 
+
       
     }
+
       return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style = {styles.container}>
-        <Text style = {styles.current20}>Chercher par produit, par marque, ou par nom d'établissement</Text>
-        <KeyboardAvoidingView>
-        <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style = {{ flex: 1 }}/>
+      <View style = {{...styles.container}}>
+        <Text style = {{...styles.current20}}>Chercher par produit, par marque, ou par nom d'établissement</Text>
+        <KeyboardAvoidingView style={{width: '100%', alignItems: 'center'}}>
+          <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style={{width: '100%'}}/>
+          
         </KeyboardAvoidingView>
         <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
-        <View style={{width: '100%', marginVertical: 30}}>
-          <AlineSeparator text = 'ou'/>
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <AlineSeparator text = 'ou' style={{width: '100%'}}/>
         </View>
 
         <Button  onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}
@@ -95,23 +88,15 @@ function SearchScreen(props) {
           }
           title="Scannez votre produit"
         />
-
-        {/* <Text style = {styles.current20}>Scanner votre produit</Text>
-        <TouchableOpacity onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}>
-          <Image
-            style = {{width: 150, padding: 0}}
-            resizeMode = 'contain'
-            source = {require('../assets/icons/barcode_Big.png')} />
-        </TouchableOpacity> */}
         <StatusBar style = "auto" />
       </View>
       </TouchableWithoutFeedback>
     )
     } else if (noResultFound) {
       return (
-        <View style={styles.container}>
+        <View style={{...styles.container}}>
           <Text style={{...styles.current20, textAlign: 'center'}}>
-            {errMsg}
+            Il semble n'y avoir aucun élément <Text style={{fontWeight: 'bold'}}>{keyProducts}</Text> dans notre base.
           </Text>
           
           <AlineButton onPress={() => {setNoResultFound(false)} } title = "Refaire une recherche" />
