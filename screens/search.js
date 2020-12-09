@@ -164,7 +164,6 @@ function SearchScreen(props) {
         if (product) {
           props.navigation.navigate('Product', {product})
         } else {
-          console.log('je suis dans le false')
           // afficher le message d'erreur
           setScanned(true)
           setScanMode(false)

@@ -18,12 +18,20 @@
     ],
     "android": {
       "package": "com.aline.aline",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC9fJ3F9222ZOW-WD3oPkCBRbHAHQriHp0"
+        }
+      }
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aline.aline",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCrlqN-CxGPB9FO_34OZ2f0RuHtvIutmpQ"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

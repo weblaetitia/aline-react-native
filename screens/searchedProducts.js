@@ -20,7 +20,6 @@ export default function SearchProductsScreen( { props, route, navigation }) {
 
 
     var products = route.params.product.productsArray
-    console.log('RESPONSE PRODUCT=====',products)
 
     var productsList = products.map((product, i) => {
 

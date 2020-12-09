@@ -20,7 +20,6 @@ export default function SearchPlacesScreen( { props, route, navigation }) {
 
 
     var products = route.params.product.placesArray
-    console.log('RESPONSE PLACE=====',products)
 
     var productsList = products.map((product, i) => {
 

@@ -13,7 +13,6 @@ import { styles } from './styles/styles'
 
 export default function ProductModalScreen({ route, navigation }) {
   var response = route.params  
-  console.log(response)
   return (    
     <View style={{...styles.container}}>
 

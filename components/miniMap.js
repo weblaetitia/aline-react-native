@@ -48,7 +48,6 @@ function MiniMap(props) {
 
     // store Filter
     const handleClick = () => {
-        console.log('clickk')
         props.storeFilterDatas({
             placeDistance: 10000,
             placeName: "",

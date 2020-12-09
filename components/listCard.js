@@ -23,7 +23,7 @@ function ListCard(props) {
     // verifier si la place est dans les favoris
     useEffect(() => {
       const getLiked = async () => {
-        if (props.favs.length == 0) {
+        if ((props.favs.length == 0) || (props.favs == undefined)) {
           setLiked(false)
         } else {
           props.favs.forEach(fav=> {

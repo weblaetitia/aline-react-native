@@ -9,9 +9,13 @@ import FavCard from '../components/favCard'
 
 import {BASE_URL} from '../components/environment'
 import {connect} from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
+
 
 function FavScreen(props) {
   const [status, setStatus] = useState('nofav')
+
+  const navigation = useNavigation()
 
   // check display
   useEffect(() => {
@@ -34,14 +38,14 @@ function FavScreen(props) {
   // message d'option si utilisateur non logué
   var nolog =  <View style={{paddingHorizontal: 40}}>
                   <Text style={{...styles.current16}}>Vous devez être connecté pour ajouter des lieux à vos favoris</Text>
-                  <AlineButton title="Se connecter" onPress={() => props.navigation.navigate('SignIn')} />
+                  <AlineButton title="Se connecter" onPress={() => navigation.navigate('SignIn')} />
                 </View>
 
   if(props.favs.length>0) {
     // Boucle des favoris
     var favlist = props.favs.map((fav, i) => {
       return (
-        <TouchableOpacity key= {i} onPress={() => props.navigation.navigate('Place', {place: fav})} >
+        <TouchableOpacity key= {i} onPress={() => navigation.navigate('Place', {place: fav})} >
           <FavCard type={fav.type} name={fav.name} id={fav._id} services={fav.services} adress={fav.adress} />
         </TouchableOpacity>
       )

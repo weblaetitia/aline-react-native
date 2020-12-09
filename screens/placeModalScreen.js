@@ -63,6 +63,26 @@ function PlaceModalScreen(props) {
             setIsFav(!isFav)
         }
       }
+    }
+
+  // Display opening hours
+  let hours
+  if (typeof response.place.openingHours === 'string') {
+    // c'est une string
+    hours = (
+      <Text style={styles.current}>
+          - {response.place.openingHours}
+      </Text>
+    )
+  } else {
+    // c'est un tableau
+    hours = response.place.openingHours.map((listItem, index) => {
+      return (
+        <Text key={index} style={styles.current}>
+          - {listItem}
+        </Text>
+      )
+    })
   }
   
 
@@ -95,7 +115,7 @@ function PlaceModalScreen(props) {
               <AlineH1 text={response.place.name}/>
               </View>
               <View>
-                <TouchableOpacity onPress={ () => changeFavStatus(response.place._id) }>
+                <TouchableOpacity onPress={ () => {changeFavStatus(response.place._id); props.storeFav(response)} }>
                     {isFav ? 
                     <FontAwesome name="heart" size={24} style={styles.favHeart} /> :
                     <FontAwesome name="heart-o" size={24} style={styles.unFavHeart}  />}
@@ -128,14 +148,8 @@ function PlaceModalScreen(props) {
 
             {response.place.openingHours? <View>
               <View style={styles.line} />
-              <Text style={styles.currentBold}>Horaires</Text>
-              {response.place.openingHours? response.place.openingHours.map((listItem, i) =>{
-                return(
-                  <Text key={i} style={styles.current}>
-                      - {listItem}
-                  </Text>
-                )
-              }) : <Text></Text>} 
+                <Text style={styles.currentBold}>Horaires</Text>
+                {hours} 
             </View> : <View></View>}
 
             <View style={styles.line} />

@@ -18,7 +18,6 @@ const addFav = async (id) => {
 if (liked == false) {
     var rawResponse = await fetch(`${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${id}`)
     var response = await rawResponse.json()
-    console.log(response)
     if(response) {
         props.storeFav(response)
         setLiked(!liked)
@@ -26,7 +25,6 @@ if (liked == false) {
     } else {
     var rawResponse = await fetch(`${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`)
         var response = await rawResponse.json()
-        console.log(response)
         if(response) {
         props.storeFav(response)
         setLiked(!liked)
