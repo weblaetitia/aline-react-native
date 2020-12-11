@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, SafeAreaView, ScrollView, View, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, ImageBackground, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, TouchableWithoutFeedback, Keyboard, ImageBackground, AsyncStorage } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { connect } from 'react-redux'
 
@@ -96,40 +96,30 @@ function signUpScreen(props) {
     return <AppLoading />;
   } else {
     return (
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={styles.container}>
-                <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
-                <Text style={styles.h1}>S'enregistrer</Text>
-              </ImageBackground>
-                  <View>
-
-              <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                  <AlineInputCenter label="Votre prénom" onChange={(e) => setFirstNameInput(e)} placeholder='ex: John'style={{ flex: 1 }}/>
-
-                  <AlineInputCenter label="Votre nom" onChange={(e) => setLastNameInput(e)} placeholder='ex: Doe'style={{ flex: 1 }}/>
-
-                  <AlineInputEmail label="Votre email" onChange={(e) => setEmailInput(e)} placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
-
-                  <AlineInputPassword label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
-
-                  <AlineInputPassword label="Confirmez votre mot de passe" onChange={(e) => setPasswordConfirmInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
-              </KeyboardAvoidingView>
-
-                  {alertMessage}
-
-                  </View>
-                <AlineButton title="S'enregistrer" onPress={() => addUserOnClick()} />
-                
-                <AlineSeparator text='ou' />
-                <Text style={styles.h2}>Déjà inscrit sur Aline ?</Text>
-                <AlineButtonOutline title="Se connecter" onPress={() => props.navigation.navigate('SignIn')}/>
-                <AlineSeparator text='ou' />
-                <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
-            <StatusBar style="dark" />
-            </View>
-            </ScrollView>
-          </TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <ImageBackground source={require('../assets/images/patatemintlight.png')} style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }} >
+            <Text style={styles.h1}>S'enregistrer</Text>
+          </ImageBackground>
+          <View>
+            <AlineInputCenter label="Votre prénom" onChange={(e) => setFirstNameInput(e)} placeholder='ex: John'style={{ flex: 1 }}/>
+            <AlineInputCenter label="Votre nom" onChange={(e) => setLastNameInput(e)} placeholder='ex: Doe'style={{ flex: 1 }}/>
+            <AlineInputEmail label="Votre email" onChange={(e) => setEmailInput(e)} placeholder='ex: exemple@email.com'style={{ flex: 1 }}/>
+            <AlineInputPassword label="Choisissez un mot de passe" onChange={(e) => setPasswordInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+            <AlineInputPassword label="Confirmez votre mot de passe" onChange={(e) => setPasswordConfirmInput(e)} placeholder='••••••••••'style={{ flex: 1 }}/>
+            {alertMessage}
+          </View>
+          <AlineButton title="S'enregistrer" onPress={() => addUserOnClick()} />
+          <AlineSeparator text='ou' />
+          <Text style={styles.h2}>Déjà inscrit sur Aline ?</Text>
+          <AlineButtonOutline title="Se connecter" onPress={() => props.navigation.navigate('SignIn')}/>
+          <AlineSeparator text='ou' />
+          <AlineButton title="Utiliser l'app sans s'enregistrer" backgroundColor='#879299' onPress={() => props.navigation.navigate('Explore')}/>
+      </View>
+      <StatusBar style="dark" />
+      </ScrollView>
+    </TouchableWithoutFeedback>
       )
     }
   }
