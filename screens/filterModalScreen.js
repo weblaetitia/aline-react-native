@@ -109,16 +109,6 @@ function FilterModalScreen(props) {
                 step={1}
                 trackStyle={{ height: 5, backgroundColor: 'red' }}
                 thumbStyle={{ height: 20, width: 20, backgroundColor: mint }}
-                thumbProps={{
-                    children: (
-                    <FontAwesome
-                        name="heartbeat"
-                        size={30}
-                        containerStyle={{ bottom: 20, right: 20 }}
-                        color="red"
-                    />
-                ),
-                }}
             />  
         </View>
 
