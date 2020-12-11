@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Image, ImageBackground, TouchableOpacity } from
 
 // my components
 import { AlineH1 } from '../components/aline-lib'; 
+import ProductsMiniMap from '../components/productMiniMap'
 
 // fonts
 import { Ionicons } from '@expo/vector-icons';
@@ -83,14 +84,7 @@ export default function ProductModalScreen({ route, navigation }) {
           </View>
           {/* place body */}
 
-            <ImageBackground source={{uri: "https://res.cloudinary.com/alineconsigne/image/upload/v1597221942/exemple_map_doqipr.png"}} style={{
-                marginTop: 0,
-                width: '100%',
-                height: 400,
-                resizeMode: "cover",
-                justifyContent: "center"
-              }
-              }></ImageBackground>
+            <ProductsMiniMap network={response.product.network} />
 
         </View>
         {/* body */} 
