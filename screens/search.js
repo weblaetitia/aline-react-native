@@ -6,16 +6,31 @@ import { useIsFocused } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 
 // import BASE URL
 import {BASE_URL} from '../components/environment'
 
+// my components
 import { AlineInputCenter, AlineButton, AlineSeparator } from '../components/aline-lib';
+import ScanSVG from '../components/ScanSVG';
+
+// fonts
+import { Ionicons } from '@expo/vector-icons';
+
 
 /* Color ref */
-var blueDark = '#033C47';
-var mint = '#2DB08C';
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+var mint = '#2DB08C'
+var grayMedium = '#879299'
+var graySuperLight = '#f4f4f4'
+var greyLight = '#d8d8d8'
+var gold = "#E8BA00"
+var goldLight = '#faf1cb'
 var tomato = '#ec333b'
+var peach = '#ef7e67'
+var peachLight = '#FED4CB'
 
 
 function SearchScreen(props) {
@@ -29,6 +44,7 @@ function SearchScreen(props) {
 
   const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
+  const viewHeight = windowHeight - useHeaderHeight() - useHeaderHeight();
 
   /* Fetch to find products  */
   const [keyProducts, setKeyProducts] = useState('');
@@ -63,37 +79,39 @@ function SearchScreen(props) {
     }
 
       return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style = {{...styles.container}}>
-        <Text style = {{...styles.current20}}>Chercher par produit, par marque, ou par nom d'établissement</Text>
-        <KeyboardAvoidingView style={{width: '100%', alignItems: 'center'}}>
-          <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style={{width: '100%'}}/>
-          
-        </KeyboardAvoidingView>
-        <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <AlineSeparator text = 'ou' style={{width: '100%'}}/>
-        </View>
+        // Page d'accueil Chercher - input - bouton - SCAN bouton
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style = {{...styles.container}}>
+            <Text style = {{...styles.current20}}>Chercher par produit, par marque, ou par nom d'établissement</Text>
+            <KeyboardAvoidingView style={{width: '100%', alignItems: 'center'}}>
+              <AlineInputCenter onChange={ (e) => setKeyProducts(e) } placeholder = 'ex: Bière Manivelle' style={{width: '100%'}}/>
+              
+            </KeyboardAvoidingView>
+            <AlineButton onPress={() => { findProducts() } } title = "Recherche" />
+            <View style={{width: '100%', alignItems: 'center'}}>
+              <AlineSeparator text = 'ou' style={{width: '100%'}}/>
+            </View>
 
-        <Button  onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}
-          buttonStyle={{
-          backgroundColor: mint,
-          borderRadius: 32,
-          paddingVertical: 8,
-          paddingHorizontal: 28,
-          marginVertical: 14
-        }}
-          icon={
-            <MaterialCommunityIcons name="barcode-scan" size={24} color="white" style={{marginRight: 8}} />
-          }
-          title="Scannez votre produit"
-        />
-        <StatusBar style = "auto" />
-      </View>
-      </TouchableWithoutFeedback>
-    )
+            <Button  onPress={() => {setScanMode(true); setLoader(false); setScanned(false)}}
+              buttonStyle={{
+              backgroundColor: mint,
+              borderRadius: 32,
+              paddingVertical: 8,
+              paddingHorizontal: 28,
+              marginVertical: 14
+            }}
+              icon={
+                <MaterialCommunityIcons name="barcode-scan" size={24} color="white" style={{marginRight: 8}} />
+              }
+              title="Scannez votre produit"
+            />
+            <StatusBar style = "auto" />
+          </View>
+        </TouchableWithoutFeedback>
+      )
     } else if (noResultFound) {
       return (
+        // page rien trouvé
         <View style={{...styles.container}}>
           <Text style={{...styles.current20, textAlign: 'center'}}>
             Il semble n'y avoir aucun élément <Text style={{fontWeight: 'bold'}}>{keyProducts}</Text> dans notre base.
@@ -117,22 +135,22 @@ function SearchScreen(props) {
         var layerView = <View style={styles.loadingView}><Text style={{color: 'white', fontWeight: 'bold'}}>   Loading...</Text></View>
       }
       if (!loader) {
-        var layerView = <ImageBackground source={require('../assets/images/scan-top-screen.png')} style={{
-          position: 'absolute', 
-          top: 0,
-          width: windowWidth,
-          height: windowHeight,
-          resizeMode: "cover",
-          justifyContent: "center"
+        var layerView = (
+          <View style={{position: 'absolute', height: '100%',  top: 0, flex: 1, flexDirection: "column", justifyContent: "space-between"}}>
+            <View style={{width:windowWidth, flexGrow: 1, justifyContent: 'center'}}>
+              <TouchableOpacity onPress={() => {setScanMode(false)}}>
+                <Ionicons name="md-close" size={34} color={mint} style={{textAlign: 'right', marginRight: 34}} />
+              </TouchableOpacity>
+            </View>
+            <View style={{width:windowWidth, flexGrow: 12, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ScanSVG />
+            </View>
+            <View style={{width:windowWidth, flexGrow: 1}}>
+              <Text style={{height: 34}}></Text>
+            </View>
+          </View>
+          )
         }
-      } >
-        <View style={{flex:1, alignItems: 'flex-end', justifyContent: 'flex-start', padding:20}}>
-          <TouchableOpacity onPress={() => {setScanMode(false)}}>
-            <View style={{width:40, height:40}}></View>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-      }
 
       // successfully scan something
       const handleBarCodeScanned = async ({ type, data }) => {
