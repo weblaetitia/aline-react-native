@@ -3,8 +3,11 @@
     "name": "Aline",
     "slug": "aline",
     "version": "1.0.0",
+    "privacy": "unlisted",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "backgroundColor": "#ffffff",
+    "primaryColor": "#2DB08C",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
