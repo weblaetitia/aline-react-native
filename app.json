@@ -2,7 +2,7 @@
   "expo": {
     "name": "Aline",
     "slug": "aline",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "privacy": "unlisted",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +21,8 @@
     ],
     "android": {
       "package": "com.aline.aline",
-      "versionCode": 1,
+      "versionCode": 2,
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "ACCESS_BACKGROUND_LOCATION"],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC9fJ3F9222ZOW-WD3oPkCBRbHAHQriHp0"
@@ -29,9 +30,23 @@
       }
     },
     "ios": {
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSCameraUsageDescription": "Aline à besoin d'accéder à votre caméra pour pouvoir scanner les codes-barres et QR-codes de vos produits.",
+        "NSContactsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSLocationWhenInUseUsageDescription": "Aline a besoin de connaitre votre position pour trouver des services autour de vous.",
+        "NSLocationAlwaysUsageDescription": "Aline a besoin de connaitre votre position pour trouver des services autour de vous.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Aline a besoin de connaitre votre position pour trouver des services autour de vous.",
+        "NSLocationUsageDescription": "Aline a besoin de connaitre votre position pour trouver des services autour de vous.",
+        "NSMicrophoneUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSMotionUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSPhotoLibraryAddUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSPhotoLibraryUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSRemindersUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us."
+    },
       "supportsTablet": true,
       "bundleIdentifier": "com.aline.aline",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",
       "config": {
         "googleMapsApiKey": "AIzaSyCrlqN-CxGPB9FO_34OZ2f0RuHtvIutmpQ"
       }

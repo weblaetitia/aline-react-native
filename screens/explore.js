@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, TouchableOpacity, Text, Image, PermissionsAndroid, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import SegmentedControl from '@react-native-community/segmented-control';
 import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as geolib from 'geolib';
-import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
 
 // my components
@@ -18,12 +17,6 @@ import List from '../components/listExplore';
 // import BASE URL
 import { BASE_URL } from '../components/environment'
 
-/* Color ref */
-var mint = '#2DB08C';
-var mintDark = '#2BA282';
-var graySuperLight = '#f4f4f4';
-var grayMedium = '#879299';
-var blueDark = '#033C47';
 
 
 function ExploreScreen(props) {
@@ -82,8 +75,8 @@ function ExploreScreen(props) {
 
     // ask permissions for user position
     async function askPermissions() {
-      var { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === 'granted') {
+      var response = await Permissions.askAsync(Permissions.LOCATION);
+      if (response.status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 },
           (location) => {
             setCurrentLat(location.coords.latitude)
@@ -99,9 +92,53 @@ function ExploreScreen(props) {
         );
       }
     }
-    askPermissions()
 
+    // ask permisions for Android
+    const askandroidPermissions = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: "Aline Location Permission",
+            message:
+              "Aline a besoin de connaitre votre position " +
+              "pour trouver des services autour de vous.",
+              // buttonNeutral: "Ask Me Later",
+              // buttonNegative: "Cancel",
+              buttonPositive: "OK"
+          }
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          Location.watchPositionAsync({ distanceInterval: 10 },
+            (location) => {
+              setCurrentLat(location.coords.latitude)
+              setCurrentLong(location.coords.longitude)
+              setRegion({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              })
+              setMapReady(true)
+            }
+          )
+        } else {
+          console.log("Location permission denied")
+          setMapReady(false)
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
 
+    if (Platform.OS === 'android') {
+      // if Android
+      askandroidPermissions()
+
+    } else  {
+      // if IOS
+      askPermissions()
+    }
   }, [])
 
   useEffect(() => {
@@ -146,14 +183,15 @@ function ExploreScreen(props) {
       .map((a) => a.value)
       
       setFilteredPlaces(shuffled)
-
     }
     filterPlaces(allPlacesList, props.filter)
   }, [allPlacesList, props.filter])
 
   if (mapReady == false) {
     return (
-      <AppLoading />
+      <View style={{...styles.container}}>
+        <Text style={{...styles.current}}>Chargement des données en attente.</Text>
+      </View>
     ) }
 
   return (
@@ -202,16 +240,46 @@ function ExploreScreen(props) {
   );
 }
 
+
+// colors vars
+var blueDark = '#033C47'
+var mintLight = '#D5EFE8'
+var mint = '#2DB08C'
+var grayMedium = '#879299'
+var graySuperLight = '#f4f4f4'
+var greyLight = '#d8d8d8'
+var gold = "#E8BA00"
+var goldLight = '#faf1cb'
+var tomato = '#ec333b'
+var peach = '#ef7e67'
+var peachLight = '#FED4CB'
+
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF'
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor:'#fff',
   },
   modalContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
+  },
+  current: {
+    fontSize: 16,
+    color: blueDark,
+    textAlign: 'left',
+    lineHeight: 26,
+  },
+  currentBold: {
+    fontSize: 16,
+    color: blueDark,
+    textAlign: 'left',
+    lineHeight: 26,
+    fontWeight: 'bold',
   },
   mapStyle: {
     width: Dimensions.get('window').width,
@@ -234,7 +302,7 @@ const styles = StyleSheet.create({
   textBadge: {
     color: grayMedium
   },
-});
+})
 
 
 function mapDispatchToProps(dispatch) {
@@ -257,3 +325,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ExploreScreen)
+
+
