@@ -97,7 +97,7 @@ function ExploreScreen(props) {
     const askandroidPermissions = async () => {
       try {
         const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
           {
             title: "Aline Location Permission",
             message:
