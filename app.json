@@ -21,8 +21,8 @@
     ],
     "android": {
       "package": "com.aline.aline",
-      "versionCode": 2,
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "ACCESS_BACKGROUND_LOCATION"],
+      "versionCode": 7,
+      "permissions": ["ACCESS_COARSE_LOCATION"],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC9fJ3F9222ZOW-WD3oPkCBRbHAHQriHp0"

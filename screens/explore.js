@@ -97,15 +97,15 @@ function ExploreScreen(props) {
     const askandroidPermissions = async () => {
       try {
         const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
           {
             title: "Aline Location Permission",
             message:
-              "Aline a besoin de connaitre votre position " +
-              "pour trouver des services autour de vous.",
+              "This app collects location data to enable " +
+              "your position on the map & display shops around you.",
               // buttonNeutral: "Ask Me Later",
               // buttonNegative: "Cancel",
-              buttonPositive: "OK"
+              buttonPositive: "Accept"
           }
         )
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -189,7 +189,7 @@ function ExploreScreen(props) {
 
   if (mapReady == false) {
     return (
-      <View style={{...styles.container}}>
+      <View style={{...styles.loadingContainer}}>
         <Text style={{...styles.current}}>Chargement des données en attente.</Text>
       </View>
     ) }
@@ -257,6 +257,10 @@ var peachLight = '#FED4CB'
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, 
+    backgroundColor:'#fff',
+  },
+  loadingContainer: {
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center', 
