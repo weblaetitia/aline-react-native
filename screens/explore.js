@@ -95,40 +95,29 @@ function ExploreScreen(props) {
 
     // ask permisions for Android
     const askandroidPermissions = async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-          {
-            title: "Aline Location Permission",
-            message:
-              "Aline a besoin de connaitre votre position " +
-              "pour trouver des services autour de vous.",
-              // buttonNeutral: "Ask Me Later",
-              // buttonNegative: "Cancel",
-              buttonPositive: "OK"
-          }
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          Location.watchPositionAsync({ distanceInterval: 10 },
-            (location) => {
-              setCurrentLat(location.coords.latitude)
-              setCurrentLong(location.coords.longitude)
-              setRegion({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              })
-              setMapReady(true)
-            }
-          )
-        } else {
-          console.log("Location permission denied")
-          setMapReady(false)
-        }
-      } catch (err) {
-        console.warn(err);
+      let { status } = await Location.requestPermissionsAsync()
+      // si denied
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
       }
+
+      // si ok 
+      // let location = await Location.getCurrentPositionAsync({});
+
+      Location.watchPositionAsync({ distanceInterval: 10 },
+        (location) => {
+          setCurrentLat(location.coords.latitude)
+          setCurrentLong(location.coords.longitude)
+          setRegion({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          })
+          setMapReady(true)
+        }
+      )
     };
 
     if (Platform.OS === 'android') {
@@ -189,7 +178,7 @@ function ExploreScreen(props) {
 
   if (mapReady == false) {
     return (
-      <View style={{...styles.container}}>
+      <View style={{...styles.loadingContainer}}>
         <Text style={{...styles.current}}>Chargement des données en attente.</Text>
       </View>
     ) }
