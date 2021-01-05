@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Image, Platform } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { FontAwesome } from '@expo/vector-icons';
@@ -31,6 +31,16 @@ function MoreInfoScreen(props) {
   /* Redirect to signUn */
   function signin() {
     props.navigation.navigate('SignIn')
+  }
+
+  /* Link to tipeee / aline support */
+  const supportLink = () => {
+    if (Platform.OS === 'android') {
+      // google play store doesn't allowed payment page direct link
+      Linking.openURL('https://aline.app/support-app/')
+    } else {
+      Linking.openURL('https://fr.tipeee.com/alineconsigne/')
+    }
   }
   
   let lignes;
@@ -89,7 +99,7 @@ function MoreInfoScreen(props) {
             {lignes}
 
             {/* soutenir Aline */}
-            <TouchableOpacity onPress={() => Linking.openURL('https://fr.tipeee.com/alineconsigne/')}>
+            <TouchableOpacity onPress={() => supportLink() }>
               <ListItem
                 rightIcon={
                     <FontAwesome5
@@ -99,7 +109,7 @@ function MoreInfoScreen(props) {
                     />
                 }
                 titleStyle={{color:'#033C47'}}            
-                title='Soutenir Aline avec un tip'
+                title= {Platform.OS === 'android'? 'Soutenir Aline' : 'Soutenir Aline avec tipee'}
                 bottomDivider
               />
             </TouchableOpacity>
@@ -212,8 +222,8 @@ function MoreInfoScreen(props) {
 
             <View style={{marginVertical:30, justifyContent: 'center', alignItems: 'center'}}>
             <Image style={{height: 38, width: 110, marginBottom: 20}} source={require('../assets/images/logo.png')} />
-              <Text style={{color:'#033C47', marginBottom: 20}}>Version 1.0.0</Text>
-              <Text style={{color:'#033C47', marginBottom: 20}}>© Aline 2020 tout droits réservés</Text>
+              <Text style={{color:'#033C47', marginBottom: 20}}>Version 1.0.1</Text>
+              <Text style={{color:'#033C47', marginBottom: 20}}>© Aline 2021 tout droits réservés</Text>
               <TouchableOpacity onPress={() => Linking.openURL('https://aline.app/app-cgu')}>
                 <Text style={{color:'#033C47', textDecorationLine: 'underline', fontSize: 12}}>Conditions générales d'utilisation</Text>
               </TouchableOpacity>
