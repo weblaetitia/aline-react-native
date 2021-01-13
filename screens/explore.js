@@ -49,7 +49,7 @@ function ExploreScreen(props) {
       setAllPlacesList(allPlaces)
     }
     getPlaces()
-    console.log('#3 jai chargé les places')
+    // console.log('#3 jai chargé les places')
     
     // check if user have fav and store them in redux
     const checkUserFav = async () => {
@@ -90,43 +90,9 @@ function ExploreScreen(props) {
         )
       }
     }
+    askPermissions()
 
-    // ask permisions for Android
-    const askandroidPermissions = async () => {
-      let { status } = await Location.requestPermissionsAsync()
-      // si denied
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      // si ok 
-      // let location = await Location.getCurrentPositionAsync({});
-
-      Location.watchPositionAsync({ distanceInterval: 10 },
-        (location) => {
-          setCurrentLat(location.coords.latitude)
-          setCurrentLong(location.coords.longitude)
-          setRegion({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          })
-          setMapReady(true)
-        }
-      )
-    };
-
-    if (Platform.OS === 'android') {
-      // if Android
-      askandroidPermissions()
-      console.log('#7 ok permision et loc accordé')
-    } else  {
-      // if IOS
-      askPermissions()
-      console.log('#7 ok permision et loc accordé')
-    }
+    console.log('#7 ok permision et loc accordé')
       // store default filter
       props.storeFilterDatas({
         placeDistance: 500,
