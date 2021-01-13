@@ -38,7 +38,19 @@ function ExploreScreen(props) {
   const [mapReady, setMapReady] = useState(false)
   
   
-  useEffect(() => {    
+  useEffect(() => {  
+    
+    // store default filter
+    props.storeFilterDatas({
+      placeDistance: 30000, // in meters
+      placeName: "",
+      networkName: "",
+      restaurant: true,
+      shop: true,
+    })
+    console.log('#8 filtre par défaut déclaré')
+
+    
     // get places
     console.log('#1 use effect numéro 1')
     const getPlaces = async () => {
@@ -91,17 +103,8 @@ function ExploreScreen(props) {
       }
     }
     askPermissions()
-
     console.log('#7 ok permision et loc accordé')
-      // store default filter
-      props.storeFilterDatas({
-        placeDistance: 500,
-        placeName: "",
-        networkName: "",
-        restaurant: true,
-        shop: true,
-      })
-      console.log('#8 filtre par défaut déclaré')
+    
   }, [])
 
   useEffect(() => {
