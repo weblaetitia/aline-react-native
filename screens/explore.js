@@ -48,13 +48,13 @@ function ExploreScreen(props) {
       restaurant: true,
       shop: true,
     })
-    console.log('#8 filtre par défaut déclaré')
+    // console.log('#8 filtre par défaut déclaré')
 
-    
+
     // get places
-    console.log('#1 use effect numéro 1')
+    // console.log('#1 use effect numéro 1')
     const getPlaces = async () => {
-      console.log('#2 je fetch les places')
+      // console.log('#2 je fetch les places')
       // get all places
       var rawResponse = await fetch(`${BASE_URL}/map/get-all-places`)
       var allPlaces = await rawResponse.json() // response is an object
@@ -65,7 +65,7 @@ function ExploreScreen(props) {
     
     // check if user have fav and store them in redux
     const checkUserFav = async () => {
-      console.log('#4 je fetch les fav')
+      // console.log('#4 je fetch les fav')
       if (props.token) {
         var rawResponse = await fetch(`${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`)
         var response = await rawResponse.json()
@@ -75,16 +75,16 @@ function ExploreScreen(props) {
           props.storeFav('')
         }
       } else {
-        console.log('no token in redux')
+        // console.log('no token in redux')
       }
     }
     checkUserFav()
-    console.log('#5 ok pour les fav')
+    // console.log('#5 ok pour les fav')
 
 
     // ask permissions for user position
     async function askPermissions() {
-      console.log('#6 demande la permision')
+      // console.log('#6 demande la permision')
       var response = await Permissions.askAsync(Permissions.LOCATION);
       if (response.status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 10 },
@@ -103,15 +103,15 @@ function ExploreScreen(props) {
       }
     }
     askPermissions()
-    console.log('#7 ok permision et loc accordé')
+    // console.log('#7 ok permision et loc accordé')
     
   }, [])
 
   useEffect(() => {
-    console.log('#9 je rentre dans le 2eme use effect')
+    // console.log('#9 je rentre dans le 2eme use effect')
     // filter places
     const filterPlaces = (places, filter) => {
-      console.log('#10 je filtre')
+      // console.log('#10 je filtre')
       let tempPlaces = []
 
       let filterdistance = 10000 // default 10km
@@ -152,8 +152,8 @@ function ExploreScreen(props) {
       setFilteredPlaces(shuffled)
     }
     filterPlaces(allPlacesList, props.filter)
-    console.log('#11 jai filtré')
-    console.log('allPlacesList :', allPlacesList.length)
+    // console.log('#11 jai filtré')
+    // console.log('allPlacesList :', allPlacesList.length)
   }, [allPlacesList, props.filter])
   
 
