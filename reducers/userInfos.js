@@ -1,7 +1,6 @@
-export default function(infos = '', action) {
-    if (action.type === 'saveUserInfo') {
-        return action.infos
-       } else {
-        return infos
-    }
+export default function (infos = "", action) {
+  if (action.type === "saveUserInfo") {
+    return action.infos;
+  }
+  return infos;
 }

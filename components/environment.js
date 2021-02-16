@@ -1,3 +1,3 @@
-var BASE_URL = 'https://aline.app'
+const BASE_URL = "https://aline.app";
 
-export {BASE_URL}
+export { BASE_URL };
