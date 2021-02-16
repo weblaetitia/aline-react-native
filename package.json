@@ -5,7 +5,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "linter": "eslint *.js \"**/*.js\" --ignore-pattern node_modules",
+    "linter:fix": "eslint *.js \"**/*.js\" --ignore-pattern node_modules --fix",
+    "linter:selfcheck": "eslint-config-prettier App.js"
   },
   "dependencies": {
     "@expo-google-fonts/capriola": "^0.1.0",
@@ -19,6 +22,7 @@
     "expo-barcode-scanner": "~8.2.1",
     "expo-font": "~8.2.1",
     "expo-location": "~8.2.1",
+    "expo-permissions": "~9.0.1",
     "expo-status-bar": "^1.0.3",
     "geolib": "^3.3.1",
     "react": "~16.11.0",
@@ -39,13 +43,21 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.2",
-    "redux": "^4.0.5",
-    "expo-permissions": "~9.0.1"
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@bam.tech/react-native-make": "^3.0.0",
-    "babel-preset-expo": "~8.1.0"
+    "babel-preset-expo": "~8.1.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier": "^2.2.1"
   },
   "private": true
 }
