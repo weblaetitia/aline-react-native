@@ -5,7 +5,6 @@ import {
   Dimensions,
   Text,
   Image,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
 
@@ -20,27 +19,17 @@ function FavCard(props) {
 
   const addFav = async (id) => {
     // if liked = true alors fetch pour supprimer
-    if (liked == false) {
-      var rawResponse = await fetch(
-        `${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${id}`
-      );
-      var response = await rawResponse.json();
-      if (response) {
-        props.storeFav(response);
-        setLiked(!liked);
-      }
-    } else {
-      var rawResponse = await fetch(
-        `${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`
-      );
-      var response = await rawResponse.json();
-      if (response) {
-        props.storeFav(response);
-        setLiked(!liked);
-      }
+    const verb = liked === false ? "add-fav" : "delete-fav";
+    const rawResponse = await fetch(
+      `${BASE_URL}/users/mobile/${verb}?token=${props.token}&placeid=${id}`
+    );
+    const response = await rawResponse.json();
+    if (response) {
+      props.storeFav(response);
+      setLiked(!liked);
     }
   };
-
+  const { name, type, adress, services } = props;
   return (
     <View
       style={{
@@ -67,7 +56,7 @@ function FavCard(props) {
             <Image
               style={{ width: 18, height: 18, marginTop: 3 }}
               source={
-                props.type == "shop"
+                type === "shop"
                   ? require("../assets/icons/boutique.png")
                   : require("../assets/icons/restaurant.png")
               }
@@ -81,7 +70,7 @@ function FavCard(props) {
                 marginLeft: 8,
               }}
             >
-              {props.name}
+              {name}
             </Text>
           </View>
         </View>
@@ -90,14 +79,14 @@ function FavCard(props) {
             <FontAwesome
               name="heart"
               size={24}
-              color={liked == true ? tomato : greyLight}
+              color={liked === true ? tomato : greyLight}
             />
           </TouchableOpacity>
         </View>
       </View>
 
       <View style={{ ...styles.myCard, marginTop: 6 }}>
-        <Text style={{ ...styles.current16 }}>{props.adress}</Text>
+        <Text style={{ ...styles.current16 }}>{adress}</Text>
       </View>
 
       <View style={{ ...styles.myCard, marginTop: 18 }}>
@@ -106,9 +95,9 @@ function FavCard(props) {
         </Text>
       </View>
 
-      {props.services && props.services != "," ? (
+      {services && services !== "," ? (
         <View style={{ ...styles.myCard, marginTop: 6 }}>
-          <Text style={{ ...styles.current16 }}>{props.services}</Text>
+          <Text style={{ ...styles.current16 }}>{services}</Text>
         </View>
       ) : (
         <View />
@@ -119,16 +108,8 @@ function FavCard(props) {
 
 // colors vars
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
-const mint = "#2DB08C";
-const grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
-var greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-const goldLight = "#faf1cb";
-var tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
+const greyLight = "#d8d8d8";
+const tomato = "#ec333b";
 
 const styles = StyleSheet.create({
   container: {

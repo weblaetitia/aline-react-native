@@ -29,7 +29,6 @@ function MiniMap(props) {
 
   // set markers size
   const smallSize = { width: 22, height: 30, translateX: 5, translateY: 14 };
-  const mediumSize = { width: 28, height: 35, translateX: 2, translateY: 9 };
 
   const [placesList, setPlacesList] = useState([]);
 
@@ -42,7 +41,7 @@ function MiniMap(props) {
       // console.log(response) // is an array []
       // delete this place from aray
       const filteredResponse = response.filter(
-        (item) => item.name != props.place.name
+        (item) => item.name !== props.place.name
       );
       setPlacesList(filteredResponse);
     };
@@ -61,14 +60,14 @@ function MiniMap(props) {
     navigation.navigate("Explore");
   };
 
-  const MarkerList = placesList.map((place, i) => {
+  const MarkerList = placesList.map((place) => {
     return (
       <Marker
-        key={`marker${i}`}
+        key={place._id}
         coordinate={{ latitude: place.latitude, longitude: place.longitude }}
       >
         <View style={{ width: 32, height: 44 }}>
-          {place.type == "shop" ? (
+          {place.type === "shop" ? (
             <MarkerShop size={smallSize} />
           ) : (
             <MarkerRestaurant size={smallSize} />
@@ -77,7 +76,9 @@ function MiniMap(props) {
       </Marker>
     );
   });
-
+  const {
+    place: { latitude, longitude, type },
+  } = props;
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => handleClick()}>
@@ -86,25 +87,24 @@ function MiniMap(props) {
           onPress={() => handleClick()}
           rotateEnabled={false}
           provider={PROVIDER_GOOGLE}
-          rotateEnabled={false}
           showsTraffic={false}
           loadingEnabled
           customMapStyle={mapStyle}
           region={{
-            latitude: props.place.latitude + 0.008,
-            longitude: props.place.longitude - 0.005,
+            latitude: latitude + 0.008,
+            longitude: longitude - 0.005,
             latitudeDelta: 0.05,
             longitudeDelta: 0.05,
           }}
         >
           <Marker
             coordinate={{
-              latitude: props.place.latitude,
-              longitude: props.place.longitude,
+              latitude,
+              longitude,
             }}
           >
             <View style={{ width: 32, height: 44 }}>
-              {props.place.type == "shop" ? (
+              {type === "shop" ? (
                 <MarkerShop size={smallSize} />
               ) : (
                 <MarkerRestaurant size={smallSize} />

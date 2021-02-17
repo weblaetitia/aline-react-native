@@ -8,8 +8,9 @@ import ListCard from "./listCard";
 
 function ListScreen(props) {
   const navigation = useNavigation();
+  const { filteredPlaces } = props;
 
-  const group = props.filteredPlaces.map((placeItem, i) => {
+  const group = filteredPlaces.map((placeItem) => {
     return (
       <TouchableOpacity
         key={placeItem._id}

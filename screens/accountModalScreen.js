@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -10,10 +10,12 @@ import {
 import { connect } from "react-redux";
 
 // fonts
-import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 
 function AccountModalScreen(props) {
+  const {
+    infos: { firstName, lastName, email },
+  } = props;
   return (
     <View style={styles.container}>
       {/* header */}
@@ -54,7 +56,7 @@ function AccountModalScreen(props) {
 
       <View style={{ alignSelf: "center", marginBottom: 40 }}>
         <Text style={styles.h1blueDark}>
-          {props.infos.firstName} {props.infos.lastName}
+          {firstName} {lastName}
         </Text>
       </View>
 
@@ -84,7 +86,7 @@ function AccountModalScreen(props) {
             paddingBottom: 8,
           }}
         >
-          {props.infos.firstName} {props.infos.lastName}
+          {firstName} {lastName}
         </Text>
         {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
       </View>
@@ -115,7 +117,7 @@ function AccountModalScreen(props) {
             paddingBottom: 8,
           }}
         >
-          {props.infos.email}
+          {email}
         </Text>
         {/* <Entypo name="chevron-right" size={24} color={blueDark} style={{marginTop: 5, paddingTop: 6, paddingBottom: 8}} /> */}
       </View>
@@ -160,17 +162,12 @@ function AccountModalScreen(props) {
 }
 
 // colors vars
-var blueDark = "#033C47";
-const mintLight = "#D5EFE8";
+const blueDark = "#033C47";
 const mint = "#2DB08C";
-var grayMedium = "#879299";
-var graySuperLight = "#f4f4f4";
-var greyLight = "#d8d8d8";
-const gold = "#E8BA00";
+const grayMedium = "#879299";
+const graySuperLight = "#f4f4f4";
+const greyLight = "#d8d8d8";
 const goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
 
 // STYLES
 const styles = StyleSheet.create({

@@ -36,7 +36,7 @@ export function getRegionForCoordinates(points) {
   })(points[0]);
 
   // calculate rect
-  points.map((point) => {
+  points.forEach((point) => {
     minX = Math.min(minX, point.latitude);
     maxX = Math.max(maxX, point.latitude);
     minY = Math.min(minY, point.longitude);

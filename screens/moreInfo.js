@@ -19,13 +19,13 @@ import {
 } from "@expo/vector-icons";
 
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 import { connect } from "react-redux";
 
-import * as Linking from "expo-linking";
+import Linking from "expo-linking";
 
 /* Color ref */
-const blueDark = "#033C47";
 const mint = "#2DB08C";
 
 function MoreInfoScreen(props) {
@@ -51,46 +51,40 @@ function MoreInfoScreen(props) {
       Linking.openURL("https://fr.tipeee.com/alineconsigne/");
     }
   };
-
-  let lignes;
-  if (props.token) {
-    lignes = (
-      <View>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
-          <ListItem
-            rightIcon={<FontAwesome name="user" size={20} color={mint} />}
-            titleStyle={{ color: "#033C47" }}
-            title="Mon compte"
-            bottomDivider
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={logout}>
-          <ListItem
-            rightIcon={<AntDesign name="logout" size={20} color={mint} />}
-            titleStyle={{ color: "#033C47" }}
-            title="Se déconnecter"
-            bottomDivider
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
-    lignes = (
-      <TouchableOpacity onPress={signin}>
+  const { token } = props;
+  const lignes = token ? (
+    <View>
+      <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
         <ListItem
-          rightIcon={<FontAwesome name="sign-in" size={20} color={mint} />}
+          rightIcon={<FontAwesome name="user" size={20} color={mint} />}
           titleStyle={{ color: "#033C47" }}
-          title="S'inscrire"
+          title="Mon compte"
           bottomDivider
         />
       </TouchableOpacity>
-    );
-  }
+      <TouchableOpacity onPress={logout}>
+        <ListItem
+          rightIcon={<AntDesign name="logout" size={20} color={mint} />}
+          titleStyle={{ color: "#033C47" }}
+          title="Se déconnecter"
+          bottomDivider
+        />
+      </TouchableOpacity>
+    </View>
+  ) : (
+    <TouchableOpacity onPress={signin}>
+      <ListItem
+        rightIcon={<FontAwesome name="sign-in" size={20} color={mint} />}
+        titleStyle={{ color: "#033C47" }}
+        title="S'inscrire"
+        bottomDivider
+      />
+    </TouchableOpacity>
+  );
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-  return (
+  return !fontsLoaded ? (
+    <AppLoading />
+  ) : (
     <ScrollView style={{ backgroundColor: "white" }}>
       {/* ALINE ET MOI */}
       <ListItem titleStyle={styles.h1} title="Aline et moi" bottomDivider />
@@ -224,7 +218,7 @@ function MoreInfoScreen(props) {
               fontSize: 12,
             }}
           >
-            Conditions générales d'utilisation
+            Conditions générales d&apos;utilisation
           </Text>
         </TouchableOpacity>
       </View>

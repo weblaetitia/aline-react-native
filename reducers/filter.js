@@ -1,4 +1,4 @@
-export default function (filterDatas = {}, action) {
+export default function filter(filterDatas = {}, action) {
   if (action.type === "saveFilterData") {
     return action.filterDatas;
   }

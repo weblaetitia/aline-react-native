@@ -6,22 +6,17 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   Keyboard,
-  TextInput,
   StatusBar,
 } from "react-native";
-import SegmentedControl from "@react-native-community/segmented-control";
 import { Slider } from "react-native-elements";
 import { connect } from "react-redux";
-import { useHeaderHeight } from "@react-navigation/stack";
 
 // my components
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { AlineButton } from "../components/aline-lib";
 import { ToggleButton } from "../components/toggleButton";
 
 // import BASE URL
-import { BASE_URL } from "../components/environment";
 
 // fonts
 
@@ -31,24 +26,22 @@ import { styles } from "./styles/styles";
 function FilterModalScreen(props) {
   const [searchedName, setSearchedName] = useState("");
   const [sliderValue, setSliderValue] = useState(10);
-  const [inputHasFocus, setInputHasFocus] = useState(false);
+  // TODO la ligne suivante avait elle une utilité ?
+  // const [] = useState(false);
   const [restaurant, setRestaurant] = useState(true);
   const [shop, setShop] = useState(true);
 
+  const { filter } = props;
   useEffect(() => {
     // get filter info from store(redux)
     const setFilterInfo = () => {
-      props.filter.placeName
-        ? setSearchedName(props.filter.placeName)
-        : setSearchedName("");
-      props.filter.placeDistance
-        ? setSliderValue(props.filter.placeDistance * 0.001)
-        : setSliderValue(10);
-      props.filter.restaurant ? setRestaurant(true) : setRestaurant(false);
-      props.filter.shop ? setShop(true) : setShop(false);
+      setSearchedName(filter.placeName ? filter.placeName : "");
+      setSliderValue(filter.placeDistance ? filter.placeDistance * 0.001 : 10);
+      setRestaurant(!!filter.restaurant);
+      setShop(!!filter.shop);
     };
     setFilterInfo();
-  }, [props.filter]);
+  }, [filter]);
 
   const handleFilterClick = () => {
     // A ajouter : si placeName != '' alors faire une requette fetch sur le nom et ouvrir une modalscreeen Place
@@ -108,7 +101,8 @@ function FilterModalScreen(props) {
             </TouchableOpacity>
           </View>
 
-          {/* <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
+          {/* TODO remove unused code
+          <View style={{flexDirection: 'row', justifyContent: 'center', width: '100%', paddingHorizontal:14}}>
             <Text style={{...filterStyles.inputLabel, width: '100%'}}>Chercher par nom de lieu</Text>
         </View>
 
@@ -214,28 +208,23 @@ function FilterModalScreen(props) {
               style={{ width: "90%" }}
               title="Filtrer"
               onPress={() => {
-                handleFilterClick(), props.navigation.goBack();
+                handleFilterClick();
+                props.navigation.goBack();
               }}
             />
           </View>
         </>
       </TouchableWithoutFeedback>
-      <StatusBar style="auto" />
+      <StatusBar />
     </View>
   );
 }
 // colors vars
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
-var mint = "#2DB08C";
-var grayMedium = "#879299";
+const mint = "#2DB08C";
+const grayMedium = "#879299";
 const graySuperLight = "#f4f4f4";
 const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-const goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
 
 // styles
 const filterStyles = {
@@ -274,21 +263,6 @@ const filterStyles = {
     borderColor: greyLight,
     borderWidth: 1,
   },
-};
-const customInput = {
-  backgroundColor: graySuperLight,
-  borderRadius: 32,
-  paddingVertical: 8,
-  paddingHorizontal: 14,
-  marginVertical: 14,
-  width: "100%",
-  borderWidth: 1,
-  borderColor: greyLight,
-  color: blueDark,
-};
-const customInputSelected = {
-  ...customInput,
-  borderColor: mint,
 };
 
 function mapDispatchToProps(dispatch) {

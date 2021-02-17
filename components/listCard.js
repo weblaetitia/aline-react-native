@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Overlay } from "react-native-elements";
+import { Overlay } from "react-native-elements";
 import {
   StyleSheet,
   View,
   Dimensions,
   Text,
   Image,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
 
@@ -14,8 +13,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { connect } from "react-redux";
 
 // import BASE URL
-import { useNavigation } from '@react-navigation/native';
-import {BASE_URL} from '../components/environment'
+import { useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "./environment";
 import { AlineButton } from "./aline-lib";
 
 function ListCard(props) {
@@ -23,60 +22,53 @@ function ListCard(props) {
 
   const [liked, setLiked] = useState(false);
   const [visible, setVisible] = useState(false);
-
+  const {
+    place: { _id, placeImg, type, name, services },
+    favs,
+  } = props;
   // verifier si la place est dans les favoris
   useEffect(() => {
     const getLiked = async () => {
-      if (props.favs.length == 0 || props.favs == undefined) {
+      if (favs.length === 0 || favs === undefined) {
         setLiked(false);
       } else {
-        props.favs.forEach((fav) => {
-          if (fav._id == props.place._id) {
+        favs.forEach((fav) => {
+          if (fav._id === _id) {
             setLiked(true);
           }
         });
       }
     };
     getLiked();
-  }, [props.favs]);
+  }, [favs]);
 
   // afficher la modal
   const toggleOverlay = () => {
     setVisible(!visible);
   };
 
+  // TODO code duplique en partie avec favCard
   const addFav = async (id) => {
     // si token n'existe pas
-    if (!props.token || props.token == "" || props.token == undefined) {
+    if (!props.token || props.token === "" || props.token === undefined) {
       toggleOverlay();
     } else {
       // if liked = false alors fetch pour ajouter
-      if (liked == false) {
-        var rawResponse = await fetch(
-          `${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${id}`
-        );
-        var response = await rawResponse.json();
-        if (response) {
-          props.updateFavsRedux(response);
-          setLiked(!liked);
-        }
-      } else if (liked == true) {
-        // if liked = tru alors fetch pour supprime
-        var rawResponse = await fetch(
-          `${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${id}`
-        );
-        var response = await rawResponse.json();
-        if (response) {
-          props.updateFavsRedux(response);
-          setLiked(!liked);
-        }
+      const verb = liked === false ? "add-fav" : "delete-fav";
+      const rawResponse = await fetch(
+        `${BASE_URL}/users/mobile/${verb}?token=${props.token}&placeid=${id}`
+      );
+      const response = await rawResponse.json();
+      if (response) {
+        props.updateFavsRedux(response);
+        setLiked(!liked);
       }
     }
   };
 
   return (
     <View
-      key={props.place._id}
+      key={_id}
       style={{
         width: "100%",
         marginHorizontal: 0,
@@ -99,10 +91,8 @@ function ListCard(props) {
         <Image
           source={{
             uri:
-              props.place.placeImg &&
-              props.place.placeImg != "" &&
-              props.place.placeImg != undefined
-                ? props.place.placeImg
+              placeImg && placeImg !== "" && placeImg !== undefined
+                ? placeImg
                 : "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sCmRaAAAAsP6fT1G8oAseRIIkDmygyD3TobV9wyedS-EeJ3yJmgUKMHFfVND2yoS4ZjTqyzY5pzE26bUUjhAdb5wfX6a3gsKkYO1iPJIZ1CAnPHb7ZlxsdkANpjzGIn0Chbok-4ztEhAK0TtTw-VPO8ZFbM9STOj7GhSxYOuVfcMpk73iwyJRYDtT5q31HA&3u4032&5m1&2e1&callback=none&key=AIzaSyBE9M-y5UbxB_Pbgx-ZBd-aeVnJkIOjFPE&token=4716",
           }}
           style={{ width: 90, height: 90 }}
@@ -112,7 +102,7 @@ function ListCard(props) {
             <Image
               style={{ width: 18, height: 18, marginTop: 3 }}
               source={
-                props.place.type == "shop"
+                type === "shop"
                   ? require("../assets/icons/boutique.png")
                   : require("../assets/icons/restaurant.png")
               }
@@ -126,12 +116,12 @@ function ListCard(props) {
                 marginLeft: 8,
               }}
             >
-              {props.place.name}
+              {name}
             </Text>
           </View>
         </View>
         <View style={{ width: 30, marginHorizontal: 5 }}>
-          <TouchableOpacity onPress={() => addFav(props.place._id)}>
+          <TouchableOpacity onPress={() => addFav(_id)}>
             {liked ? (
               <FontAwesome name="heart" size={24} color={tomato} />
             ) : (
@@ -141,20 +131,21 @@ function ListCard(props) {
         </View>
       </View>
 
-      {props.place.services && props.place.services != "," ? (
+      {services && services !== "," ? (
         <View style={{ ...styles.myCard, marginTop: 18 }}>
           <Text
             style={{ ...styles.current16, fontWeight: "bold", marginBottom: 2 }}
           >
             Service de consigne proposées:{" "}
           </Text>
-          <Text style={{ ...styles.current16 }}>– {props.place.services}</Text>
+          <Text style={{ ...styles.current16 }}>– {services}</Text>
           <Text style={{ ...styles.h3blue, color: mint, marginTop: 8 }}>
             Consignes proposées entre 3 et 5 €
           </Text>
         </View>
       ) : (
-        <View /> }
+        <View />
+      )}
 
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
         <View style={{ width: "75%" }}>
@@ -172,17 +163,11 @@ function ListCard(props) {
 }
 
 // colors vars
-let blueDark = "#033C47";
-let mintLight = "#D5EFE8";
-var mint = "#2DB08C";
-var grayMedium = "#879299";
-let graySuperLight = "#f4f4f4";
-var greyLight = "#d8d8d8";
-let gold = "#E8BA00";
-let goldLight = "#faf1cb";
-var tomato = "#ec333b";
-let peach = "#ef7e67";
-let peachLight = "#FED4CB";
+const blueDark = "#033C47";
+const mint = "#2DB08C";
+const grayMedium = "#879299";
+const greyLight = "#d8d8d8";
+const tomato = "#ec333b";
 
 const styles = StyleSheet.create({
   container: {
@@ -214,8 +199,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateFavsRedux(favs) {
-      dispatch( {type: 'updateFavs', favs})
-    }
+      dispatch({ type: "updateFavs", favs });
+    },
   };
 }
 

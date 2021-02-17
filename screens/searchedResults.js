@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -11,7 +12,7 @@ const mint = "#2DB08C";
 const graySuperLight = "#f4f4f4";
 const blueDark = "#033C47";
 
-export default function SearchPlacesScreen({ props, route, navigation }) {
+export default function SearchPlacesScreen({ route, navigation }) {
   const [type, setType] = useState("");
   const [datas, setDatas] = useState([]);
 
@@ -31,18 +32,19 @@ export default function SearchPlacesScreen({ props, route, navigation }) {
   }, []);
 
   // open place or product modal
-  const openModal = (type, data) => {
-    type === "produit"
-      ? navigation.navigate("Product", { product: data })
-      : navigation.navigate("Place", { place: data });
+  const openModal = (typeParam, data) => {
+    navigation.navigate(
+      typeParam === "produit" ? "Product" : "Place",
+      typeParam === "produit" ? { product: data } : { place: data }
+    );
   };
 
   // boucle sur la liste des datas
-  const productsList = datas.map((data, i) => {
+  const productsList = datas.map((data) => {
     return (
       <TouchableOpacity
         style={styles.productsView}
-        key={i}
+        key={data._id}
         onPress={() => {
           openModal(type, data);
         }}

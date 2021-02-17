@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { View, ScrollView, Text, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
 // my components
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { AlineH1 } from "../components/aline-lib";
 import MiniMap from "../components/miniMap";
 
@@ -24,7 +16,10 @@ import { BASE_URL } from "../components/environment";
 import { styles } from "./styles/styles";
 
 function PlaceModalScreen(props) {
-  const response = props.route.params;
+  const {
+    route: { params },
+  } = props;
+  const { place } = params;
   const [networkImg, setNetworkImg] = useState("");
   const [isFav, setIsFav] = useState(false);
 
@@ -32,7 +27,7 @@ function PlaceModalScreen(props) {
   useEffect(() => {
     const getNetworkImg = async () => {
       const rawResponse = await fetch(
-        `${BASE_URL}/search/get-network-img?network=${response.place.network}`
+        `${BASE_URL}/search/get-network-img?network=${place.network}`
       );
       const resp = await rawResponse.json();
       setNetworkImg(resp.networkImg);
@@ -42,7 +37,7 @@ function PlaceModalScreen(props) {
     const getFavStatus = () => {
       if (props.favs) {
         props.favs.forEach((fav) => {
-          if (response.place._id === fav._id) {
+          if (place._id === fav._id) {
             setIsFav(true);
           }
         });
@@ -55,43 +50,50 @@ function PlaceModalScreen(props) {
     // delete from db
     // change redux state
     // change heart color
-    if (isFav === true) {
-      var rawResponse = await fetch(
-        `${BASE_URL}/users/mobile/delete-fav?token=${props.token}&placeid=${placeID}`
-      );
-      var response = await rawResponse.json();
-      if (response) {
-        props.storeFav(response);
-        setIsFav(!isFav);
-      }
-    } else {
-      var rawResponse = await fetch(
-        `${BASE_URL}/users/mobile/add-fav?token=${props.token}&placeid=${placeID}`
-      );
-      var response = await rawResponse.json();
-      if (response) {
-        props.storeFav(response);
-        setIsFav(!isFav);
-      }
+    const verb = isFav === false ? "add-fav" : "delete-fav";
+    const rawResponse = await fetch(
+      `${BASE_URL}/users/mobile/${verb}?token=${props.token}&placeid=${placeID}`
+    );
+    const response = await rawResponse.json();
+    if (response) {
+      props.storeFav(response);
+      setIsFav(!isFav);
     }
   };
 
   // Display opening hours
   let hours;
-  if (typeof response.place.openingHours === "string") {
+  if (typeof place.openingHours === "string") {
     // c'est une string
-    hours = <Text style={styles.current}>- {response.place.openingHours}</Text>;
+    hours = <Text style={styles.current}>- {place.openingHours}</Text>;
   } else {
     // c'est un tableau
-    hours = response.place.openingHours.map((listItem, index) => {
+    hours = place.openingHours.map((listItem) => {
       return (
-        <Text key={index} style={styles.current}>
+        <Text key={place._id} style={styles.current}>
           - {listItem}
         </Text>
       );
     });
   }
-
+  const { priceRange = [] } = place;
+  const diplayedPrice =
+    priceRange.length === 1 ? (
+      <View>
+        <Text style={{ ...styles.h3mint, textAlign: "center" }}>
+          Consignes à partir de {priceRange[0]}&nbsp;€
+        </Text>
+        <View style={styles.line} />
+      </View>
+    ) : (
+      <View>
+        <Text style={{ ...styles.h3mint, textAlign: "center" }}>
+          Consignes entre {priceRange[0]} et&nbsp;
+          {priceRange[1]}&nbsp;€
+        </Text>
+        <View style={styles.line} />
+      </View>
+    );
   return (
     <View style={{ ...styles.container }}>
       {/* header */}
@@ -117,8 +119,8 @@ function PlaceModalScreen(props) {
             <Image
               source={{
                 uri:
-                  response.place.placeImg || response.place.placeImg != ""
-                    ? response.place.placeImg
+                  place.placeImg || place.placeImg !== ""
+                    ? place.placeImg
                     : "https://res.cloudinary.com/alineconsigne/image/upload/v1597671122/website/placeholder-image_eoeppy.png",
               }}
               style={{ width: 150, height: 150 }}
@@ -126,7 +128,7 @@ function PlaceModalScreen(props) {
             <Image
               resizeMode="contain"
               source={
-                response.place.type == "shop"
+                place.type === "shop"
                   ? require("../assets/icons/boutique.png")
                   : require("../assets/icons/restaurant.png")
               }
@@ -135,19 +137,18 @@ function PlaceModalScreen(props) {
           <View
             style={{
               ...styles.placeheader,
-              backgroundColor:
-                response.place.type == "shop" ? goldLight : peachLight,
+              backgroundColor: place.type === "shop" ? goldLight : peachLight,
             }}
           >
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
-                <AlineH1 text={response.place.name} />
+                <AlineH1 text={place.name} />
               </View>
               <View>
                 <TouchableOpacity
                   onPress={() => {
-                    changeFavStatus(response.place._id);
-                    props.storeFav(response);
+                    changeFavStatus(place._id);
+                    props.storeFav(params);
                   }}
                 >
                   {isFav ? (
@@ -171,22 +172,22 @@ function PlaceModalScreen(props) {
 
           {/* place body */}
           <View style={{ marginHorizontal: 25, marginVertical: 30 }}>
-            <Text style={styles.currentBold}>{response.place.adress}</Text>
+            <Text style={styles.currentBold}>{place.adress}</Text>
 
-            <Text style={styles.currentBold}>{response.place.phone}</Text>
+            <Text style={styles.currentBold}>{place.phone}</Text>
 
             <View style={styles.line} />
 
             <Text style={styles.currentBold}>
               Service de consigne proposées
             </Text>
-            {response.place.services ? (
-              <Text style={styles.current}>- {response.place.services}</Text>
+            {place.services ? (
+              <Text style={styles.current}>- {place.services}</Text>
             ) : (
               <Text />
             )}
 
-            {response.place.openingHours ? (
+            {place.openingHours ? (
               <View>
                 <View style={styles.line} />
                 <Text style={styles.currentBold}>Horaires</Text>
@@ -198,28 +199,11 @@ function PlaceModalScreen(props) {
 
             <View style={styles.line} />
 
-            {!response.place.priceRange ? (
-              <Text />
-            ) : response.place.priceRange.length == 1 ? (
-              <View>
-                <Text style={{ ...styles.h3mint, textAlign: "center" }}>
-                  Consignes à partir de {response.place.priceRange[0]}&nbsp;€
-                </Text>
-                <View style={styles.line} />
-              </View>
-            ) : (
-              <View>
-                <Text style={{ ...styles.h3mint, textAlign: "center" }}>
-                  Consignes entre {response.place.priceRange[0]} et{" "}
-                  {response.place.priceRange[1]}&nbsp;€
-                </Text>
-                <View style={styles.line} />
-              </View>
-            )}
+            {!place.priceRange ? <Text /> : diplayedPrice}
 
             <Text style={{ ...styles.h3mint, textAlign: "center" }}>
-              {response.place.name} fait parti du réseau{" "}
-              {response.place.network}
+              {place.name} fait parti du réseau&nbsp;
+              {place.network}
             </Text>
 
             {/* image du réseau */}
@@ -252,7 +236,7 @@ function PlaceModalScreen(props) {
           {/* place body */}
 
           {/* MINI Map send a props to Child componenet */}
-          <MiniMap place={response.place} />
+          <MiniMap place={place} />
           {/* MINI Map */}
         </View>
         {/* body */}
@@ -262,17 +246,9 @@ function PlaceModalScreen(props) {
 }
 
 // colors vars
-const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
-const mint = "#2DB08C";
-var grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
-const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-var goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-var peachLight = "#FED4CB";
+const grayMedium = "#879299";
+const goldLight = "#faf1cb";
+const peachLight = "#FED4CB";
 
 function mapDispatchToProps(dispatch) {
   return {

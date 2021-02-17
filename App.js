@@ -3,7 +3,7 @@ import { Image, View } from "react-native";
 
 // Navigation
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   MaterialCommunityIcons,
@@ -66,7 +66,6 @@ function LogoTitle() {
 /* #################### Creating a modal stack #################### */
 /* use MainStackScreen component as a screen inside RootStackScreen */
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainStack = createStackNavigator();
@@ -91,7 +90,7 @@ function MyTabs() {
         component={ExploreScreen}
         options={{
           tabBarLabel: "Explorer",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome5 name="search-location" size={24} color={color} />
           ),
         }}
@@ -101,7 +100,7 @@ function MyTabs() {
         component={SearchScreen}
         options={{
           tabBarLabel: "Trouver",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="barcode-scan"
               size={24}
@@ -115,7 +114,7 @@ function MyTabs() {
         component={FavScreen}
         options={{
           tabBarLabel: "Favoris",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <FontAwesome name="heart" size={24} color={color} />
           ),
         }}
@@ -125,7 +124,7 @@ function MyTabs() {
         component={MoreInfoScreen}
         options={{
           tabBarLabel: "Infos",
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Entypo name="info-with-circle" size={24} color={color} />
           ),
         }}

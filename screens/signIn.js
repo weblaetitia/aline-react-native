@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   ScrollView,
   View,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
   ImageBackground,
   AsyncStorage,
 } from "react-native";
@@ -17,12 +14,12 @@ import { connect } from "react-redux";
 
 // custom fonts
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 
 // custom button
 import {
   AlineButton,
-  AlineInputCenter,
   AlineSeparator,
   AlineButtonOutline,
   AlineInputEmail,
@@ -34,11 +31,11 @@ import { BASE_URL } from "../components/environment";
 
 // colors vars
 const blueDark = "#033C47";
-const mint = "#2DB08C";
 const tomato = "#EC333B";
 
 function signInScreen(props) {
-  const [tokenExist, setTokenExist] = useState(false);
+  // TODO idem ligne en dessous utile ? si oui documenter
+  // const [] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [alert, setAlert] = useState(false);
@@ -48,9 +45,10 @@ function signInScreen(props) {
   useEffect(() => {
     // delete token from localstorage when redirect from logout info-screen
     const clearToken = async () => {
-      if (props.route.params != undefined) {
+      if (props.route.params !== undefined) {
         if (props.route.params.logout === "true") {
           try {
+            // TODO code déprécié
             await AsyncStorage.removeItem("@token");
             await props.storeData("");
             return true;
@@ -59,6 +57,7 @@ function signInScreen(props) {
           }
         }
       }
+      return false;
     };
     clearToken();
   }, [props.route]);
@@ -67,6 +66,7 @@ function signInScreen(props) {
     // check if token is in local storage
     const getData = async () => {
       try {
+        // TODO code déprécié
         const value = await AsyncStorage.getItem("@token");
         if (value !== null) {
           // check if it exists in db
@@ -74,7 +74,7 @@ function signInScreen(props) {
             `${BASE_URL}/users/mobile/check-token?token=${value}`
           );
           const response = await rawResponse.json();
-          if (response.succes == true) {
+          if (response.succes === true) {
             // store token
             props.storeData(value);
             // store user info in redux (name, email, token)
@@ -87,7 +87,6 @@ function signInScreen(props) {
           } else {
             props.storeData("");
           }
-        } else {
         }
       } catch (e) {
         // error reading value
@@ -105,7 +104,7 @@ function signInScreen(props) {
       body: `email=${emailInput}&password=${passwordInput}`,
     });
     const response = await rawResponse.json();
-    if (response.succes == true) {
+    if (response.succes === true) {
       // 1 -> store token in redux-store
       props.storeData(response.token);
       // 1b -> store name and email in redux-store
@@ -130,16 +129,11 @@ function signInScreen(props) {
   };
 
   // add alert message
-  let alertMessage;
-
-  if (alert) {
-    alertMessage = (
-      <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
-    );
-  }
-  if (alert == false) {
-    alertMessage;
-  }
+  const alertMessage = alert ? (
+    <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
+  ) : (
+    <View />
+  );
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -194,7 +188,7 @@ function signInScreen(props) {
               backgroundColor="#879299"
               onPress={() => props.navigation.navigate("Explore")}
             />
-            <StatusBar style="dark" />
+            <StatusBar />
           </View>
         </TouchableWithoutFeedback>
       </View>

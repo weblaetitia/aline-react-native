@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 
 // custom fonts
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 
 // custom button
@@ -31,7 +32,6 @@ import { BASE_URL } from "../components/environment";
 
 // colors vars
 const blueDark = "#033C47";
-const mint = "#2DB08C";
 const tomato = "#EC333B";
 
 function signUpScreen(props) {
@@ -48,48 +48,51 @@ function signUpScreen(props) {
   const addUserOnClick = async () => {
     // check if all inputs are field
     if (
-      firstNameInput == "" ||
-      lastNameInput == "" ||
-      emailInput == "" ||
-      passwordInput == "" ||
-      passwordConfirmInput == ""
+      firstNameInput === "" ||
+      lastNameInput === "" ||
+      emailInput === "" ||
+      passwordInput === "" ||
+      passwordConfirmInput === ""
     ) {
       setAlert("requireAll");
-    } else {
-      // check if passwords match
-      if (passwordInput !== passwordConfirmInput) {
-        setAlert("passwordsNotMatch");
-      } else {
-        // add to db
-        const rawResponse = await fetch(`${BASE_URL}/users/mobile/sign-up`, {
-          method: "POST",
-          headers: { "Content-type": "application/x-www-form-urlencoded" },
-          body: `firstname=${firstNameInput}&lastname=${lastNameInput}&email=${emailInput}&password=${passwordInput}`,
-        });
-        const response = await rawResponse.json();
-        if (response.succes == true) {
-          // store token in redux
-          props.storeData(response.token);
-          // store users-info in redux
-          props.storeUserInfo({
-            firstName: response.firstName,
-            lastName: response.lastName,
-            email: response.email,
-            token: response.token,
-          });
-          // then to localstorage
-          try {
-            await AsyncStorage.setItem("@token", response.token);
-          } catch (e) {
-            // saving error
-            console.log(e);
-          }
-          // redirige vers 'Explorer
-          props.navigation.navigate("Explore");
-        } else {
-          setAlert(true);
-        }
+      return;
+    }
+
+    // check if passwords match
+    if (passwordInput !== passwordConfirmInput) {
+      setAlert("passwordsNotMatch");
+      return;
+    }
+
+    // add to db
+    const rawResponse = await fetch(`${BASE_URL}/users/mobile/sign-up`, {
+      method: "POST",
+      headers: { "Content-type": "application/x-www-form-urlencoded" },
+      body: `firstname=${firstNameInput}&lastname=${lastNameInput}&email=${emailInput}&password=${passwordInput}`,
+    });
+    const response = await rawResponse.json();
+    if (response.succes === true) {
+      // store token in redux
+      props.storeData(response.token);
+      // store users-info in redux
+      props.storeUserInfo({
+        firstName: response.firstName,
+        lastName: response.lastName,
+        email: response.email,
+        token: response.token,
+      });
+      // then to localstorage
+      try {
+        // TODO deprecated
+        await AsyncStorage.setItem("@token", response.token);
+      } catch (e) {
+        // saving error
+        console.log(e);
       }
+      // redirige vers 'Explorer
+      props.navigation.navigate("Explore");
+    } else {
+      setAlert(true);
     }
   };
 
@@ -125,7 +128,7 @@ function signUpScreen(props) {
             source={require("../assets/images/patatemintlight.png")}
             style={{ width: 250, height: 145, marginBottom: 60, marginTop: 30 }}
           >
-            <Text style={styles.h1}>S'enregistrer</Text>
+            <Text style={styles.h1}>S&apos;enregistrer</Text>
           </ImageBackground>
           <View>
             <AlineInputCenter
@@ -174,7 +177,7 @@ function signUpScreen(props) {
             onPress={() => props.navigation.navigate("Explore")}
           />
         </View>
-        <StatusBar style="dark" />
+        <StatusBar />
       </ScrollView>
     </TouchableWithoutFeedback>
   );

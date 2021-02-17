@@ -6,18 +6,14 @@ import {
   View,
   TextInput,
   Dimensions,
-  Keyboard,
 } from "react-native";
 
 // custom fonts
-import { AppLoading } from "expo";
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 
 import { FontAwesome } from "@expo/vector-icons";
 
 // colors vars
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
 const mint = "#2DB08C";
 const grayMedium = "#879299";
 const graySuperLight = "#f4f4f4";

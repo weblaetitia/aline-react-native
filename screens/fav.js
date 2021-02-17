@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 import { StatusBar } from "expo-status-bar";
 import { connect } from "react-redux";
@@ -15,13 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import { AlineButton } from "../components/aline-lib";
 import FavCard from "../components/favCard";
 
-import { BASE_URL } from "../components/environment";
-
 function FavScreen(props) {
   const [status, setStatus] = useState("nofav");
 
   const navigation = useNavigation();
-
   // check display
   useEffect(() => {
     if (props.token) {
@@ -33,7 +31,7 @@ function FavScreen(props) {
     } else {
       setStatus("nolog");
     }
-  }, [props.favs]);
+  });
 
   // message si pas de favoris
   const nofav = (
@@ -45,7 +43,7 @@ function FavScreen(props) {
           color: blueDark,
         }}
       >
-        Vous n'avez pas encore de favoris
+        Vous n&apos;avez pas encore de favoris
       </Text>
     </View>
   );
@@ -62,26 +60,26 @@ function FavScreen(props) {
       />
     </View>
   );
-
-  if (props.favs.length > 0) {
-    // Boucle des favoris
-    var favlist = props.favs.map((fav, i) => {
-      return (
-        <TouchableOpacity
-          key={i}
-          onPress={() => navigation.navigate("Place", { place: fav })}
-        >
-          <FavCard
-            type={fav.type}
-            name={fav.name}
-            id={fav._id}
-            services={fav.services}
-            adress={fav.adress}
-          />
-        </TouchableOpacity>
-      );
-    });
-  }
+  const { favs } = props;
+  const favlist =
+    favs.length > 0
+      ? favs.map((fav) => {
+          return (
+            <TouchableOpacity
+              key={fav._id}
+              onPress={() => navigation.navigate("Place", { place: fav })}
+            >
+              <FavCard
+                type={fav.type}
+                name={fav.name}
+                id={fav._id}
+                services={fav.services}
+                adress={fav.adress}
+              />
+            </TouchableOpacity>
+          );
+        })
+      : {};
 
   const [fontsLoaded] = useFonts({ Capriola_400Regular });
 
@@ -89,36 +87,25 @@ function FavScreen(props) {
     return <AppLoading />;
   }
 
+  const favsViewWhenLogged =
+    status === "favlist" ? (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={{ ...styles.h1blueDark }}>Mes favoris</Text>
+        {favlist}
+      </ScrollView>
+    ) : (
+      nofav
+    );
+
   return (
     <View style={{ ...styles.container }}>
-      {status == "nolog" ? (
-        nolog
-      ) : status == "favlist" ? (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={{ ...styles.h1blueDark }}>Mes favoris</Text>
-          {favlist}
-        </ScrollView>
-      ) : status == "nofav" ? (
-        nofav
-      ) : (
-        nofav
-      )}
-      <StatusBar style="auto" />
+      {status === "nolog" ? nolog : favsViewWhenLogged}
+      <StatusBar />
     </View>
   );
 }
 // colors vars
-var blueDark = "#033C47";
-const mintLight = "#D5EFE8";
-const mint = "#2DB08C";
-const grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
-const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-const goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
+const blueDark = "#033C47";
 
 const styles = StyleSheet.create({
   container: {

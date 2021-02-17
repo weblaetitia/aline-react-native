@@ -111,7 +111,7 @@ export default function ProductModalScreen({ route, navigation }) {
               -0,05 g de CO2
             </Text>
             <Text style={{ ...styles.h2mint, textAlign: "center" }}>
-              c'est votre réduction sur votre impact environemental
+              c&apos;est votre réduction sur votre impact environemental
             </Text>
 
             <View style={styles.line} />
@@ -155,4 +155,4 @@ export default function ProductModalScreen({ route, navigation }) {
 }
 
 // colors vars
-var grayMedium = "#879299";
+const grayMedium = "#879299";

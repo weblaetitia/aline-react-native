@@ -1,4 +1,4 @@
-export default function (favs = "", action) {
+export default function favorites(favs = "", action) {
   if (action.type === "saveFavs") {
     return action.favs;
   }

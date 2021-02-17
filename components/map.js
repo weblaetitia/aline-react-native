@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Dimensions, View, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
@@ -11,12 +11,7 @@ import MarkerShop from "./markerShop";
 // icons
 
 /* Color ref */
-const greyLight = "#d8d8d8";
-const graySuperLight = "#f4f4f4";
 const mint = "#2DB08C";
-const mintDark = "#2BA282";
-const grayMedium = "#879299";
-const blueDark = "#033C47";
 
 // map style
 const mapStyle = [
@@ -34,15 +29,19 @@ const mapStyle = [
 function Map(props) {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [markerSelected, setMarkerSelected] = useState(null);
-
+  const {
+    region: { latitude, longitude, latitudeDelta, longitudeDelta },
+    filteredPlaces,
+    userPosition,
+  } = props;
   const [region, setRegion] = useState({
-    latitude: props.region.latitude,
-    longitude: props.region.longitude,
-    latitudeDelta: props.region.latitudeDelta,
-    longitudeDelta: props.region.longitudeDelta,
+    latitude,
+    longitude,
+    latitudeDelta,
+    longitudeDelta,
   });
 
-  const displayModal = (place) => {
+  const displayModal = () => {
     setModalVisibility(true);
   };
   const hideModal = () => {
@@ -67,33 +66,34 @@ function Map(props) {
         style={styles.mapStyle}
         rotateEnabled={false}
         region={region}
-        onRegionChangeComplete={(region) => setRegion(region)}
+        onRegionChangeComplete={(regionChanged) => setRegion(regionChanged)}
         showsTraffic={false}
         loadingEnabled
         customMapStyle={mapStyle}
         onPress={() => deselect()}
       >
-        {props.filteredPlaces.map((place, i) => {
+        {filteredPlaces.map((place, i) => {
           return (
             <Marker
-              key={`marker${i}`}
+              key={place._id}
               coordinate={{
                 latitude: place.latitude,
                 longitude: place.longitude,
               }}
               onPress={() => {
-                displayModal(place), setMarkerSelected(i);
+                displayModal(place);
+                setMarkerSelected(i);
               }}
               // onDeselect={ () => { hideModal(), setMarkerSelected('') } }
             >
               <View style={{ width: 32, height: 44 }}>
-                {place.type == "shop" ? (
+                {place.type === "shop" ? (
                   <MarkerShop
-                    size={markerSelected == i ? bigSize : smallSize}
+                    size={markerSelected === i ? bigSize : smallSize}
                   />
                 ) : (
                   <MarkerRestaurant
-                    size={markerSelected == i ? bigSize : smallSize}
+                    size={markerSelected === i ? bigSize : smallSize}
                   />
                 )}
               </View>
@@ -102,8 +102,8 @@ function Map(props) {
         })}
         <Marker
           coordinate={{
-            latitude: props.userPosition.currentLat,
-            longitude: props.userPosition.currentLong,
+            latitude: userPosition.currentLat,
+            longitude: userPosition.currentLong,
           }}
           title="Moi"
           description="Je suis là !"
@@ -120,9 +120,9 @@ function Map(props) {
         <MaterialCommunityIcons name="target" size={24} color="white" />
       </TouchableOpacity>
 
-      {modalVisibility == true ? (
+      {modalVisibility === true ? (
         <MapModal
-          place={props.filteredPlaces[markerSelected]}
+          place={filteredPlaces[markerSelected]}
           handleclickParent={deselect}
         />
       ) : null}

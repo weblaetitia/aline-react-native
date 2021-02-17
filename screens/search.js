@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
-  Image,
   View,
   TouchableOpacity,
-  ImageBackground,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -15,12 +13,9 @@ import { StatusBar } from "expo-status-bar";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-elements";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import { useHeaderHeight } from "@react-navigation/stack";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // import BASE URL
-import { Ionicons } from "@expo/vector-icons";
 import { BASE_URL } from "../components/environment";
 
 // my components
@@ -35,16 +30,7 @@ import ScanSVG from "../components/ScanSVG";
 
 /* Color ref */
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
 const mint = "#2DB08C";
-const grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
-const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-const goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
 
 function SearchScreen(props) {
   const navigation = useNavigation();
@@ -53,9 +39,7 @@ function SearchScreen(props) {
   const isFocused = useIsFocused();
   // console.log('focus? ', isFocused)
 
-  const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
-  const viewHeight = windowHeight - useHeaderHeight() - useHeaderHeight();
 
   /* Fetch to find products  */
   const [keyProducts, setKeyProducts] = useState("");
@@ -64,38 +48,39 @@ function SearchScreen(props) {
   const [scanned, setScanned] = useState(false);
   const [loader, setLoader] = useState(false);
   const [noResultFound, setNoResultFound] = useState(false);
+
   // const [searchResult, setSearchResult] = useState();
 
-  if (scanMode == false && noResultFound == false) {
-    async function findProducts() {
-      if (keyProducts != "") {
-        const rawResponse = await fetch(`${BASE_URL}/search/search`, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `dataProducts=${keyProducts}`,
-        });
+  async function findProducts() {
+    if (keyProducts !== "") {
+      const rawResponse = await fetch(`${BASE_URL}/search/search`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `dataProducts=${keyProducts}`,
+      });
 
-        const response = await rawResponse.json();
-        if (
-          response.productsArray.length === 0 &&
-          response.placesArray.length === 0
-        ) {
-          // nothing found
-          setNoResultFound(true);
-        } else {
-          // found something!
-          setNoResultFound(false);
-          navigation.navigate("SearchedResults", { response });
-        }
+      const response = await rawResponse.json();
+      if (
+        response.productsArray.length === 0 &&
+        response.placesArray.length === 0
+      ) {
+        // nothing found
+        setNoResultFound(true);
+      } else {
+        // found something!
+        setNoResultFound(false);
+        navigation.navigate("SearchedResults", { response });
       }
     }
+  }
 
+  if (scanMode === false && noResultFound === false) {
     return (
       // Page d'accueil Chercher - input - bouton - SCAN bouton
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ ...styles.container }}>
           <Text style={{ ...styles.current20 }}>
-            Chercher par produit, par marque, ou par nom d'établissement
+            Chercher par produit, par marque, ou par nom d&apos;établissement
           </Text>
           <KeyboardAvoidingView style={{ width: "100%", alignItems: "center" }}>
             <AlineInputCenter
@@ -137,7 +122,7 @@ function SearchScreen(props) {
             }
             title="Scannez votre produit"
           />
-          <StatusBar style="auto" />
+          <StatusBar />
         </View>
       </TouchableWithoutFeedback>
     );
@@ -147,7 +132,7 @@ function SearchScreen(props) {
       // page rien trouvé
       <View style={{ ...styles.container }}>
         <Text style={{ ...styles.current20, textAlign: "center" }}>
-          Il semble n'y avoir aucun élément{" "}
+          Il semble n&apos;y avoir aucun élément{" "}
           <Text style={{ fontWeight: "bold" }}>{keyProducts}</Text> dans notre
           base.
         </Text>
@@ -159,79 +144,71 @@ function SearchScreen(props) {
           title="Refaire une recherche"
         />
 
-        <StatusBar style="auto" />
+        <StatusBar />
       </View>
     );
   }
-  if (scanMode == true && isFocused) {
+  if (scanMode === true && isFocused) {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
       setScanned(false);
     })();
 
-    if (loader) {
-      var layerView = (
-        <View style={styles.loadingView}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>
-            {" "}
-            Loading...
-          </Text>
-        </View>
-      );
-    }
-    if (!loader) {
-      var layerView = (
+    const layerView = loader ? (
+      <View style={styles.loadingView}>
+        <Text style={{ color: "white", fontWeight: "bold" }}> Loading...</Text>
+      </View>
+    ) : (
+      <View
+        style={{
+          position: "absolute",
+          height: "100%",
+          top: 0,
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
         <View
           style={{
-            position: "absolute",
-            height: "100%",
-            top: 0,
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "space-between",
+            width: windowWidth,
+            flexGrow: 1,
+            justifyContent: "center",
           }}
         >
-          <View
-            style={{
-              width: windowWidth,
-              flexGrow: 1,
-              justifyContent: "center",
+          <TouchableOpacity
+            onPress={() => {
+              setScanMode(false);
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                setScanMode(false);
-              }}
-            >
-              <Ionicons
-                name="md-close"
-                size={34}
-                color={mint}
-                style={{ textAlign: "right", marginRight: 34 }}
-              />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              width: windowWidth,
-              flexGrow: 12,
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ScanSVG />
-          </View>
-          <View style={{ width: windowWidth, flexGrow: 1 }}>
-            <Text style={{ height: 34 }} />
-          </View>
+            <Ionicons
+              name="md-close"
+              size={34}
+              color={mint}
+              style={{ textAlign: "right", marginRight: 34 }}
+            />
+          </TouchableOpacity>
         </View>
-      );
-    }
+        <View
+          style={{
+            width: windowWidth,
+            flexGrow: 12,
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ScanSVG />
+        </View>
+        <View style={{ width: windowWidth, flexGrow: 1 }}>
+          <Text style={{ height: 34 }} />
+        </View>
+      </View>
+    );
 
     // successfully scan something
-    const handleBarCodeScanned = async ({ type, data }) => {
+    const handleBarCodeScanned = async ({ data }) => {
       setScanned(true);
       setLoader(true);
       // console.log('Bar code with type: ', type)
@@ -251,7 +228,8 @@ function SearchScreen(props) {
         setScanned(true);
         setScanMode(false);
         setNoResultFound(true);
-        setErrMsg("Désolé, ce produit ne semble pas être consigné.");
+        // TODO ne fonctionne pas, voir comment le corriger
+        // setErrMsg("Désolé, ce produit ne semble pas être consigné.");
       }
     };
 

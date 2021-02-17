@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  PermissionsAndroid,
-  Platform,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import SegmentedControl from "@react-native-community/segmented-control";
@@ -108,16 +106,17 @@ function ExploreScreen(props) {
     // console.log('#7 ok permision et loc accordé')
   }, []);
 
+  const { filter } = props;
   useEffect(() => {
     // console.log('#9 je rentre dans le 2eme use effect')
     // filter places
-    const filterPlaces = (places, filter) => {
+    const filterPlaces = (places, filterValue) => {
       // console.log('#10 je filtre')
       const tempPlaces = [];
 
       let filterdistance = 10000; // default 10km
-      if (filter.placeDistance != "") {
-        filterdistance = filter.placeDistance;
+      if (filterValue.placeDistance !== "") {
+        filterdistance = filterValue.placeDistance;
       }
       const tempArray = Object.values(places);
       tempArray.forEach((place) => {
@@ -128,17 +127,23 @@ function ExploreScreen(props) {
           { latitude: currentLat, longitude: currentLong }
         );
         if (distanceFromUser < filterdistance) {
-          if (filter.networkName == "") {
-            if (filter.restaurant == true && place.type == "restaurant") {
+          if (filterValue.networkName === "") {
+            if (
+              filterValue.restaurant === true &&
+              place.type === "restaurant"
+            ) {
               tempPlaces.push(place);
             }
-            if (filter.shop == true && place.type == "shop") {
+            if (filterValue.shop === true && place.type === "shop") {
               tempPlaces.push(place);
             }
-            if (filter.shop == false && filter.restaurant == false) {
+            if (
+              filterValue.shop === false &&
+              filterValue.restaurant === false
+            ) {
               tempPlaces.push(place);
             }
-          } else if (filter.networkName == place.network) {
+          } else if (filterValue.networkName === place.network) {
             tempPlaces.push(place);
           }
         }
@@ -152,12 +157,13 @@ function ExploreScreen(props) {
 
       setFilteredPlaces(shuffled);
     };
-    filterPlaces(allPlacesList, props.filter);
+    filterPlaces(allPlacesList, filter);
+    // TODO remove log de debug
     // console.log('#11 jai filtré')
     // console.log('allPlacesList :', allPlacesList.length)
-  }, [allPlacesList, props.filter]);
+  }, [allPlacesList, filter]);
 
-  if (mapReady == false) {
+  if (mapReady === false) {
     return (
       <View style={{ ...styles.loadingContainer }}>
         <Text style={{ ...styles.current }}>
@@ -219,23 +225,15 @@ function ExploreScreen(props) {
           </TouchableOpacity>
         </View>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar />
     </SafeAreaView>
   );
 }
 
 // colors vars
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
-const mint = "#2DB08C";
 const grayMedium = "#879299";
 const graySuperLight = "#f4f4f4";
-const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
-const goldLight = "#faf1cb";
-const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
 
 const styles = StyleSheet.create({
   container: {

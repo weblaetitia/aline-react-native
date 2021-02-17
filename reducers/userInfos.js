@@ -1,4 +1,4 @@
-export default function (infos = "", action) {
+export default function userInfos(infos = "", action) {
   if (action.type === "saveUserInfo") {
     return action.infos;
   }

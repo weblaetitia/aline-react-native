@@ -1,27 +1,13 @@
 import React from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-  TextInput,
-  Dimensions,
-  Keyboard,
-} from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 
 // custom fonts
-import { AppLoading } from "expo";
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 
 import { FontAwesome } from "@expo/vector-icons";
 
 // colors vars
-const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
 const mint = "#2DB08C";
 const grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
-const greyLight = "#d8d8d8";
 
 const ToggleButton = ({ onPress, title, checkedStatus }) => (
   <TouchableOpacity
@@ -68,4 +54,6 @@ const buttonTextSelected = {
   color: "white",
 };
 
+// TODO refactorer les references
 export { ToggleButton };
+export default ToggleButton;

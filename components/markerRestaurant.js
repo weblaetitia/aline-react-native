@@ -1,17 +1,18 @@
 import * as React from "react";
-import Svg, { Defs, Ellipse, Path } from "react-native-svg";
+import Svg, { Ellipse, Path } from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: style */
 
 function MarkerRestaurant(props) {
+  const { size } = props;
   return (
     <Svg
       viewBox="0 0 32 44"
-      width={props.size.width}
-      height={props.size.height}
+      width={size.width}
+      height={size.height}
       style={{
         transform: [
-          { translateX: props.size.translateX },
-          { translateY: props.size.translateY },
+          { translateX: size.translateX },
+          { translateY: size.translateY },
         ],
       }}
     >

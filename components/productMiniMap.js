@@ -43,7 +43,7 @@ function ProductsMiniMap(props) {
       );
       const response = await rawResponse.json();
       setPlacesList(response);
-      const tempsPoints = response.map((place, i) => {
+      const tempsPoints = response.map((place) => {
         return {
           latitude: place.latitude,
           longitude: place.longitude,
@@ -54,7 +54,8 @@ function ProductsMiniMap(props) {
     getNetworksPlaces(props.network);
 
     const getRegion = () => {};
-    getRegion;
+    // TODO documenter appel à un methode vide
+    getRegion();
   }, []);
 
   // store Filter
@@ -69,14 +70,14 @@ function ProductsMiniMap(props) {
     navigation.navigate("Explore");
   };
 
-  const MarkerList = placesList.map((place, i) => {
+  const MarkerList = placesList.map((place) => {
     return (
       <Marker
-        key={`marker${i}`}
+        key={place._id}
         coordinate={{ latitude: place.latitude, longitude: place.longitude }}
       >
         <View style={{ width: 32, height: 44 }}>
-          {place.type == "shop" ? (
+          {place.type === "shop" ? (
             <MarkerShop size={smallSize} />
           ) : (
             <MarkerRestaurant size={smallSize} />
@@ -94,7 +95,6 @@ function ProductsMiniMap(props) {
           onPress={() => handleClick()}
           rotateEnabled={false}
           provider={PROVIDER_GOOGLE}
-          rotateEnabled={false}
           showsTraffic={false}
           loadingEnabled
           customMapStyle={mapStyle}

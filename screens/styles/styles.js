@@ -5,16 +5,11 @@ import { StatusBarHeight } from "../../functions/functionFile";
 
 // colors vars
 const blueDark = "#033C47";
-const mintLight = "#D5EFE8";
 const mint = "#2DB08C";
 const grayMedium = "#879299";
-const graySuperLight = "#f4f4f4";
 const greyLight = "#d8d8d8";
-const gold = "#E8BA00";
 const goldLight = "#faf1cb";
 const tomato = "#ec333b";
-const peach = "#ef7e67";
-const peachLight = "#FED4CB";
 
 const styles = StyleSheet.create({
   container: {
@@ -119,4 +114,6 @@ const styles = StyleSheet.create({
   },
 });
 
+// TODO refactor les references
 export { styles };
+export default styles;
