@@ -21,6 +21,7 @@
     "@react-navigation/stack": "^5.12.8",
     "expo": "^38.0.10",
     "expo-barcode-scanner": "~8.2.1",
+    "expo-cli": "^4.1.6",
     "expo-font": "~8.2.1",
     "expo-linking": "~1.0.6",
     "expo-location": "~8.2.1",
