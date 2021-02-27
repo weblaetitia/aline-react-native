@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { AppLoading } from "expo";
+// eslint-disable-next-line camelcase
 import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
 import { Ionicons } from "@expo/vector-icons";
 
 /* Colors ref */
-var greyLight = "#d8d8d8";
-var grayMedium = "#879299";
-var mint = "#2DB08C";
-var graySuperLight = "#f4f4f4";
-var blueDark = "#033C47";
+const greyLight = "#d8d8d8";
+const grayMedium = "#879299";
+const mint = "#2DB08C";
+const graySuperLight = "#f4f4f4";
+const blueDark = "#033C47";
 
-export default function SearchPlacesScreen({ props, route, navigation }) {
+export default function SearchPlacesScreen({ route, navigation }) {
   const [type, setType] = useState("");
   const [datas, setDatas] = useState([]);
 
-  let [fontsLoaded] = useFonts({ Capriola_400Regular });
+  const [fontsLoaded] = useFonts({ Capriola_400Regular });
 
   useEffect(() => {
     const getType = () => {
@@ -31,19 +32,22 @@ export default function SearchPlacesScreen({ props, route, navigation }) {
   }, []);
 
   // open place or product modal
-  const openModal = (type, data) => {
-    type === "produit"
-      ? navigation.navigate("Product", { product: data })
-      : navigation.navigate("Place", { place: data });
+  const openModal = (typeParam, data) => {
+    navigation.navigate(
+      typeParam === "produit" ? "Product" : "Place",
+      typeParam === "produit" ? { product: data } : { place: data }
+    );
   };
 
   // boucle sur la liste des datas
-  var productsList = datas.map((data, i) => {
+  const productsList = datas.map((data) => {
     return (
       <TouchableOpacity
         style={styles.productsView}
-        key={i}
-        onPress={() => {openModal(type, data)}}
+        key={data._id}
+        onPress={() => {
+          openModal(type, data);
+        }}
       >
         <Text
           style={{
@@ -62,24 +66,23 @@ export default function SearchPlacesScreen({ props, route, navigation }) {
 
   if (!fontsLoaded) {
     return <AppLoading />;
-  } else {
-    return (
-      <View style={styles.container}>
-        <View style={{ ...styles.head }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss">
-            <Ionicons
-              name="md-close"
-              size={34}
-              color={grayMedium}
-              style={{ textAlign: "right" }}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Choisissez un {type} dans la liste</Text>
-        {productsList}
-      </View>
-    );
   }
+  return (
+    <View style={styles.container}>
+      <View style={{ ...styles.head }}>
+        <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss">
+          <Ionicons
+            name="md-close"
+            size={34}
+            color={grayMedium}
+            style={{ textAlign: "right" }}
+          />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.title}>Choisissez un {type} dans la liste</Text>
+      {productsList}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

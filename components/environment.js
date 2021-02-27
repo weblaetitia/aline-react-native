@@ -1,3 +1,4 @@
-var BASE_URL = 'https://aline.app'
+const BASE_URL = "https://aline.app";
 
-export {BASE_URL}
+// eslint-disable-next-line import/prefer-default-export
+export { BASE_URL };

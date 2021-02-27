@@ -1,10 +1,15 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 /* SVGR has dropped some elements not supported by react-native-svg: style */
 
-function ScanSVG(props) {
+function ScanSVG() {
   return (
-    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" height="80%" width="80%">
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 640 400"
+      height="80%"
+      width="80%"
+    >
       <Path
         d="M0 200h640"
         fill="none"
@@ -20,7 +25,7 @@ function ScanSVG(props) {
         strokeMiterlimit={10}
       />
     </Svg>
-  )
+  );
 }
 
-export default ScanSVG
+export default ScanSVG;
