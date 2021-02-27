@@ -30,7 +30,8 @@ import SearchedResultsScreen from "./screens/searchedResults";
 import SignInScreen from "./screens/signIn";
 import SignUpScreen from "./screens/signUp";
 
-require("react-native").ignoreAllLogs(disable);
+console.disableYellowBox = true;
+
 const store = createStore(combineReducers({ token, favs, infos, filter }));
 
 // colors vars
