@@ -1,16 +1,14 @@
+// custom fonts
+import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
-  TextInput,
   Dimensions,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-
-// custom fonts
-
-import { FontAwesome } from "@expo/vector-icons";
 
 // colors vars
 const blueDark = "#033C47";
@@ -130,7 +128,6 @@ const AlineInputCenterArrow = ({
       }}
     >
       <TextInput
-        onPress={() => console.log("press")}
         value={value}
         onChangeText={onChange}
         placeholder={placeholder}

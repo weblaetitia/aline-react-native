@@ -1,40 +1,36 @@
-import React from "react";
-import { Image, View } from "react-native";
-
+import {
+  Entypo,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 // Navigation
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  Entypo,
-  FontAwesome5,
-} from "@expo/vector-icons";
-
+import React from "react";
+import { Image, View } from "react-native";
 import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
-import SignInScreen from "./screens/signIn";
-import SignUpScreen from "./screens/signUp";
-import ExploreScreen from "./screens/explore";
-import SearchScreen from "./screens/search";
-import FavScreen from "./screens/fav";
-import MoreInfoScreen from "./screens/moreInfo";
-import ProductModalScreen from "./screens/productModalScreen";
-import PlaceModalScreen from "./screens/placeModalScreen";
-import AccountModalScreen from "./screens/accountModalScreen";
-import SearchedResultsScreen from "./screens/searchedResults";
-import FilterModalScreen from "./screens/filterModalScreen";
-
+import { combineReducers, createStore } from "redux";
+import favs from "./reducers/favorites";
+import filter from "./reducers/filter";
 // icons
-
 // redux
 import token from "./reducers/token";
 import infos from "./reducers/userInfos";
-import filter from "./reducers/filter";
-import favs from "./reducers/favorites";
+import AccountModalScreen from "./screens/accountModalScreen";
+import ExploreScreen from "./screens/explore";
+import FavScreen from "./screens/fav";
+import FilterModalScreen from "./screens/filterModalScreen";
+import MoreInfoScreen from "./screens/moreInfo";
+import PlaceModalScreen from "./screens/placeModalScreen";
+import ProductModalScreen from "./screens/productModalScreen";
+import SearchScreen from "./screens/search";
+import SearchedResultsScreen from "./screens/searchedResults";
+import SignInScreen from "./screens/signIn";
+import SignUpScreen from "./screens/signUp";
 
-console.disableYellowBox = true;
+require("react-native").ignoreAllLogs(disable);
 const store = createStore(combineReducers({ token, favs, infos, filter }));
 
 // colors vars

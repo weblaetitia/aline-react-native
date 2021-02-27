@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ImageBackground,
-  AsyncStorage,
-} from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { connect } from "react-redux";
-
+// eslint-disable-next-line camelcase
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 // custom fonts
 import { AppLoading } from "expo";
-// eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
-
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
+import {
+  AsyncStorage,
+  ImageBackground,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+import { connect } from "react-redux";
 // custom button
 import {
   AlineButton,
-  AlineSeparator,
   AlineButtonOutline,
   AlineInputEmail,
   AlineInputPassword,
+  AlineSeparator,
 } from "../components/aline-lib";
-
 // import BASE URL
 import { BASE_URL } from "../components/environment";
 
