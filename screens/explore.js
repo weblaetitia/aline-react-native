@@ -146,8 +146,10 @@ function ExploreScreen(props) {
 
   const { filter } = props;
   useEffect(() => {
-    filterPlaces(allPlacesList, filter);
-  }, [allPlacesList, filter]);
+    if (permissionsReady) {
+      filterPlaces(allPlacesList, filter);
+    }
+  }, [allPlacesList, filter, permissionsReady]);
 
   if (!(placesReady && favsReady && permissionsReady && filteredPlacesReady)) {
     return (
