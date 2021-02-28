@@ -1,18 +1,17 @@
-import React from "react";
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { AppLoading } from "expo";
-
 // fonts
 // eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
+import { useNavigation } from "@react-navigation/native";
+import AppLoading from "expo-app-loading";
+import React from "react";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 /* Color ref */
 const greyLight = "#d8d8d8";

@@ -1,7 +1,7 @@
 // eslint-disable-next-line camelcase
 import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 // custom fonts
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
