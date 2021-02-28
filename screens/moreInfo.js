@@ -7,7 +7,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
-import Linking from "expo-linking";
+import * as Linking from "expo-linking";
 import React from "react";
 import {
   Image,
@@ -26,6 +26,7 @@ const mint = "#2DB08C";
 
 function MoreInfoScreen(props) {
   const [fontsLoaded] = useFonts({ Capriola_400Regular });
+  const { token } = props;
 
   /* Logout delete in  */
   function logout() {
@@ -47,7 +48,7 @@ function MoreInfoScreen(props) {
       Linking.openURL("https://fr.tipeee.com/alineconsigne/");
     }
   };
-  const { token } = props;
+  const handleFacebookLink = () => {};
   const lignes = token ? (
     <View>
       <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
