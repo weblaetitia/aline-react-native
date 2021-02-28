@@ -1,7 +1,7 @@
 import SegmentedControl from "@react-native-community/segmented-control";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+import * as Permissions from "expo-permissions"; // TODO: test whih hooks https://docs.expo.io/versions/v40.0.0/sdk/permissions/#usepermissions
 import { StatusBar } from "expo-status-bar";
 import * as geolib from "geolib";
 import React, { useEffect, useState } from "react";
