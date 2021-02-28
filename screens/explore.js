@@ -51,7 +51,6 @@ function ExploreScreen(props) {
 
   // check if user have fav and store them in redux
   const checkUserFav = async () => {
-    // console.log('#4 je fetch les fav')
     if (props.token) {
       const rawResponse = await fetch(
         `${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`
@@ -117,6 +116,12 @@ function ExploreScreen(props) {
           tempPlaces.push(place);
         }
         setFilteredPlacesReady(true);
+      } else {
+        // Utilisateur trop loin
+        setFilteredPlacesReady(true);
+        //TODO
+        // afficher un msg pour dire qu'il n'existe pas de lieu allentour
+        // inviter l'utilisateur à changer son rayon de recherche
       }
     });
 
@@ -151,7 +156,7 @@ function ExploreScreen(props) {
     }
   }, [allPlacesList, filter, permissionsReady]);
 
-  if (!(placesReady && favsReady && permissionsReady && filteredPlacesReady)) {
+  if (!(placesReady && permissionsReady && filteredPlacesReady)) {
     return (
       <View style={{ ...styles.loadingContainer }}>
         <Text style={{ ...styles.current }}>
