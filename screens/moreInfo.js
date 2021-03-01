@@ -48,45 +48,6 @@ function MoreInfoScreen(props) {
     }
   };
   const handleFacebookLink = () => {};
-  const lignes = token ? (
-    <View>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title style={{ color: "#033C47" }}>
-              <FontAwesome name="user" size={20} color={mint} />
-              Mon compte
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={logout}>
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title style={{ color: "#033C47" }}>
-              <AntDesign name="logout" size={20} color={mint} />
-              Se déconnecter
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-      </TouchableOpacity>
-    </View>
-  ) : (
-    <TouchableOpacity onPress={signin}>
-      <ListItem bottomDivider>
-        <ListItem.Content>
-          <ListItem.Title style={{ color: "#033C47" }}>
-            <FontAwesome name="sign-in" size={20} color={mint} />
-            S'inscrire
-          </ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-    </TouchableOpacity>
-  );
 
   return !fontsLoaded ? (
     <AppLoading />
@@ -99,8 +60,7 @@ function MoreInfoScreen(props) {
         </ListItem.Content>
       </ListItem>
       {/* mon compte || se connecter */}
-      {lignes}
-      {token && (
+      {token ? (
         <View>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("Account")}
@@ -108,8 +68,8 @@ function MoreInfoScreen(props) {
             <ListItem bottomDivider>
               <ListItem.Content>
                 <ListItem.Title style={{ color: "#033C47" }}>
-                  <FontAwesome name="user" size={20} color={mint} />
-                  Mon compte
+                  <FontAwesome name="user" style={styles.icon} color={mint} />
+                  &nbsp;&nbsp;Mon compte
                 </ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
@@ -120,22 +80,21 @@ function MoreInfoScreen(props) {
             <ListItem bottomDivider>
               <ListItem.Content>
                 <ListItem.Title style={{ color: "#033C47" }}>
-                  <AntDesign name="logout" size={20} color={mint} />
-                  Se déconnecter
+                  <AntDesign name="logout" style={styles.icon} color={mint} />
+                  &nbsp;&nbsp;Se déconnecter
                 </ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
           </TouchableOpacity>
         </View>
-      )}
-      {!token && (
+      ) : (
         <TouchableOpacity onPress={signin}>
           <ListItem bottomDivider>
             <ListItem.Content>
               <ListItem.Title style={{ color: "#033C47" }}>
-                <FontAwesome name="sign-in" size={20} color={mint} />
-                S'inscrire
+                <FontAwesome name="sign-in" style={styles.icon} color={mint} />
+                &nbsp;&nbsp;S'inscrire
               </ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
@@ -148,7 +107,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <FontAwesome5 name="coins" size={20} color={mint} />
+              <FontAwesome5 name="coins" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;
               {Platform.OS === "android"
                 ? "Soutenir Aline"
                 : "Soutenir Aline avec tipee"}
@@ -165,10 +125,10 @@ function MoreInfoScreen(props) {
             <ListItem.Title style={{ color: "#033C47" }}>
               <MaterialCommunityIcons
                 name="map-marker-plus"
-                size={20}
+                style={styles.icon}
                 color={mint}
               />
-              Nourrir Aline
+              &nbsp;&nbsp;Nourrir Aline
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -182,8 +142,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <FontAwesome5 name="envelope" size={20} color={mint} />
-              Nous écrire
+              <FontAwesome5 name="envelope" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Nous écrire
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -206,8 +166,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <FontAwesome name="facebook-f" size={20} color={mint} />
-              Facebook
+              <FontAwesome name="facebook-f" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Facebook
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -223,8 +183,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <AntDesign name="instagram" size={20} color={mint} />
-              Instagram
+              <AntDesign name="instagram" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Instagram
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -238,8 +198,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <AntDesign name="twitter" size={20} color={mint} />
-              Twitter
+              <AntDesign name="twitter" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Twitter
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -251,8 +211,8 @@ function MoreInfoScreen(props) {
         <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title style={{ color: "#033C47" }}>
-              <FontAwesome5 name="desktop" size={20} color={mint} />
-              Site internet
+              <FontAwesome5 name="desktop" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Site Internet
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -305,6 +265,12 @@ const styles = StyleSheet.create({
     fontFamily: "Capriola_400Regular",
     color: mint,
     fontSize: 18,
+  },
+  icon: {
+    fontSize: 16,
+  },
+  space: {
+    marginRight: 6,
   },
 });
 
