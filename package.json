@@ -33,7 +33,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-dotenv": "^2.5.3",
-    "react-native-elements": "^2.3.2",
+    "react-native-elements": "^3.2.0",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-make": "^1.0.1",
     "react-native-maps": "0.27.1",

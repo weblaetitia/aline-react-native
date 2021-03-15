@@ -1,4 +1,3 @@
-// eslint-disable-next-line camelcase
 import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 import {
   AntDesign,
@@ -49,94 +48,114 @@ function MoreInfoScreen(props) {
     }
   };
   const handleFacebookLink = () => {};
-  const lignes = token ? (
-    <View>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
-        <ListItem
-          rightIcon={<FontAwesome name="user" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Mon compte"
-          bottomDivider
-        />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={logout}>
-        <ListItem
-          rightIcon={<AntDesign name="logout" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Se déconnecter"
-          bottomDivider
-        />
-      </TouchableOpacity>
-    </View>
-  ) : (
-    <TouchableOpacity onPress={signin}>
-      <ListItem
-        rightIcon={<FontAwesome name="sign-in" size={20} color={mint} />}
-        titleStyle={{ color: "#033C47" }}
-        title="S'inscrire"
-        bottomDivider
-      />
-    </TouchableOpacity>
-  );
 
   return !fontsLoaded ? (
     <AppLoading />
   ) : (
     <ScrollView style={{ backgroundColor: "white" }}>
       {/* ALINE ET MOI */}
-      <ListItem titleStyle={styles.h1} title="Aline et moi" bottomDivider />
+      <ListItem bottomDivider style={{ paddingTop: 30 }}>
+        <ListItem.Content>
+          <ListItem.Title style={styles.h1}>Aline et moi</ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
       {/* mon compte || se connecter */}
-      {lignes}
+      {token ? (
+        <View>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Account")}
+          >
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title style={{ color: "#033C47" }}>
+                  <FontAwesome name="user" style={styles.icon} color={mint} />
+                  &nbsp;&nbsp;Mon compte
+                </ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={logout}>
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title style={{ color: "#033C47" }}>
+                  <AntDesign name="logout" style={styles.icon} color={mint} />
+                  &nbsp;&nbsp;Se déconnecter
+                </ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity onPress={signin}>
+          <ListItem bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title style={{ color: "#033C47" }}>
+                <FontAwesome name="sign-in" style={styles.icon} color={mint} />
+                &nbsp;&nbsp;S'inscrire
+              </ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
+        </TouchableOpacity>
+      )}
 
       {/* soutenir Aline */}
       <TouchableOpacity onPress={() => supportLink()}>
-        <ListItem
-          rightIcon={<FontAwesome5 name="coins" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title={
-            Platform.OS === "android"
-              ? "Soutenir Aline"
-              : "Soutenir Aline avec tipee"
-          }
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <FontAwesome5 name="coins" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;
+              {Platform.OS === "android"
+                ? "Soutenir Aline"
+                : "Soutenir Aline avec tipee"}
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* nourrir Aline */}
       <TouchableOpacity onPress={() => Linking.openURL("https://aline.app")}>
-        <ListItem
-          rightIcon={
-            <MaterialCommunityIcons
-              name="map-marker-plus"
-              size={20}
-              color={mint}
-            />
-          }
-          titleStyle={{ color: "#033C47" }}
-          title="Nourrir Aline"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <MaterialCommunityIcons
+                name="map-marker-plus"
+                style={styles.icon}
+                color={mint}
+              />
+              &nbsp;&nbsp;Nourrir Aline
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* Nous écrire */}
       <TouchableOpacity
         onPress={() => Linking.openURL("mailto:contact@aline.app")}
       >
-        <ListItem
-          rightIcon={<FontAwesome5 name="envelope" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Nous écrire"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <FontAwesome5 name="envelope" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Nous écrire
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* RESTONS EN CONTACT */}
-      <ListItem
-        containerStyle={{ paddingTop: 30 }}
-        titleStyle={styles.h1}
-        title="Restons en contact"
-        bottomDivider
-      />
+      <ListItem bottomDivider style={{ paddingTop: 30 }}>
+        <ListItem.Content>
+          <ListItem.Title style={styles.h1}>Restons en contact</ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
 
       {/* Facebook */}
       <TouchableOpacity
@@ -144,12 +163,15 @@ function MoreInfoScreen(props) {
           Linking.openURL("https://www.facebook.com/alineconsigne")
         }
       >
-        <ListItem
-          rightIcon={<FontAwesome name="facebook-f" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Facebook"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <FontAwesome name="facebook-f" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Facebook
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* instagram */}
@@ -158,34 +180,43 @@ function MoreInfoScreen(props) {
           Linking.openURL("https://www.instagram.com/alineconsigne/")
         }
       >
-        <ListItem
-          rightIcon={<AntDesign name="instagram" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Instagram"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <AntDesign name="instagram" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Instagram
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* twitter */}
       <TouchableOpacity
         onPress={() => Linking.openURL("https://twitter.com/aline_consigne")}
       >
-        <ListItem
-          rightIcon={<AntDesign name="twitter" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Twitter"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <AntDesign name="twitter" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Twitter
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       {/* web */}
       <TouchableOpacity onPress={() => Linking.openURL("https://aline.app")}>
-        <ListItem
-          rightIcon={<FontAwesome5 name="desktop" size={20} color={mint} />}
-          titleStyle={{ color: "#033C47" }}
-          title="Site internet"
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={{ color: "#033C47" }}>
+              <FontAwesome5 name="desktop" style={styles.icon} color={mint} />
+              &nbsp;&nbsp;Site Internet
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>
 
       <View
@@ -234,6 +265,12 @@ const styles = StyleSheet.create({
     fontFamily: "Capriola_400Regular",
     color: mint,
     fontSize: 18,
+  },
+  icon: {
+    fontSize: 16,
+  },
+  space: {
+    marginRight: 6,
   },
 });
 
