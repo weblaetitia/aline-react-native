@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { AppLoading } from "expo";
 // eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 import { Ionicons } from "@expo/vector-icons";
+import AppLoading from "expo-app-loading";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 /* Colors ref */
 const greyLight = "#d8d8d8";

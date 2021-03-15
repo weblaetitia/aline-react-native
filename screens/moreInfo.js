@@ -1,29 +1,25 @@
-import React from "react";
-
+// eslint-disable-next-line camelcase
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Text,
-  Image,
-  Platform,
-} from "react-native";
-import { ListItem } from "react-native-elements";
-
-import {
-  FontAwesome,
   AntDesign,
+  FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-
-import { AppLoading } from "expo";
-// eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
-import { connect } from "react-redux";
-
+import AppLoading from "expo-app-loading";
 import Linking from "expo-linking";
+import React from "react";
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { ListItem } from "react-native-elements";
+import { connect } from "react-redux";
 
 /* Color ref */
 const mint = "#2DB08C";
