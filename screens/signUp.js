@@ -1,33 +1,27 @@
+// eslint-disable-next-line camelcase
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
+import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
+  AsyncStorage,
+  ImageBackground,
+  Keyboard,
+  ScrollView,
   StyleSheet,
   Text,
-  ScrollView,
-  View,
   TouchableWithoutFeedback,
-  Keyboard,
-  ImageBackground,
-  AsyncStorage,
+  View,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { connect } from "react-redux";
-
-// custom fonts
-import { AppLoading } from "expo";
-// eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
-
-// custom button
 import {
   AlineButton,
-  AlineInputCenter,
-  AlineSeparator,
   AlineButtonOutline,
+  AlineInputCenter,
   AlineInputEmail,
   AlineInputPassword,
+  AlineSeparator,
 } from "../components/aline-lib";
-
-// import BASE URL
 import { BASE_URL } from "../components/environment";
 
 // colors vars

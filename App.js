@@ -6,7 +6,6 @@ import {
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-// Navigation
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { Image, View } from "react-native";
@@ -14,8 +13,6 @@ import { Provider } from "react-redux";
 import { combineReducers, createStore } from "redux";
 import favs from "./reducers/favorites";
 import filter from "./reducers/filter";
-// icons
-// redux
 import token from "./reducers/token";
 import infos from "./reducers/userInfos";
 import AccountModalScreen from "./screens/accountModalScreen";
@@ -30,7 +27,9 @@ import SearchedResultsScreen from "./screens/searchedResults";
 import SignInScreen from "./screens/signIn";
 import SignUpScreen from "./screens/signUp";
 
-console.disableYellowBox = true;
+// import {LogBox} from "react-native";
+// LogBox.ignoreAllLogs();
+// LogBox.ignoreLogs(['Warning: ...']);
 
 const store = createStore(combineReducers({ token, favs, infos, filter }));
 

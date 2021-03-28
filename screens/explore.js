@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
-
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  Image,
-} from "react-native";
-import { StatusBar } from "expo-status-bar";
 import SegmentedControl from "@react-native-community/segmented-control";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+import * as Permissions from "expo-permissions"; // TODO: test whih hooks https://docs.expo.io/versions/v40.0.0/sdk/permissions/#usepermissions
+import { StatusBar } from "expo-status-bar";
 import * as geolib from "geolib";
+import React, { useEffect, useState } from "react";
+import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { connect } from "react-redux";
-
-// my components
-import Map from "../components/map";
-import List from "../components/listExplore";
-
 // import BASE URL
 import { BASE_URL } from "../components/environment";
+import List from "../components/listExplore";
+// my components
+import Map from "../components/map";
 
 function ExploreScreen(props) {
   const navigation = useNavigation();
@@ -197,10 +194,10 @@ function ExploreScreen(props) {
           <View style={{ marginTop: 10 }}>
             <SegmentedControl
               appearance="light" // 'dark', 'light'
-              // fontStyle={{color:mint}}             // An object container with color, fontSize, fontFamily   // NOT WORKING ON iOS13+
-              // activeFontStyle={{color:'white'}}     // An object container with color, fontSize, fontFamily  // NOT WORKING ON iOS13+
-              // tintColor={mint}                      // Accent color of the control
-              // backgroundColor='white'               // Background color color of the control // NOT WORKING ON iOS13+
+              fontStyle={{ color: mint }} // An object container with color, fontSize, fontFamily   // NOT WORKING ON iOS13+
+              activeFontStyle={{ color: "white" }} // An object container with color, fontSize, fontFamily  // NOT WORKING ON iOS13+
+              tintColor={mint} // Accent color of the control
+              backgroundColor="white" // Background color color of the control // NOT WORKING ON iOS13+
               values={["Carte", "Liste"]}
               selectedIndex={mapListIndex}
               onChange={(event) => {
@@ -234,6 +231,7 @@ function ExploreScreen(props) {
 const blueDark = "#033C47";
 const grayMedium = "#879299";
 const graySuperLight = "#f4f4f4";
+const mint = "#2DB08C";
 
 const styles = StyleSheet.create({
   container: {

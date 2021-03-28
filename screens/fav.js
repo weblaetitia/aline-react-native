@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
-
+import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
+import { useNavigation } from "@react-navigation/native";
+import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
-  View,
-  ScrollView,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { AppLoading } from "expo";
-// eslint-disable-next-line camelcase
-import { useFonts, Capriola_400Regular } from "@expo-google-fonts/capriola";
-import { StatusBar } from "expo-status-bar";
 import { connect } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import { AlineButton } from "../components/aline-lib";
 import FavCard from "../components/favCard";
 
