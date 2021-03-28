@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Overlay } from "react-native-elements";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Text,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-
 import { FontAwesome } from "@expo/vector-icons";
-import { connect } from "react-redux";
-
-// import BASE URL
 import { useNavigation } from "@react-navigation/native";
-import { BASE_URL } from "./environment";
+import React, { useEffect, useState } from "react";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Overlay } from "react-native-elements";
+import { connect } from "react-redux";
 import { AlineButton } from "./aline-lib";
+import { BASE_URL } from "./environment";
 
 function ListCard(props) {
   const navigation = useNavigation();
@@ -26,6 +23,7 @@ function ListCard(props) {
     place: { _id, placeImg, type, name, services },
     favs,
   } = props;
+
   // verifier si la place est dans les favoris
   useEffect(() => {
     const getLiked = async () => {

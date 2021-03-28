@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, Dimensions, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { connect } from "react-redux";
-
 // import BASE URL
 import { BASE_URL } from "./environment";
-
 // my components
 import MarkerRestaurant from "./markerRestaurant";
 import MarkerShop from "./markerShop";
