@@ -1,3 +1,4 @@
+// eslint-disable-next-line camelcase
 import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
 import { useNavigation } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
@@ -14,10 +15,16 @@ import { connect } from "react-redux";
 import { AlineButton } from "../components/aline-lib";
 import FavCard from "../components/favCard";
 
-function FavScreen(props) {
-  const [status, setStatus] = useState("nofav");
+// TODO:
+// après la suppression du dernier fav: devrait retourner le message "pas de favoris"
+// -> utiliser des "if" dans le return
 
+function FavScreen(props) {
+  const { favs } = props;
+  const [status, setStatus] = useState("nofav");
+  const [fontsLoaded] = useFonts({ Capriola_400Regular });
   const navigation = useNavigation();
+
   // check display
   useEffect(() => {
     if (props.token) {
@@ -31,73 +38,60 @@ function FavScreen(props) {
     }
   });
 
-  // message si pas de favoris
-  const nofav = (
-    <View style={{ paddingHorizontal: 40 }}>
-      <Text
-        style={{
-          fontFamily: "Capriola_400Regular",
-          fontSize: 16,
-          color: blueDark,
-        }}
-      >
-        Vous n&apos;avez pas encore de favoris
-      </Text>
-    </View>
-  );
-
-  // message d'option si utilisateur non logué
-  const nolog = (
-    <View style={{ paddingHorizontal: 40 }}>
-      <Text style={{ ...styles.current16 }}>
-        Vous devez être connecté pour ajouter des lieux à vos favoris
-      </Text>
-      <AlineButton
-        title="Se connecter"
-        onPress={() => navigation.navigate("SignIn")}
-      />
-    </View>
-  );
-  const { favs } = props;
-  const favlist =
-    favs.length > 0
-      ? favs.map((fav) => {
-          return (
-            <TouchableOpacity
-              key={fav._id}
-              onPress={() => navigation.navigate("Place", { place: fav })}
-            >
-              <FavCard
-                type={fav.type}
-                name={fav.name}
-                id={fav._id}
-                services={fav.services}
-                adress={fav.adress}
-              />
-            </TouchableOpacity>
-          );
-        })
-      : {};
-
-  const [fontsLoaded] = useFonts({ Capriola_400Regular });
-
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
-  const favsViewWhenLogged =
-    status === "favlist" ? (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={{ ...styles.h1blueDark }}>Mes favoris</Text>
-        {favlist}
-      </ScrollView>
-    ) : (
-      nofav
-    );
-
   return (
     <View style={{ ...styles.container }}>
-      {status === "nolog" ? nolog : favsViewWhenLogged}
+      {status === "nolog" && (
+        <View style={{ paddingHorizontal: 40 }}>
+          <Text style={{ ...styles.current16, textAlign: "center" }}>
+            Vous devez être connecté pour ajouter des lieux à vos favoris
+          </Text>
+          <AlineButton
+            title="Se connecter"
+            onPress={() => navigation.navigate("SignIn")}
+          />
+        </View>
+      )}
+
+      {status !== "nolog" && status === "favlist" && favs.length > 0 && (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={{ ...styles.h1blueDark }}>Mes favoris</Text>
+          {favs.map((fav) => {
+            return (
+              <TouchableOpacity
+                key={fav._id}
+                onPress={() => navigation.navigate("Place", { place: fav })}
+              >
+                <FavCard
+                  type={fav.type}
+                  name={fav.name}
+                  id={fav._id}
+                  services={fav.services}
+                  adress={fav.adress}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      )}
+
+      {status !== "nolog" && (status != "favlist" || favs.length == 0) && (
+        <View style={{ paddingHorizontal: 40 }}>
+          <Text
+            style={{
+              fontFamily: "Capriola_400Regular",
+              fontSize: 16,
+              color: blueDark,
+            }}
+          >
+            Vous n&apos;avez pas encore de favoris
+          </Text>
+        </View>
+      )}
+
       <StatusBar />
     </View>
   );

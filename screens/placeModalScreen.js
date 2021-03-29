@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, ScrollView, Text, Image, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-
 // my components
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
 import { AlineH1 } from "../components/aline-lib";
-import MiniMap from "../components/miniMap";
-
 // import BASE URL
 import { BASE_URL } from "../components/environment";
-
+import MiniMap from "../components/miniMap";
 // fonts
-
 // styles
 import { styles } from "./styles/styles";
 
@@ -64,13 +60,11 @@ function PlaceModalScreen(props) {
   // Display opening hours
   let hours;
   if (typeof place.openingHours === "string") {
-    // c'est une string
     hours = <Text style={styles.current}>- {place.openingHours}</Text>;
   } else {
-    // c'est un tableau
-    hours = place.openingHours.map((listItem) => {
+    hours = place.openingHours.map((listItem, idx) => {
       return (
-        <Text key={place._id} style={styles.current}>
+        <Text key={idx} style={styles.current}>
           - {listItem}
         </Text>
       );

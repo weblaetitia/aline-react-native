@@ -36,7 +36,103 @@ function ExploreScreen(props) {
 
   const [allPlacesList, setAllPlacesList] = useState({});
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-  const [mapReady, setMapReady] = useState(false);
+  const [placesReady, setPlacesReady] = useState(false);
+  const [favsReady, setFavsReady] = useState(false);
+  const [permissionsReady, setPermissionsReady] = useState(false);
+  const [filteredPlacesReady, setFilteredPlacesReady] = useState(false);
+
+  // get places
+  const getPlaces = async () => {
+    const rawResponse = await fetch(`${BASE_URL}/map/get-all-places`);
+    const allPlaces = await rawResponse.json(); // response is an object
+    setAllPlacesList(allPlaces);
+    setPlacesReady(true);
+  };
+
+  // check if user have fav and store them in redux
+  const checkUserFav = async () => {
+    if (props.token) {
+      const rawResponse = await fetch(
+        `${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`
+      );
+      const response = await rawResponse.json();
+      if (response) {
+        props.storeFav(response);
+        setFavsReady(true);
+      } else {
+        props.storeFav("");
+      }
+    } else {
+      // console.log('no token in redux')
+    }
+  };
+
+  // ask permissions for user position
+  async function askPermissions() {
+    const response = await Permissions.askAsync(Permissions.LOCATION);
+    if (response.status === "granted") {
+      Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
+        setCurrentLat(location.coords.latitude);
+        setCurrentLong(location.coords.longitude);
+        setRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+        setPermissionsReady(true);
+      });
+    }
+  }
+
+  // filter places
+  const filterPlaces = (places, filterValue) => {
+    const tempPlaces = [];
+
+    let filterdistance = 10000; // default 10km
+    if (filterValue.placeDistance !== "") {
+      filterdistance = filterValue.placeDistance;
+    }
+    const tempArray = Object.values(places);
+    tempArray.forEach((place) => {
+      // get distance between user and the place
+      // geolib.getDistance({placeLat, placeLong}, {userLat, userLong})
+      const distanceFromUser = geolib.getDistance(
+        { latitude: place.latitude, longitude: place.longitude },
+        { latitude: currentLat, longitude: currentLong }
+      );
+      if (distanceFromUser < filterdistance) {
+        if (filterValue.networkName === "") {
+          if (filterValue.restaurant === true && place.type === "restaurant") {
+            tempPlaces.push(place);
+          }
+          if (filterValue.shop === true && place.type === "shop") {
+            tempPlaces.push(place);
+          }
+          if (filterValue.shop === false && filterValue.restaurant === false) {
+            tempPlaces.push(place);
+          }
+        } else if (filterValue.networkName === place.network) {
+          tempPlaces.push(place);
+        }
+        setFilteredPlacesReady(true);
+      } else {
+        // Utilisateur trop loin
+        setFilteredPlacesReady(true);
+        //TODO
+        // afficher un msg pour dire qu'il n'existe pas de lieu allentour
+        // inviter l'utilisateur à changer son rayon de recherche
+      }
+    });
+
+    // randomize places in array
+    const shuffled = tempPlaces
+      .map((a) => ({ sort: Math.random(), value: a }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((a) => a.value);
+
+    setFilteredPlaces(shuffled);
+  };
 
   useEffect(() => {
     // store default filter
@@ -47,120 +143,20 @@ function ExploreScreen(props) {
       restaurant: true,
       shop: true,
     });
-    // console.log('#8 filtre par défaut déclaré')
 
-    // get places
-    // console.log('#1 use effect numéro 1')
-    const getPlaces = async () => {
-      // console.log('#2 je fetch les places')
-      // get all places
-      const rawResponse = await fetch(`${BASE_URL}/map/get-all-places`);
-      const allPlaces = await rawResponse.json(); // response is an object
-      setAllPlacesList(allPlaces);
-    };
     getPlaces();
-    // console.log('#3 jai chargé les places')
-
-    // check if user have fav and store them in redux
-    const checkUserFav = async () => {
-      // console.log('#4 je fetch les fav')
-      if (props.token) {
-        const rawResponse = await fetch(
-          `${BASE_URL}/users/mobile/get-user-fav?token=${props.token}`
-        );
-        const response = await rawResponse.json();
-        if (response) {
-          props.storeFav(response);
-        } else {
-          props.storeFav("");
-        }
-      } else {
-        // console.log('no token in redux')
-      }
-    };
     checkUserFav();
-    // console.log('#5 ok pour les fav')
-
-    // ask permissions for user position
-    async function askPermissions() {
-      // console.log('#6 demande la permision')
-      const response = await Permissions.askAsync(Permissions.LOCATION);
-      if (response.status === "granted") {
-        Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-          setCurrentLat(location.coords.latitude);
-          setCurrentLong(location.coords.longitude);
-          setRegion({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          });
-          setMapReady(true);
-        });
-      }
-    }
     askPermissions();
-    // console.log('#7 ok permision et loc accordé')
   }, []);
 
   const { filter } = props;
   useEffect(() => {
-    // console.log('#9 je rentre dans le 2eme use effect')
-    // filter places
-    const filterPlaces = (places, filterValue) => {
-      // console.log('#10 je filtre')
-      const tempPlaces = [];
+    if (permissionsReady) {
+      filterPlaces(allPlacesList, filter);
+    }
+  }, [allPlacesList, filter, permissionsReady]);
 
-      let filterdistance = 10000; // default 10km
-      if (filterValue.placeDistance !== "") {
-        filterdistance = filterValue.placeDistance;
-      }
-      const tempArray = Object.values(places);
-      tempArray.forEach((place) => {
-        // get distance between user and the place
-        // geolib.getDistance({placeLat, placeLong}, {userLat, userLong})
-        const distanceFromUser = geolib.getDistance(
-          { latitude: place.latitude, longitude: place.longitude },
-          { latitude: currentLat, longitude: currentLong }
-        );
-        if (distanceFromUser < filterdistance) {
-          if (filterValue.networkName === "") {
-            if (
-              filterValue.restaurant === true &&
-              place.type === "restaurant"
-            ) {
-              tempPlaces.push(place);
-            }
-            if (filterValue.shop === true && place.type === "shop") {
-              tempPlaces.push(place);
-            }
-            if (
-              filterValue.shop === false &&
-              filterValue.restaurant === false
-            ) {
-              tempPlaces.push(place);
-            }
-          } else if (filterValue.networkName === place.network) {
-            tempPlaces.push(place);
-          }
-        }
-      });
-
-      // randomize places in array
-      const shuffled = tempPlaces
-        .map((a) => ({ sort: Math.random(), value: a }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value);
-
-      setFilteredPlaces(shuffled);
-    };
-    filterPlaces(allPlacesList, filter);
-    // TODO remove log de debug
-    // console.log('#11 jai filtré')
-    // console.log('allPlacesList :', allPlacesList.length)
-  }, [allPlacesList, filter]);
-
-  if (mapReady === false) {
+  if (!(placesReady && permissionsReady && filteredPlacesReady)) {
     return (
       <View style={{ ...styles.loadingContainer }}>
         <Text style={{ ...styles.current }}>
