@@ -95,6 +95,7 @@ function SearchScreen(props) {
               findProducts();
             }}
             title="Recherche"
+            disabled={keyProducts === ""}
           />
           <View style={{ width: "100%", alignItems: "center" }}>
             <AlineSeparator text="ou" style={{ width: "100%" }} />
@@ -140,6 +141,7 @@ function SearchScreen(props) {
 
         <AlineButton
           onPress={() => {
+            setKeyProducts("");
             setNoResultFound(false);
           }}
           title="Refaire une recherche"
