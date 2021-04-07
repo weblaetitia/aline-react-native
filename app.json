@@ -16,9 +16,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.aline.alineconsigne",
       "versionCode": 1,
@@ -43,7 +41,7 @@
         "NSPhotoLibraryAddUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
         "NSPhotoLibraryUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
         "NSRemindersUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us."
-    },
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.aline.aline",
       "buildNumber": "1.0.1",
