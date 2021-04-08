@@ -36,7 +36,7 @@ function PlaceModalScreen(props) {
     getNetworkImg();
 
     const getFavStatus = () => {
-      if (props.favs) {
+      if (props.favs && props.favs.length > 0) {
         props.favs.forEach((fav) => {
           if (place._id === fav._id) {
             setIsFav(true);
