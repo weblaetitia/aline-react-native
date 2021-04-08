@@ -1,9 +1,11 @@
 // my components
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Overlay } from "react-native-elements";
 import { connect } from "react-redux";
-import { AlineH1 } from "../components/aline-lib";
+import { AlineButton, AlineH1 } from "../components/aline-lib";
 // import BASE URL
 import { BASE_URL } from "../components/environment";
 import MiniMap from "../components/miniMap";
@@ -15,9 +17,12 @@ function PlaceModalScreen(props) {
   const {
     route: { params },
   } = props;
+  const navigation = useNavigation();
+
   const { place } = params;
   const [networkImg, setNetworkImg] = useState("");
   const [isFav, setIsFav] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   // get image
   useEffect(() => {
@@ -42,18 +47,26 @@ function PlaceModalScreen(props) {
     getFavStatus();
   }, []);
 
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   const changeFavStatus = async (placeID) => {
-    // delete from db
-    // change redux state
-    // change heart color
-    const verb = isFav === false ? "add-fav" : "delete-fav";
-    const rawResponse = await fetch(
-      `${BASE_URL}/users/mobile/${verb}?token=${props.token}&placeid=${placeID}`
-    );
-    const response = await rawResponse.json();
-    if (response) {
-      props.storeFav(response);
-      setIsFav(!isFav);
+    if (!props.token || props.token === "" || props.token === undefined) {
+      toggleOverlay();
+    } else {
+      // delete from db
+      // change redux state
+      // change heart color
+      const verb = isFav === false ? "add-fav" : "delete-fav";
+      const rawResponse = await fetch(
+        `${BASE_URL}/users/mobile/${verb}?token=${props.token}&placeid=${placeID}`
+      );
+      const response = await rawResponse.json();
+      if (response) {
+        props.storeFav(response);
+        setIsFav(!isFav);
+      }
     }
   };
 
@@ -106,6 +119,17 @@ function PlaceModalScreen(props) {
       </View>
       {/* header */}
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+          <View style={{ width: "75%" }}>
+            <Text>
+              Vous devez être loggé pour ajouter des lieux à vos favoris
+            </Text>
+            <AlineButton
+              title="Se connecter"
+              onPress={() => navigation.navigate("SignIn")}
+            />
+          </View>
+        </Overlay>
         {/* body */}
         <View style={{ width: "100%" }}>
           {/* place header */}
