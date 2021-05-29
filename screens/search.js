@@ -32,14 +32,15 @@ import ScanSVG from "../components/ScanSVG";
 const blueDark = "#033C47";
 const mint = "#2DB08C";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 function SearchScreen(props) {
   const navigation = useNavigation();
 
   // isFocused
   const isFocused = useIsFocused();
   // console.log('focus? ', isFocused)
-
-  const windowWidth = Dimensions.get("window").width;
 
   /* Fetch to find products  */
   const [keyProducts, setKeyProducts] = useState("");
@@ -94,6 +95,7 @@ function SearchScreen(props) {
               findProducts();
             }}
             title="Recherche"
+            disabled={keyProducts === ""}
           />
           <View style={{ width: "100%", alignItems: "center" }}>
             <AlineSeparator text="ou" style={{ width: "100%" }} />
@@ -139,6 +141,7 @@ function SearchScreen(props) {
 
         <AlineButton
           onPress={() => {
+            setKeyProducts("");
             setNoResultFound(false);
           }}
           title="Refaire une recherche"
@@ -234,10 +237,18 @@ function SearchScreen(props) {
     };
 
     if (hasPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+      return (
+        <Text style={styles.scannerView}>
+          Demande d&apos;accès à l&apos;appareil photo...
+        </Text>
+      );
     }
     if (hasPermission === false) {
-      return <Text>No access to camera</Text>;
+      return (
+        <Text style={styles.scannerView}>
+          Pas d&apos;accès à l&apos;appareil photo.
+        </Text>
+      );
     }
 
     return (
@@ -246,7 +257,7 @@ function SearchScreen(props) {
       >
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
+          style={styles.scannerView}
         />
         {layerView}
         {/* <----- afficher un loader while on cherche dans la BDD */}
@@ -277,6 +288,12 @@ const styles = StyleSheet.create({
   current20: {
     color: blueDark,
     fontSize: 20,
+  },
+  scannerView: {
+    height: windowHeight / 1.06,
+    width: windowWidth,
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 });
 
