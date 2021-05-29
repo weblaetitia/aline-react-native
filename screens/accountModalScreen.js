@@ -1,25 +1,29 @@
+import { Entypo, Ionicons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   Image,
   ImageBackground,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { connect } from "react-redux";
-
-// fonts
-import { Ionicons, Entypo } from "@expo/vector-icons";
 
 function AccountModalScreen(props) {
   const {
     infos: { firstName, lastName, email },
   } = props;
+
+  const handleResetPassword = () => {
+    Linking.openURL("https://aline.app/login/identify");
+  };
+
   return (
     <View style={styles.container}>
       {/* header */}
-      <View style={styles.head}>
+      <View style={{ ...styles.head }}>
         <TouchableOpacity
           onPress={() => props.navigation.goBack()}
           title="Dismiss"
@@ -28,7 +32,7 @@ function AccountModalScreen(props) {
             name="md-close"
             size={34}
             color={grayMedium}
-            style={{ position: "absolute", alignSelf: "flex-end" }}
+            style={{ textAlign: "right" }}
           />
         </TouchableOpacity>
       </View>
@@ -140,16 +144,18 @@ function AccountModalScreen(props) {
           paddingRight: 30,
         }}
       >
-        <Text
-          style={{
-            ...styles.current,
-            marginTop: 5,
-            paddingTop: 6,
-            paddingBottom: 8,
-          }}
-        >
-          Changer mon mot de passe
-        </Text>
+        <TouchableOpacity onPress={() => handleResetPassword()}>
+          <Text
+            style={{
+              ...styles.current,
+              marginTop: 5,
+              paddingTop: 6,
+              paddingBottom: 8,
+            }}
+          >
+            Changer mon mot de passe
+          </Text>
+        </TouchableOpacity>
         <Entypo
           name="chevron-right"
           size={24}

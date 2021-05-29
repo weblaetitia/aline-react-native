@@ -1,7 +1,6 @@
-// eslint-disable-next-line camelcase
 import { Capriola_400Regular, useFonts } from "@expo-google-fonts/capriola";
-// custom fonts
 import AppLoading from "expo-app-loading";
+import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,11 +10,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { connect } from "react-redux";
-// custom button
 import {
   AlineButton,
   AlineButtonOutline,
@@ -23,7 +22,6 @@ import {
   AlineInputPassword,
   AlineSeparator,
 } from "../components/aline-lib";
-// import BASE URL
 import { BASE_URL } from "../components/environment";
 
 // colors vars
@@ -125,6 +123,10 @@ function signInScreen(props) {
     }
   };
 
+  const handleResetPassword = () => {
+    Linking.openURL("https://aline.app/login/identify");
+  };
+
   // add alert message
   const alertMessage = alert ? (
     <Text style={styles.alert}>Mauvais email ou mot de passe</Text>
@@ -173,6 +175,11 @@ function signInScreen(props) {
             />
             {alertMessage}
             <AlineButton title="Connexion" onPress={() => getUserInfo()} />
+            <TouchableOpacity onPress={() => handleResetPassword()}>
+              <Text style={{ ...styles.h2, fontSize: 14 }}>
+                Mot de passe oublié ?
+              </Text>
+            </TouchableOpacity>
             <AlineSeparator text="ou" />
             <Text style={styles.h2}>Vous êtes nouveau ici ?</Text>
             <AlineButtonOutline
