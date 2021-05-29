@@ -17,8 +17,9 @@ const grayMedium = "#879299";
 const graySuperLight = "#f4f4f4";
 const greyLight = "#d8d8d8";
 
-const AlineButton = ({ onPress, title, backgroundColor }) => (
+const AlineButton = ({ onPress, title, backgroundColor, disabled = false }) => (
   <TouchableOpacity
+    disabled={disabled}
     onPress={onPress}
     style={[
       styles.alineButtonContainer,
