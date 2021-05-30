@@ -1,11 +1,11 @@
 {
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true,
-    "editor.formatOnSave": true,
-    "source.fixAll": true,
-    "source.fixAll.eslint": true
+  // "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[javascript]": {
+    "editor.formatOnSave": false
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }

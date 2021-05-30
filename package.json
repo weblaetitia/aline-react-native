@@ -5,10 +5,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject",
-    "linter": "eslint *.js \"**/*.js\" --ignore-pattern node_modules",
-    "linter:fix": "eslint *.js \"**/*.js\" --ignore-pattern node_modules --fix",
-    "linter:selfcheck": "eslint-config-prettier App.js"
+    "eject": "expo eject"
   },
   "dependencies": {
     "@expo-google-fonts/capriola": "^0.1.0",
@@ -53,15 +50,15 @@
     "@babel/core": "~7.9.0",
     "@bam.tech/react-native-make": "^3.0.0",
     "babel-preset-expo": "8.3.0",
-    "eslint": "^7.21.0",
-    "eslint-config-airbnb": "18.2.1",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "prettier": "^2.2.1"
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.0"
   },
   "private": true
 }
