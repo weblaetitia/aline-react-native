@@ -1,14 +1,7 @@
 // custom fonts
 import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 // colors vars
 const blueDark = '#033C47'
@@ -102,26 +95,18 @@ const styles = StyleSheet.create({
   },
 })
 
-const AlineButton = ({ onPress, title, backgroundColor, disabled = false }) => (
+const AlineButton = ({ onPress, title, backgroundColor = '#2DB08C', disabled = false }) => (
   <TouchableOpacity
     disabled={disabled}
     onPress={onPress}
-    style={
-      disabled
-        ? [styles.alineButtonDisabled]
-        : [styles.alineButtonContainer, backgroundColor && { backgroundColor }]
-    }
+    style={disabled ? [styles.alineButtonDisabled] : [styles.alineButtonContainer, backgroundColor && { backgroundColor }]}
     activeOpacity={0.8}
   >
     <Text style={styles.alineButtonText}>{title}</Text>
   </TouchableOpacity>
 )
 const AlineButtonOutline = ({ onPress, title, borderColor }) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={[styles.alineButtonContainerOutline, borderColor && { borderColor }]}
-    activeOpacity={0.8}
-  >
+  <TouchableOpacity onPress={onPress} style={[styles.alineButtonContainerOutline, borderColor && { borderColor }]} activeOpacity={0.8}>
     <Text style={styles.alineButtonTextMint}>{title}</Text>
   </TouchableOpacity>
 )
@@ -135,11 +120,7 @@ const BaseInputCenter = ({ children, label }) => (
   </View>
 )
 
-const AlineInputCenter = ({
-  value,
-  onChange,
-  placeholder,
-}) => (
+const AlineInputCenter = ({ value, onChange, placeholder }) => (
   <BaseInputCenter style={{ alignItems: 'center' }}>
     <TextInput
       value={value}
@@ -153,11 +134,7 @@ const AlineInputCenter = ({
   </BaseInputCenter>
 )
 
-const AlineInputEmail = ({
-  value,
-  onChange,
-  placeholder,
-}) => (
+const AlineInputEmail = ({ value, onChange, placeholder }) => (
   <BaseInputCenter style={{ alignItems: 'center' }}>
     <TextInput
       keyboardType="email-address"
@@ -173,11 +150,7 @@ const AlineInputEmail = ({
   </BaseInputCenter>
 )
 
-const AlineInputPassword = ({
-  value,
-  onChange,
-  placeholder,
-}) => (
+const AlineInputPassword = ({ value, onChange, placeholder }) => (
   <BaseInputCenter style={{ alignItems: 'center' }}>
     <TextInput
       secureTextEntry
@@ -193,11 +166,7 @@ const AlineInputPassword = ({
   </BaseInputCenter>
 )
 
-const AlineInputCenterArrow = ({
-  value,
-  onChange,
-  placeholder,
-}) => (
+const AlineInputCenterArrow = ({ value, onChange, placeholder }) => (
   <BaseInputCenter>
     <View
       style={{
@@ -206,12 +175,7 @@ const AlineInputCenterArrow = ({
         justifyContent: 'center',
       }}
     >
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        placeholder={placeholder}
-        style={styles.alineInputArrow}
-      />
+      <TextInput value={value} onChangeText={onChange} placeholder={placeholder} style={styles.alineInputArrow} />
 
       <FontAwesome name="filter" size={28} color={mint} />
     </View>
@@ -270,8 +234,6 @@ const AlinePopin = ({ text }) => (
     <Text>{text}</Text>
   </View>
 )
-
-
 
 export {
   AlineButton,

@@ -10,6 +10,66 @@ import { connect } from 'react-redux'
 import { BASE_URL } from '../functions/environment'
 import List from '../components/ListExplore'
 import Map from '../components/Map'
+import locationArrow from '../assets/icons/location-arrow.png'
+
+// colors vars
+const blueDark = '#033C47'
+const grayMedium = '#879299'
+const graySuperLight = '#f4f4f4'
+const mint = '#2DB08C'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#fff',
+  },
+  current: {
+    fontSize: 16,
+    color: blueDark,
+    textAlign: 'left',
+    lineHeight: 26,
+  },
+  currentBold: {
+    fontSize: 16,
+    color: blueDark,
+    textAlign: 'left',
+    lineHeight: 26,
+    fontWeight: 'bold',
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  inputBadge: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: 32,
+    width: '140%',
+    backgroundColor: graySuperLight,
+    borderRadius: 16,
+    borderColor: grayMedium,
+    borderWidth: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 0,
+    margin: 10,
+  },
+  textBadge: {
+    color: grayMedium,
+  },
+})
 
 const ExploreScreen = (props) => {
   const navigation = useNavigation()
@@ -27,7 +87,6 @@ const ExploreScreen = (props) => {
   const [allPlacesList, setAllPlacesList] = useState({})
   const [filteredPlaces, setFilteredPlaces] = useState([])
   const [placesReady, setPlacesReady] = useState(false)
-  const [favsReady, setFavsReady] = useState(false)
   const [permissionsReady, setPermissionsReady] = useState(false)
   const [filteredPlacesReady, setFilteredPlacesReady] = useState(false)
 
@@ -46,7 +105,6 @@ const ExploreScreen = (props) => {
       const response = await rawResponse.json()
       if (response) {
         props.storeFav(response)
-        setFavsReady(true)
       } else {
         props.storeFav('')
       }
@@ -107,7 +165,7 @@ const ExploreScreen = (props) => {
       } else {
         // Utilisateur trop loin
         setFilteredPlacesReady(true)
-        //TODO
+        // TODO
         // afficher un msg pour dire qu'il n'existe pas de lieu allentour
         // inviter l'utilisateur à changer son rayon de recherche
       }
@@ -185,7 +243,7 @@ const ExploreScreen = (props) => {
           </View>
           <TouchableOpacity style={{ flex: 1, alignItems: 'center' }} onPress={() => navigation.navigate('Filter', { filtre: 'fiiiltre' })}>
             <View style={styles.inputBadge}>
-              <Image style={{ width: '6%', marginRight: 5 }} resizeMode="contain" source={require('../assets/icons/location-arrow.png')} />
+              <Image style={{ width: '6%', marginRight: 5 }} resizeMode="contain" source={locationArrow} />
               <Text style={styles.textBadge}>Que cherchez-vous ?</Text>
             </View>
           </TouchableOpacity>
@@ -195,65 +253,6 @@ const ExploreScreen = (props) => {
     </SafeAreaView>
   )
 }
-
-// colors vars
-const blueDark = '#033C47'
-const grayMedium = '#879299'
-const graySuperLight = '#f4f4f4'
-const mint = '#2DB08C'
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  modalContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    backgroundColor: '#fff',
-  },
-  current: {
-    fontSize: 16,
-    color: blueDark,
-    textAlign: 'left',
-    lineHeight: 26,
-  },
-  currentBold: {
-    fontSize: 16,
-    color: blueDark,
-    textAlign: 'left',
-    lineHeight: 26,
-    fontWeight: 'bold',
-  },
-  mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  inputBadge: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 32,
-    width: '140%',
-    backgroundColor: graySuperLight,
-    borderRadius: 16,
-    borderColor: grayMedium,
-    borderWidth: 1,
-    paddingHorizontal: 15,
-    paddingVertical: 0,
-    margin: 10,
-  },
-  textBadge: {
-    color: grayMedium,
-  },
-})
 
 function mapDispatchToProps(dispatch) {
   return {
