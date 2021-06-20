@@ -22,6 +22,7 @@ import SearchedResultsScreen from './screens/SearchedResults'
 import SignInScreen from './screens/SignIn'
 import SignUpScreen from './screens/SignUp'
 import logo from './assets/images/logo.png'
+import OfflineScreen from './screens/OfflineScreen'
 
 // import {LogBox} from "react-native";
 // LogBox.ignoreAllLogs();
@@ -143,6 +144,7 @@ function App() {
           <RootStack.Screen name="Filter" component={FilterModalScreen} />
           <RootStack.Screen name="Account" component={AccountModalScreen} />
           <RootStack.Screen name="SearchedResults" component={SearchedResultsScreen} />
+          <RootStack.Screen name="Offline" component={OfflineScreen} />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>

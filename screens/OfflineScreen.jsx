@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react'
+// eslint-disable-next-line camelcase
+import { Capriola_400Regular, useFonts } from '@expo-google-fonts/capriola'
+import React from 'react'
 import { Text, View } from 'react-native'
-import { AlineButton } from '../components/aline-lib'
+import AppLoading from 'expo-app-loading'
+import { styles } from './styles/styles'
 
+// TODO: Add a button and restart app (see: react-native-restart)
 const OfflineScreen = () => {
-  useEffect(() => {
-    // do semething
-  }, [])
+  const [fontsLoaded] = useFonts({ Capriola_400Regular })
+
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
   return (
-    <View>
-      <Text>Problème de connexion à Internet</Text>
-      <AlineButton onPress={console.log('retry')} title="Réessayer" />
+    <View style={{ ...styles.centered }}>
+      <Text style={{ fontSize: 28 }}>😢</Text>
+      <Text style={{ ...styles.currentBold }}>Problème de connexion à Internet</Text>
     </View>
   )
 }
