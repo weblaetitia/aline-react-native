@@ -1,29 +1,18 @@
-import * as React from "react";
-import Svg, { Ellipse, Path } from "react-native-svg";
+import * as React from 'react'
+import Svg, { Ellipse, Path } from 'react-native-svg'
 /* SVGR has dropped some elements not supported by react-native-svg: style */
 
-function MarkerShop(props) {
-  const { size } = props;
+function MarkerShop({ size }) {
   return (
     <Svg
       viewBox="0 0 32 44"
       width={size.width}
       height={size.height}
       style={{
-        transform: [
-          { translateX: size.translateX },
-          { translateY: size.translateY },
-        ],
+        transform: [{ translateX: size.translateX }, { translateY: size.translateY }],
       }}
     >
-      <Ellipse
-        cx={16}
-        cy={41.47}
-        rx={5.7}
-        ry={2.53}
-        fill="#000"
-        opacity={0.1}
-      />
+      <Ellipse cx={16} cy={41.47} rx={5.7} ry={2.53} fill="#000" opacity={0.1} />
       <Path
         d="M14.4 40C2.61 23.4.43 21.7.43 15.59A15.36 15.36 0 0116 .43a15.36 15.36 0 0115.57 15.16c0 6.11-2.18 7.81-14 24.45a2 2 0 01-2.71.47 1.83 1.83 0 01-.46-.51z"
         fill="#e8ba00"
@@ -36,7 +25,7 @@ function MarkerShop(props) {
         fill="#fff"
       />
     </Svg>
-  );
+  )
 }
 
-export default MarkerShop;
+export default MarkerShop

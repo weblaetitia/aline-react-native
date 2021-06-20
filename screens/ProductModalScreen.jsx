@@ -1,57 +1,43 @@
-import React from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import React from 'react'
+import { View, ScrollView, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { AlineH1 } from '../components/aline-lib'
+import ProductsMiniMap from '../components/ProductMiniMap'
+import { styles } from './styles/styles'
+import patateImage from '../assets/images/patatemintlight.png'
 
-// my components
-import { Ionicons } from "@expo/vector-icons";
-import { AlineH1 } from "../components/aline-lib";
-import ProductsMiniMap from "../components/productMiniMap";
+// colors vars
+const grayMedium = '#879299'
 
-// fonts
-
-// styles
-import { styles } from "./styles/styles";
-
-export default function ProductModalScreen({ route, navigation }) {
-  const response = route.params;
+const ProductModalScreen = ({ route, navigation }) => {
+  const response = route.params
   return (
     <View style={{ ...styles.container }}>
       {/* header */}
       <View style={{ ...styles.head }}>
         <TouchableOpacity onPress={() => navigation.goBack()} title="Dismiss">
-          <Ionicons
-            name="md-close"
-            size={34}
-            color={grayMedium}
-            style={{ textAlign: "right" }}
-          />
+          <Ionicons name="md-close" size={34} color={grayMedium} style={{ textAlign: 'right' }} />
         </TouchableOpacity>
       </View>
       {/* header */}
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* body */}
-        <View style={{ width: "100%" }}>
+        <View style={{ width: '100%' }}>
           {/* product header */}
           <View
             style={{
               flex: 1,
-              alignItems: "center",
-              justifyContent: "flex-end",
+              alignItems: 'center',
+              justifyContent: 'flex-end',
             }}
           >
             <Image
               source={{ uri: response.product.imageUrl }}
               style={{
-                marginHorizontal: "auto",
+                marginHorizontal: 'auto',
                 marginBottom: 20,
                 marginTop: 20,
-                resizeMode: "cover",
+                resizeMode: 'cover',
                 width: 150,
                 height: 280,
               }}
@@ -76,22 +62,22 @@ export default function ProductModalScreen({ route, navigation }) {
             <Text
               style={{
                 ...styles.h2mint,
-                textAlign: "center",
+                textAlign: 'center',
                 marginBottom: 10,
               }}
             >
               Rapportez ce produit en magasin et récupérez
             </Text>
 
-            <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
+            <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
               <ImageBackground
-                source={require("../assets/images/patatemintlight.png")}
+                source={patateImage}
                 style={{
                   marginTop: 0,
                   width: 120,
                   height: 100,
-                  resizeMode: "cover",
-                  justifyContent: "center",
+                  resizeMode: 'cover',
+                  justifyContent: 'center',
                 }}
               />
             </View>
@@ -99,7 +85,7 @@ export default function ProductModalScreen({ route, navigation }) {
             <Text
               style={{
                 ...styles.bigprice,
-                textAlign: "center",
+                textAlign: 'center',
                 marginTop: -75,
                 marginBottom: 75,
               }}
@@ -107,40 +93,31 @@ export default function ProductModalScreen({ route, navigation }) {
               {response.product.refoundPrice} €
             </Text>
 
-            <Text style={{ ...styles.bigco2, textAlign: "center" }}>
-              -0,05 g de CO2
-            </Text>
-            <Text style={{ ...styles.h2mint, textAlign: "center" }}>
-              c&apos;est votre réduction sur votre impact environemental
-            </Text>
+            <Text style={{ ...styles.bigco2, textAlign: 'center' }}>-0,05 g de CO2</Text>
+            <Text style={{ ...styles.h2mint, textAlign: 'center' }}>c&apos;est votre réduction sur votre impact environemental</Text>
 
             <View style={styles.line} />
 
-            <Text style={{ ...styles.h3mint, textAlign: "center" }}>
-              {response.product.name} {response.product.brand} fait parti du
-              réseau {response.product.network}
+            <Text style={{ ...styles.h3mint, textAlign: 'center' }}>
+              {response.product.name} {response.product.brand} fait parti du réseau {response.product.network}
             </Text>
 
             {/* récupérer l'url du réseau */}
-            <View
-              style={{ width: "100%", display: "flex", alignItems: "center" }}
-            >
+            <View style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
               <Image
                 source={{ uri: response.product.networkImgUrl }}
                 style={{
-                  marginHorizontal: "auto",
+                  marginHorizontal: 'auto',
                   marginBottom: 20,
                   marginTop: 20,
-                  resizeMode: "contain",
+                  resizeMode: 'contain',
                   width: 200,
                   height: 100,
                 }}
               />
             </View>
 
-            <Text
-              style={{ ...styles.h3mint, textAlign: "center", marginTop: 30 }}
-            >
+            <Text style={{ ...styles.h3mint, textAlign: 'center', marginTop: 30 }}>
               Retrouvez tous les lieux de colecte sur la carte de ce réseau
             </Text>
           </View>
@@ -151,8 +128,7 @@ export default function ProductModalScreen({ route, navigation }) {
         {/* body */}
       </ScrollView>
     </View>
-  );
+  )
 }
 
-// colors vars
-const grayMedium = "#879299";
+export default ProductModalScreen
