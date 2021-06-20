@@ -16,6 +16,7 @@ import {
   View,
 } from 'react-native'
 import { connect } from 'react-redux'
+import NetInfo from '@react-native-community/netinfo'
 import { AlineButton, AlineButtonOutline, AlineInputEmail, AlineInputPassword, AlineSeparator } from '../components/aline-lib'
 import { BASE_URL } from '../functions/environment'
 import patateImage from '../assets/images/patatemintlight.png'
@@ -88,35 +89,52 @@ const SignInScreen = ({ route, storeData, storeUserInfo, navigation, token }) =>
   }, [route])
 
   useEffect(() => {
-    // check if token is in local storage
-    const getData = async () => {
-      try {
-        // TODO code déprécié
-        const value = await AsyncStorage.getItem('@token')
-        if (value !== null) {
-          // check if it exists in db
-          const rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
-          const response = await rawResponse.json()
-          if (response.succes === true) {
-            // store token
-            storeData(value)
-            // store user info in redux (name, email, token)
-            storeUserInfo({
-              firstName: response.firstName,
-              lastName: response.lastName,
-              email: response.email,
-              token: response.token,
-            })
-          } else {
-            storeData('')
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      if (state.isConnected !== true) {
+        navigation.navigate('Offline')
+      } else {
+        // check if token is in local storage
+        const getData = async () => {
+          try {
+            // TODO code déprécié
+            const value = await AsyncStorage.getItem('@token')
+            if (value !== null) {
+              // check if it exists in db
+              const rawResponse = await fetch(`${BASE_URL}/users/mobile/check-token?token=${value}`)
+              const response = await rawResponse.json()
+              if (response.succes === true) {
+                // store token
+                storeData(value)
+                // store user info in redux (name, email, token)
+                storeUserInfo({
+                  firstName: response.firstName,
+                  lastName: response.lastName,
+                  email: response.email,
+                  token: response.token,
+                })
+              } else {
+                storeData('')
+              }
+            }
+          } catch (e) {
+            // error reading value
           }
         }
-      } catch (e) {
-        // error reading value
+        getData()
       }
+    })
+
+    return () => {
+      unsubscribe()
     }
-    getData()
   }, [])
+
+  useEffect(() => {
+    // if @token exist -> redirect to Explore
+    if (token) {
+      navigation.navigate('Explore')
+    }
+  }, [token])
 
   // check user at connection btn pressed
   const getUserInfo = async () => {
@@ -157,11 +175,6 @@ const SignInScreen = ({ route, storeData, storeUserInfo, navigation, token }) =>
   const alertMessage = alert ? <Text style={styles.alert}>Mauvais email ou mot de passe</Text> : <View />
 
   if (!fontsLoaded) {
-    return <AppLoading />
-  }
-  // if @token exist -> redirect to Explore
-  if (token) {
-    navigation.navigate('Explore')
     return <AppLoading />
   }
   return (
